@@ -4,6 +4,7 @@ import App from "./App.tsx";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import VendorsPage from "./vendors/VendorsPage";
 import ErrorPage from "./ErrorPage.tsx";
+import UsersPage from "./users/UsersPage.tsx";
 
 const router = createBrowserRouter([
   {
@@ -14,6 +15,10 @@ const router = createBrowserRouter([
       {
         path: "vendors",
         element: <VendorsPage />,
+      },
+      {
+        path: "users",
+        element: <UsersPage />,
       },
     ],
   },
