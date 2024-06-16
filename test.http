@@ -1,0 +1,39 @@
+### GET User
+GET https://localhost:7249/api/users
+
+### POST User
+POST https://localhost:7249/api/users
+Content-Type: application/json
+
+{
+    "username": "chaynes",
+    "password": "80LY4V_lpPM3AXq",
+    "firstname": "Chad",
+    "lastname": "Haynes",
+    "phone": "6808053960",
+    "email": "chaynes@example.com",
+    "isReviewer": true,
+    "isAdmin": false
+}
+
+### PUT User
+PUT https://localhost:7249/api/users/451
+Content-Type: application/json
+
+{
+    "id": 451,
+    "username": "jmacky",
+    "password": "80LY4V_lpPM3AXq",
+    "firstname": "James",
+    "lastname": "Mack",
+    "phone": "6808053960",
+    "email": "jmack@example.com",
+    "isReviewer": true,
+    "isAdmin": false
+}
+
+### DELETE User
+DELETE https://localhost:7249/api/users/451
+
+
+
