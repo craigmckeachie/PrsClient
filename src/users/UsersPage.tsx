@@ -1,3 +1,5 @@
+import bootstrapIcons from "../assets/bootstrap-icons.svg";
+
 function UsersPage() {
   return (
     <section className="content container-fluid mx-5 my-2 py-4">
@@ -17,7 +19,7 @@ function UsersPage() {
                 height={32}
                 fill="#ffffff"
               >
-                <use xlinkHref="./images/bootstrap-icons.svg#check" />
+                <use xlinkHref={`${bootstrapIcons}#check`} />
               </svg>
               Successfully saved
             </div>
@@ -36,7 +38,7 @@ function UsersPage() {
             height={32}
             fill="#FFFFFF"
           >
-            <use xlinkHref="./images/bootstrap-icons.svg#plus" />
+            <use xlinkHref={`${bootstrapIcons}#plus`} />
           </svg>
           Create a user
         </a>

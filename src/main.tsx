@@ -5,6 +5,8 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import VendorsPage from "./vendors/VendorsPage";
 import ErrorPage from "./ErrorPage.tsx";
 import UsersPage from "./users/UsersPage.tsx";
+import ProductsPage from "./products/ProductsPage.tsx";
+import RequestsPage from "./requests/RequestsPage.tsx";
 
 const router = createBrowserRouter([
   {
@@ -12,6 +14,14 @@ const router = createBrowserRouter([
     element: <App />,
     errorElement: <ErrorPage />,
     children: [
+      {
+        path: "requests",
+        element: <RequestsPage />,
+      },
+      {
+        path: "products",
+        element: <ProductsPage />,
+      },
       {
         path: "vendors",
         element: <VendorsPage />,
