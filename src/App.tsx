@@ -15,8 +15,8 @@ function App() {
           <use xlinkHref={`${bootstrapIcons}#plus`} />
         </svg>
       </header> */}
-      <Header/>
-      <main>
+      <Header />
+      <main className="d-flex">
         <h3>Ready</h3>
       </main>
     </>
