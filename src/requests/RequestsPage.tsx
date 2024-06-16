@@ -101,7 +101,11 @@ function RequestsPage() {
                       <button
                         className="dropdown-item"
                         type="button"
-                        onclick="confirm('Are you sure you want to delete this request?')"
+                        onClick={() =>
+                          confirm(
+                            "Are you sure you want to delete this request?"
+                          )
+                        }
                       >
                         Delete
                       </button>
