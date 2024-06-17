@@ -13,21 +13,33 @@ export const vendorAPI = {
     return fetch(`${url}/${id}`).then(checkStatus).then(parseJSON);
   },
 
-    put(project: IVendor) {
-      return fetch(`${url}/${project.id}`, {
-        method: "PUT",
-        body: JSON.stringify(project),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-        .then(checkStatus)
-        .then(parseJSON)
-        .catch((error: TypeError) => {
-          console.log("log client error " + error);
-          throw new Error(
-            "There was an error updating the project. Please try again."
-          );
-        });
-    },
+  post(vendor: IVendor) {
+    return fetch(`${url}`, {
+      method: "POST",
+      body: JSON.stringify(vendor),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then(checkStatus)
+      .then(parseJSON);
+  },
+
+  put(vendor: IVendor) {
+    return fetch(`${url}/${vendor.id}`, {
+      method: "PUT",
+      body: JSON.stringify(vendor),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then(checkStatus)
+      .then(parseJSON);
+  },
+
+  delete(vendor: IVendor) {
+    return fetch(`${url}/${vendor.id}`, { method: "DELETE" })
+      .then(checkStatus)
+      .then(parseJSON);
+  },
 };
