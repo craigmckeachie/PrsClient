@@ -1,6 +1,14 @@
 import bootstrapIcons from "../assets/bootstrap-icons.svg";
+import { IVendor } from "./IVendor";
 
-function VendorCard() {
+function formatPhoneNumber(phoneNumber: string) {
+  const first3Digits = phoneNumber.substring(0, 3);
+  const middle3Digits = phoneNumber.substring(3, 6);
+  const last3Digits = phoneNumber.substring(6, 10);
+  return `(${first3Digits}) ${middle3Digits}-${last3Digits} `;
+}
+
+function VendorCard({ vendor }) {
   return (
     <div className="card w-25">
       <div className="progress">
@@ -17,8 +25,8 @@ function VendorCard() {
         <div className="d-flex justify-content-between align-items-center">
           <span>
             {" "}
-            <strong>Amazon</strong>{" "}
-            <span className="badge text-bg-secondary">AMAZ</span>{" "}
+            <strong>{vendor.name}</strong>{" "}
+            <span className="badge text-bg-secondary">{vendor.code}</span>{" "}
           </span>
           <div className="dropdown d-inline">
             <button
@@ -62,14 +70,14 @@ function VendorCard() {
           </div>
         </div>
         <br />
-        123 Amazon Way
+        {vendor.address}
         <br />
-        Seattle, WA 83474
+        {vendor.city}, {vendor.state} {vendor.zip}
         <br />
         {/* <abbr title="Phone">P:</abbr> */}
-        (800) 454-7890
+        {formatPhoneNumber(vendor.phone)}
         <br />
-        primebusiness@amazon.com
+        {vendor.email}
       </address>
     </div>
   );
