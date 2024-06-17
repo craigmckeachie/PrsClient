@@ -8,7 +8,11 @@ function formatPhoneNumber(phoneNumber: string) {
   return `(${first3Digits}) ${middle3Digits}-${last3Digits} `;
 }
 
-function VendorCard({ vendor }) {
+interface IVendorCardProps{
+  vendor: IVendor
+}
+
+function VendorCard({ vendor }: IVendorCardProps) {
   return (
     <div className="card w-25">
       <div className="progress">
