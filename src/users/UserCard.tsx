@@ -8,15 +8,11 @@ interface IUserCardProps {
 function UserCard({ user }: IUserCardProps) {
   return (
     <div className="d-flex gap-4 w-25">
-      {/* <img
-        src={`/images/users/image-${user.id}.png`}
-        alt={user.username}
-        width={96}
-        height={96}
-        className="rounded-circle me-2"
-      /> */}
-      <div style={{width:"96px", height: "96px"}} className="rounded-circle me-2">
-        LW
+      <div
+        style={{ width: "6rem", height: "6rem" }}
+        className="d-flex bg-secondary fs-2 text-white align-items-center justify-content-center rounded-circle me-2"
+      >
+        {user.firstname.substring(0,1)}{user.lastname.substring(0,1)}
       </div>
       <address>
         <strong>
