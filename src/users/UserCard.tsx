@@ -12,7 +12,8 @@ function UserCard({ user }: IUserCardProps) {
         style={{ width: "6rem", height: "6rem" }}
         className="d-flex bg-secondary fs-3 text-white align-items-center justify-content-center rounded-circle me-2"
       >
-        {user.firstname.substring(0,1)}{user.lastname.substring(0,1)}
+        {user.firstname.substring(0, 1)}
+        {user.lastname.substring(0, 1)}
       </div>
       <address>
         <strong>
@@ -20,7 +21,8 @@ function UserCard({ user }: IUserCardProps) {
         </strong>
         <br />
         <span className="text-secondary">
-          {user.isAdmin && "Admin"} {user.isReviewer && "Reviewer"}
+          {user.isAdmin && "Admin"} {(!user.isAdmin &&user.isReviewer) && "Reviewer"}
+          {(!user.isReviewer && !user.isAdmin) && "no role assigned"}
         </span>
         <br />
         <span className="text-secondary">{formatPhoneNumber(user.phone)}</span>
