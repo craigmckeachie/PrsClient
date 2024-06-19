@@ -1,4 +1,5 @@
 import bootstrapIcons from "../assets/bootstrap-icons.svg";
+import ProductList from "./ProductList";
 
 function ProductsPage() {
   return (
@@ -17,7 +18,9 @@ function ProductsPage() {
           Create a product
         </a>
       </div>
-      <section className="list d-flex flex-row flex-wrap bg-light gap-5 p-4 rounded-4"></section>
+      <section className="list d-flex flex-row flex-wrap bg-light gap-5 p-4 rounded-4">
+        <ProductList /> 
+      </section>
     </section>
   );
 }
