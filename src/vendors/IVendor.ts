@@ -5,7 +5,7 @@ export interface IVendor {
   address: string;
   city: string;
   state: string;
-  zip: number;
+  zip: number | null;
   phone: string;
   email: string;
 }

@@ -1,25 +1,59 @@
 import { Link } from "react-router-dom";
 import bootstrapIcons from "../assets/bootstrap-icons.svg";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { IVendor } from "./IVendor";
 
 function VendorForm() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IVendor>({
+    defaultValues: {
+      code: "",
+      name: "",
+      address: "",
+      city: "",
+      state: "",
+      zip: null,
+      phone: "",
+      email: "",
+    },
+  });
+  const save: SubmitHandler<IVendor> = (vendor) => {
+    console.log(vendor);
+  };
+  console.log(errors);
+
   return (
-    <form className="d-flex flex-wrap w-75 gap-2">
+    <form className="d-flex flex-wrap w-75 gap-2" onSubmit={handleSubmit(save)}>
       <div className="row-1 d-flex flex-row w-100 gap-4">
         <div className="mb-3 w-25">
-          <label htmlFor className="form-label">
+          <label htmlFor="code" className="form-label">
             Vendor Code
           </label>
           <input
+            id="code"
+            {...register("code", {
+              required: "Vendor code is required",
+              maxLength: {
+                value: 6,
+                message: "Exceeded maximum length",
+              },
+            })}
             type="text"
-            className="form-control"
+            className={`form-control ${errors?.code && "is-invalid"} `}
             placeholder="Enter short vendor code"
           />
+          <div className="invalid-feedback">{errors?.code?.message}</div>
         </div>
         <div className="mb-3 w-75">
-          <label htmlFor className="form-label">
+          <label htmlFor="name" className="form-label">
             Vendor Name
           </label>
           <input
+            id="name"
+            {...register("name")}
             type="text"
             className="form-control"
             placeholder="Enter vendor name"
@@ -28,10 +62,12 @@ function VendorForm() {
       </div>
       <div className="row-2 d-flex flex-row w-100 gap-4">
         <div className="mb-3 w-100">
-          <label htmlFor className="form-label">
+          <label htmlFor="address" className="form-label">
             Address
           </label>
           <input
+            id="address"
+            {...register("address")}
             type="text"
             className="form-control"
             placeholder="Enter vendor's address"
@@ -40,18 +76,22 @@ function VendorForm() {
       </div>
       <div className="row-3 d-flex flex-row w-100 gap-4">
         <div className="mb-3 w-50">
-          <label htmlFor className="form-label">
+          <label htmlFor="city" className="form-label">
             City
           </label>
           <input
+            id="city"
+            {...register("city")}
             type="text"
             className="form-control"
             placeholder="Enter city"
           />
         </div>
         <div className="mb-3 w-25">
-          <label htmlFor="form-label">State</label>
-          <select id className="form-select">
+          <label htmlFor="state" className="form-label">
+            State
+          </label>
+          <select id="state" {...register("state")} className="form-select">
             <option value>Select state...</option>
             <option value="AL">Alabama</option>
             <option value="AK">Alaska</option>
@@ -107,10 +147,12 @@ function VendorForm() {
           </select>
         </div>
         <div className="mb-3 w-25">
-          <label htmlFor className="form-label">
+          <label htmlFor="zip" className="form-label">
             Zip
           </label>
           <input
+            id="zip"
+            {...register("zip")}
             type="text"
             className="form-control"
             placeholder="Enter zip code"
@@ -119,20 +161,24 @@ function VendorForm() {
       </div>
       <div className="row-1 d-flex flex-row w-100 gap-4">
         <div className="mb-3 w-50">
-          <label htmlFor className="form-label">
+          <label htmlFor="phone" className="form-label">
             Phone
           </label>
           <input
+            id="phone"
+            {...register("phone")}
             type="text"
             className="form-control"
             placeholder="Enter phone number"
           />
         </div>
         <div className="mb-3 w-50">
-          <label htmlFor className="form-label">
+          <label htmlFor="email" className="form-label">
             Email
           </label>
           <input
+            id="email"
+            {...register("email")}
             type="email"
             className="form-control"
             placeholder="Enter email address"
@@ -144,7 +190,7 @@ function VendorForm() {
           <Link to={"/vendors"} className="btn btn-outline-primary me-2">
             Cancel
           </Link>
-          <button className="btn btn-primary">
+          <button type="submit" className="btn btn-primary">
             <svg
               className="bi pe-none me-2"
               width={16}

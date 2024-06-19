@@ -17,7 +17,7 @@ function VendorList() {
   return (
     <section className="list d-flex flex-row flex-wrap bg-light gap-5 p-4 rounded-4">
       {vendors.map((vendor) => (
-        <VendorCard vendor={vendor} />
+        <VendorCard key={vendor.id} vendor={vendor} />
       ))}
     </section>
   );
