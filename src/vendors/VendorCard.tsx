@@ -16,8 +16,7 @@ function VendorCard({ vendor }: IVendorCardProps) {
       <address className="py-4 px-4">
         <div className="d-flex justify-content-between align-items-center">
           <span>
-            <strong>{vendor.name}</strong>{" "}
-            <br />
+            <strong>{vendor.name}</strong> <br />
             <span className="badge text-bg-secondary">{vendor.code}</span>{" "}
           </span>
           <Dropdown className="d-inline">
@@ -45,14 +44,16 @@ function VendorCard({ vendor }: IVendorCardProps) {
           </Dropdown>
         </div>
         <br />
-        {vendor.address}
-        <br />
-        {vendor.city}, {vendor.state} {vendor.zip}
-        <br />
+        <div className="text-secondary">{vendor.address}</div>
+
+        <div className="text-secondary">
+          {vendor.city}, {vendor.state} {vendor.zip}
+        </div>
+
         {/* <abbr title="Phone">P:</abbr> */}
-        {formatPhoneNumber(vendor.phone)}
-        <br />
-        {vendor.email}
+        <div className="text-secondary">{formatPhoneNumber(vendor.phone)}</div>
+
+        <div className="text-secondary">{vendor.email}</div>
       </address>
     </Card>
   );

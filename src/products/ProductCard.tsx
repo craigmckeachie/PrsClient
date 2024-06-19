@@ -12,7 +12,7 @@ interface IProductCardProps {
 function ProductCard({ product }: IProductCardProps) {
   return (
     <Card className="" style={{ width: "23rem" }}>
-      <ProgressBar now={40} variant="secondary" />
+      <ProgressBar now={30} variant="primary-subtle" />
       <address className="py-4 px-4">
         <div className="d-flex justify-content-between align-items-center">
           <span>
@@ -48,12 +48,14 @@ function ProductCard({ product }: IProductCardProps) {
         <span className="fs-4 lh-l fw-medium">{product.name}</span>
         <br />
         <span className="fs-5 fw-light">${product.price}</span>{" "}
-        <span className="text-lowercase fw-light">{product.unit}</span>
+        <span className="text-lowercase fw-light text-secondary fs-6">
+          {product.unit}
+        </span>
         <br />
         {/* <abbr title="Phone">P:</abbr> */}
-        <span className="fw-light">Vendor: {product.vendor.name}</span>
-        <br />
-        {product.email}
+        <div className="fw-lighter text-secondary mt-5 fs-6">
+          Vendor: {product.vendor.name}
+        </div>
       </address>
     </Card>
   );
