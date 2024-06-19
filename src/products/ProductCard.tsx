@@ -11,13 +11,14 @@ interface IProductCardProps {
 
 function ProductCard({ product }: IProductCardProps) {
   return (
-    <Card className="w-25">
-      <ProgressBar now={60} />
+    <Card className="" style={{ width: "23rem" }}>
+      <ProgressBar now={40} variant="secondary" />
       <address className="py-4 px-4">
         <div className="d-flex justify-content-between align-items-center">
           <span>
-            <strong>{product.name}</strong>{" "}
-            <span className="badge text-bg-secondary">{product.partNbr}</span>{" "}
+            <span className="badge text-dark bg-secondary-subtle">
+              {product.partNbr}
+            </span>{" "}
           </span>
           <Dropdown className="d-inline">
             <Dropdown.Toggle
@@ -44,11 +45,13 @@ function ProductCard({ product }: IProductCardProps) {
           </Dropdown>
         </div>
         <br />
-       
-        ${product.price} {product.unit}
+        <span className="fs-4 lh-l fw-medium">{product.name}</span>
+        <br />
+        <span className="fs-5 fw-light">${product.price}</span>{" "}
+        <span className="text-lowercase fw-light">{product.unit}</span>
         <br />
         {/* <abbr title="Phone">P:</abbr> */}
-        Vendor: {product.vendor.name}
+        <span className="fw-light">Vendor: {product.vendor.name}</span>
         <br />
         {product.email}
       </address>
