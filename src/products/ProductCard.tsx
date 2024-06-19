@@ -14,12 +14,8 @@ function ProductCard({ product }: IProductCardProps) {
     <Card className="" style={{ width: "23rem" }}>
       <ProgressBar now={30} variant="primary-subtle" />
       <address className="py-4 px-4">
-        <div className="d-flex justify-content-between align-items-center">
-          <span>
-            <span className="badge text-dark bg-primary-subtle">
-              {product.partNbr}
-            </span>{" "}
-          </span>
+        <div className="d-flex justify-content-between1 align-items-center1 justify-content-end">
+          {" "}
           <Dropdown className="d-inline">
             <Dropdown.Toggle
               className="btn btn-light"
@@ -53,8 +49,11 @@ function ProductCard({ product }: IProductCardProps) {
         </span>
         <br />
         {/* <abbr title="Phone">P:</abbr> */}
-        <div className="fw-lighter text-secondary mt-5 fs-6">
-          Vendor: {product.vendor.name}
+        <div className="fw-lighter text-secondary  fs-6 mt-5">
+          {product.vendor.name}
+        </div>
+        <div className="badge text-secondary bg-primary-subtle mt-51">
+          {product.partNbr}
         </div>
       </address>
     </Card>

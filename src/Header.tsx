@@ -38,15 +38,21 @@ function Header() {
             <Dropdown.Toggle
               as="a"
               variant="light"
-              className="d-flex align-items-center link-body-emphasis text-decoration-none"
+              className="d-flex text-secondary align-items-center link-body-emphasis text-decoration-none"
             >
-              <img
+              {/* <img
                 src="/images/users/image-34.png"
                 alt="profile image"
                 width={32}
                 height={32}
                 className="rounded-circle me-2"
-              />
+              /> */}
+              <div
+                style={{ width: "3rem", height: "3rem" }}
+                className="d-flex bg-primary-subtle fs-5 text-secondary align-items-center justify-content-center rounded-circle me-2"
+              >
+                JR
+              </div>
               <strong>James Roday</strong>
             </Dropdown.Toggle>
             <Dropdown.Menu>
