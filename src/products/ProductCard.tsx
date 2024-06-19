@@ -16,7 +16,7 @@ function ProductCard({ product }: IProductCardProps) {
       <address className="py-4 px-4">
         <div className="d-flex justify-content-between align-items-center">
           <span>
-            <span className="badge text-dark bg-secondary-subtle">
+            <span className="badge text-dark bg-primary-subtle">
               {product.partNbr}
             </span>{" "}
           </span>
