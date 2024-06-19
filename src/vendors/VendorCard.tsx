@@ -17,7 +17,7 @@ function VendorCard({ vendor }: IVendorCardProps) {
         <div className="d-flex justify-content-between align-items-center">
           <span>
             <strong>{vendor.name}</strong> <br />
-            <span className="badge text-bg-secondary">{vendor.code}</span>{" "}
+            <span className="badge bg-secondary ">{vendor.code}</span>{" "}
           </span>
           <Dropdown className="d-inline">
             <Dropdown.Toggle
