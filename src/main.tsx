@@ -7,6 +7,7 @@ import ErrorPage from "./ErrorPage.tsx";
 import UsersPage from "./users/UsersPage.tsx";
 import ProductsPage from "./products/ProductsPage.tsx";
 import RequestsPage from "./requests/RequestsPage.tsx";
+import VendorCreatePage from "./vendors/VendorCreatePage.tsx";
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
       {
         path: "vendors",
         element: <VendorsPage />,
+      },
+      {
+        path: "vendors/create",
+        element: <VendorCreatePage />,
       },
       {
         path: "users",
