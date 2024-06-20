@@ -5,7 +5,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 
 function VendorCardSkeleton() {
   return (
-    <Card className="w-25" style={{ minHeight: "234px" }}>
+    <Card className="w-25 bg-light" style={{ minHeight: "234px" }}>
       <ProgressBar now={60} />
       <address className="py-4 px-4">
         <div className="d-flex justify-content-between align-items-center">
