@@ -1,7 +1,8 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import bootstrapIcons from "../assets/bootstrap-icons.svg";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { IVendor } from "./IVendor";
+import { vendorAPI } from "./VendorAPI";
 
 function VendorForm() {
   const {
@@ -15,13 +16,16 @@ function VendorForm() {
       address: "",
       city: "",
       state: "",
-      zip: null,
+      zip: "",
       phone: "",
       email: "",
     },
   });
-  const save: SubmitHandler<IVendor> = (vendor) => {
-    console.log(vendor);
+  const navigate = useNavigate();
+
+  const save: SubmitHandler<IVendor> = async (vendor) => {
+    await vendorAPI.post(vendor);
+    navigate("/vendors");
   };
   console.log(errors);
 
@@ -53,7 +57,9 @@ function VendorForm() {
           </label>
           <input
             id="name"
-            {...register("name")}
+            {...register("name", {
+              required: "Name is required",
+            })}
             type="text"
             className="form-control"
             placeholder="Enter vendor name"
@@ -67,7 +73,9 @@ function VendorForm() {
           </label>
           <input
             id="address"
-            {...register("address")}
+            {...register("address", {
+              required: "Address is required",
+            })}
             type="text"
             className="form-control"
             placeholder="Enter vendor's address"
@@ -81,7 +89,9 @@ function VendorForm() {
           </label>
           <input
             id="city"
-            {...register("city")}
+            {...register("city", {
+              required: "City is required",
+            })}
             type="text"
             className="form-control"
             placeholder="Enter city"
@@ -91,8 +101,14 @@ function VendorForm() {
           <label htmlFor="state" className="form-label">
             State
           </label>
-          <select id="state" {...register("state")} className="form-select">
-            <option value>Select state...</option>
+          <select
+            id="state"
+            {...register("state", {
+              required: "Name is required",
+            })}
+            className="form-select"
+          >
+            <option value="">Select state...</option>
             <option value="AL">Alabama</option>
             <option value="AK">Alaska</option>
             <option value="AZ">Arizona</option>
@@ -152,7 +168,9 @@ function VendorForm() {
           </label>
           <input
             id="zip"
-            {...register("zip")}
+            {...register("zip", {
+              required: "Zip is required",
+            })}
             type="text"
             className="form-control"
             placeholder="Enter zip code"

@@ -45,7 +45,7 @@ function ProductCard({ product }: IProductCardProps) {
         <br />
         <span className="fs-5 fw-light">${product.price}</span>{" "}
         <span className="text-lowercase fw-light text-secondary fs-6">
-          {product.unit}
+          /{product.unit}
         </span>
         <br />
         {/* <abbr title="Phone">P:</abbr> */}
