@@ -18,17 +18,6 @@ function VendorsPage() {
           </svg>
           Create a vendor
         </Link>
-        {/* <a href="vendor-create.html" className="btn btn-primary">
-          <svg
-            className="bi pe-none me-2"
-            width={32}
-            height={32}
-            fill="#FFFFFF"
-          >
-            <use xlinkHref={`${bootstrapIcons}#plus`} />
-          </svg>
-          Create a vendor
-        </a> */}
       </div>
       <VendorList />
     </section>

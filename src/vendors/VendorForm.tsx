@@ -1,33 +1,49 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import bootstrapIcons from "../assets/bootstrap-icons.svg";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { IVendor } from "./IVendor";
 import { vendorAPI } from "./VendorAPI";
+import { useState } from "react";
 
 function VendorForm() {
+  const navigate = useNavigate();
+  let { id } = useParams();
+  let emptyVendor: IVendor = {
+    id: undefined,
+    code: "",
+    name: "",
+    address: "",
+    city: "",
+    state: "",
+    zip: "",
+    phone: "",
+    email: "",
+  };
+
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<IVendor>({
-    defaultValues: {
-      code: "",
-      name: "",
-      address: "",
-      city: "",
-      state: "",
-      zip: "",
-      phone: "",
-      email: "",
+    defaultValues: async () => {
+      if (!id) return Promise.resolve(emptyVendor);
+      const vendorId = Number(id);
+      return await vendorAPI.find(vendorId);
     },
   });
-  const navigate = useNavigate();
 
   const save: SubmitHandler<IVendor> = async (vendor) => {
-    await vendorAPI.post(vendor);
+    if (!vendor.id) {
+      vendor = await vendorAPI.post(vendor);
+      setValue("id", vendor.id);
+    } else {
+      await vendorAPI.put(vendor);
+    }
+
     navigate("/vendors");
   };
-  console.log(errors);
+  // console.log(errors);
 
   return (
     <form className="d-flex flex-wrap w-75 gap-2" onSubmit={handleSubmit(save)}>
@@ -41,7 +57,7 @@ function VendorForm() {
             {...register("code", {
               required: "Vendor code is required",
               maxLength: {
-                value: 6,
+                value: 7,
                 message: "Exceeded maximum length",
               },
             })}

@@ -1,4 +1,5 @@
 import bootstrapIcons from "../assets/bootstrap-icons.svg";
+import { Link } from "react-router-dom";
 import { IVendor } from "./IVendor";
 import Card from "react-bootstrap/Card";
 import ProgressBar from "react-bootstrap/ProgressBar";
@@ -34,7 +35,7 @@ function VendorCard({ vendor }: IVendorCardProps) {
               </svg>
             </Dropdown.Toggle>
             <Dropdown.Menu>
-              <Dropdown.Item as="a" href="#">
+              <Dropdown.Item as={Link} to={`/vendors/edit/${vendor.id}`}>
                 Edit
               </Dropdown.Item>
               <Dropdown.Item as="a" href="#">

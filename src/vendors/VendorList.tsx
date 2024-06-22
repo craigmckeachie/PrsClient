@@ -18,6 +18,8 @@ function VendorList() {
     }
     loadVendors();
   }, []);
+  console.log(vendors);
+  
 
   return (
     <section className="list d-flex flex-row flex-wrap bg-light gap-5 p-4 rounded-4">

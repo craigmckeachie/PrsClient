@@ -32,7 +32,7 @@ function VendorCardSkeleton() {
           </Dropdown>
         </div>
         <br />
-        <br />
+
         <div className="text-secondary skeleton skeleton-text"></div>
 
         <div className="text-secondary skeleton skeleton-text"></div>
