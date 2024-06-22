@@ -1,4 +1,3 @@
-// import { BASE_URL, checkStatus, parseJSON } from "../utility/FetchUtilities";
 import {
   BASE_URL,
   checkStatus,
@@ -11,7 +10,7 @@ const url = `${BASE_URL}/vendors`;
 
 export const vendorAPI = {
   list(): Promise<IVendor[]> {
-    return fetch(url).then(delay(600)).then(checkStatus).then(parseJSON);
+    return fetch(url).then(delay(200)).then(checkStatus).then(parseJSON);
   },
 
   find(id: number): Promise<IVendor> {
