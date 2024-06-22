@@ -9,9 +9,10 @@ import { vendorAPI } from "./VendorAPI";
 
 interface IVendorCardProps {
   vendor: IVendor;
+  onRemove: (vendor: IVendor) => void;
 }
 
-function VendorCard({ vendor }: IVendorCardProps) {
+function VendorCard({ vendor, onRemove }: IVendorCardProps) {
   return (
     <Card className="w-25">
       <ProgressBar now={60} />
@@ -42,10 +43,12 @@ function VendorCard({ vendor }: IVendorCardProps) {
               <Dropdown.Item
                 as="a"
                 href="#"
-                onClick={async () => {
+                onClick={async (event) => {
+                  event.preventDefault();
                   if (confirm("Are you sure you want to delete this vendor?")) {
                     if (vendor.id) {
                       await vendorAPI.delete(vendor.id);
+                      onRemove(vendor);
                     }
                   }
                 }}

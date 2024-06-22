@@ -11,13 +11,18 @@ function VendorList() {
     return <VendorCardSkeleton key={index} />;
   });
 
+  async function loadVendors() {
+    setLoading(true);
+    const data = await vendorAPI.list();
+    setLoading(false);
+    setVendors(data);
+  }
+
+  function removeVendor(vendor: IVendor) {
+    setVendors(vendors.filter(v=> v.id !== vendor.id))
+  }
+
   useEffect(() => {
-    async function loadVendors() {
-      setLoading(true);
-      const data = await vendorAPI.list();
-      setLoading(false);
-      setVendors(data);
-    }
     loadVendors();
   }, []);
   console.log(vendors);
@@ -26,7 +31,7 @@ function VendorList() {
     <section className="list d-flex flex-row flex-wrap bg-light gap-5 p-4 rounded-4">
       {loading && vendorCardSkeletons}
       {vendors.map((vendor) => (
-        <VendorCard key={vendor.id} vendor={vendor} />
+        <VendorCard key={vendor.id} vendor={vendor} onRemove={removeVendor} />
       ))}
     </section>
   );
