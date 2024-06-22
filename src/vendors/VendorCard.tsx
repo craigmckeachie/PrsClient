@@ -5,6 +5,7 @@ import Card from "react-bootstrap/Card";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import Dropdown from "react-bootstrap/Dropdown";
 import { formatPhoneNumber } from "../utility/formatUtilities";
+import { vendorAPI } from "./VendorAPI";
 
 interface IVendorCardProps {
   vendor: IVendor;
@@ -38,7 +39,17 @@ function VendorCard({ vendor }: IVendorCardProps) {
               <Dropdown.Item as={Link} to={`/vendors/edit/${vendor.id}`}>
                 Edit
               </Dropdown.Item>
-              <Dropdown.Item as="a" href="#">
+              <Dropdown.Item
+                as="a"
+                href="#"
+                onClick={async () => {
+                  if (confirm("Are you sure you want to delete this vendor?")) {
+                    if (vendor.id) {
+                      await vendorAPI.delete(vendor.id);
+                    }
+                  }
+                }}
+              >
                 Delete
               </Dropdown.Item>
             </Dropdown.Menu>

@@ -42,8 +42,8 @@ export const vendorAPI = {
       .then(parseJSON);
   },
 
-  delete(vendor: IVendor) {
-    return fetch(`${url}/${vendor.id}`, { method: "DELETE" })
+  delete(id: number) {
+    return fetch(`${url}/${id}`, { method: "DELETE" })
       .then(checkStatus)
       .then(parseJSON);
   },
