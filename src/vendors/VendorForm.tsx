@@ -3,11 +3,10 @@ import bootstrapIcons from "../assets/bootstrap-icons.svg";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { IVendor } from "./IVendor";
 import { vendorAPI } from "./VendorAPI";
-import { useState } from "react";
 
 function VendorForm() {
   const navigate = useNavigate();
-  let { id } = useParams();
+  let { id } = useParams<{ id: string }>();
   let emptyVendor: IVendor = {
     id: undefined,
     code: "",
@@ -23,7 +22,6 @@ function VendorForm() {
   const {
     register,
     handleSubmit,
-    setValue,
     formState: { errors },
   } = useForm<IVendor>({
     defaultValues: async () => {
