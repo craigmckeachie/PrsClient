@@ -36,7 +36,6 @@ function VendorForm() {
   const save: SubmitHandler<IVendor> = async (vendor) => {
     if (!vendor.id) {
       vendor = await vendorAPI.post(vendor);
-      setValue("id", vendor.id);
     } else {
       await vendorAPI.put(vendor);
     }
@@ -55,7 +54,7 @@ function VendorForm() {
           <input
             id="code"
             {...register("code", {
-              required: "Vendor code is required",
+              required: "Code is required",
               maxLength: {
                 value: 7,
                 message: "Exceeded maximum length",
@@ -77,9 +76,10 @@ function VendorForm() {
               required: "Name is required",
             })}
             type="text"
-            className="form-control"
+            className={`form-control ${errors?.name && "is-invalid"} `}
             placeholder="Enter vendor name"
           />
+          <div className="invalid-feedback">{errors?.name?.message}</div>
         </div>
       </div>
       <div className="row-2 d-flex flex-row w-100 gap-4">
@@ -93,9 +93,10 @@ function VendorForm() {
               required: "Address is required",
             })}
             type="text"
-            className="form-control"
+            className={`form-control ${errors?.address && "is-invalid"} `}
             placeholder="Enter vendor's address"
           />
+          <div className="invalid-feedback">{errors?.address?.message}</div>
         </div>
       </div>
       <div className="row-3 d-flex flex-row w-100 gap-4">
@@ -109,20 +110,19 @@ function VendorForm() {
               required: "City is required",
             })}
             type="text"
-            className="form-control"
+            className={`form-control ${errors?.city && "is-invalid"} `}
             placeholder="Enter city"
           />
+          <div className="invalid-feedback">{errors?.city?.message}</div>
         </div>
         <div className="mb-3 w-25">
-          <label htmlFor="state" className="form-label">
-            State
-          </label>
+          <label htmlFor="state">State</label>
           <select
             id="state"
             {...register("state", {
               required: "Name is required",
             })}
-            className="form-select"
+            className={`form-control ${errors?.state && "is-invalid"} `}
           >
             <option value="">Select state...</option>
             <option value="AL">Alabama</option>
@@ -177,6 +177,7 @@ function VendorForm() {
             <option value="WI">Wisconsin</option>
             <option value="WY">Wyoming</option>
           </select>
+          <div className="invalid-feedback">{errors?.state?.message}</div>
         </div>
         <div className="mb-3 w-25">
           <label htmlFor="zip" className="form-label">
@@ -188,9 +189,10 @@ function VendorForm() {
               required: "Zip is required",
             })}
             type="text"
-            className="form-control"
+            className={`form-control ${errors?.zip && "is-invalid"} `}
             placeholder="Enter zip code"
           />
+          <div className="invalid-feedback">{errors?.zip?.message}</div>
         </div>
       </div>
       <div className="row-1 d-flex flex-row w-100 gap-4">
@@ -202,9 +204,10 @@ function VendorForm() {
             id="phone"
             {...register("phone")}
             type="text"
-            className="form-control"
+            className={`form-control ${errors?.phone && "is-invalid"} `}
             placeholder="Enter phone number"
           />
+          <div className="invalid-feedback">{errors?.phone?.message}</div>
         </div>
         <div className="mb-3 w-50">
           <label htmlFor="email" className="form-label">
@@ -214,9 +217,10 @@ function VendorForm() {
             id="email"
             {...register("email")}
             type="email"
-            className="form-control"
+            className={`form-control ${errors?.email && "is-invalid"} `}
             placeholder="Enter email address"
           />
+          <div className="invalid-feedback">{errors?.email?.message}</div>
         </div>
       </div>
       <div className="row-3 d-flex flex-row justify-content-end w-100 gap-4">
