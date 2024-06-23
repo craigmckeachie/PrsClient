@@ -6,6 +6,7 @@ import ProgressBar from "react-bootstrap/ProgressBar";
 import Dropdown from "react-bootstrap/Dropdown";
 import { formatPhoneNumber } from "../utility/formatUtilities";
 import { vendorAPI } from "./VendorAPI";
+import toast from "react-hot-toast";
 
 interface IVendorCardProps {
   vendor: IVendor;
@@ -49,6 +50,7 @@ function VendorCard({ vendor, onRemove }: IVendorCardProps) {
                     if (vendor.id) {
                       await vendorAPI.delete(vendor.id);
                       onRemove(vendor);
+                      toast.success("Successfully deleted.");
                     }
                   }
                 }}

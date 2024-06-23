@@ -39,7 +39,7 @@ function VendorForm() {
     } else {
       await vendorAPI.put(vendor);
     }
-    toast("Successfully saved.");
+    toast.success("Successfully saved.");
     navigate("/vendors");
   };
   // console.log(errors);

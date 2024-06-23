@@ -5,16 +5,23 @@ import AppNav from "./AppNav";
 import { Outlet } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 
-
-
 function App() {
   return (
     <>
-      <Toaster/>
+      <Toaster
+        toastOptions={{
+          success: {
+            iconTheme: {
+              primary: "#0d6efd",
+              secondary: "white",
+            },
+          },
+        }}
+      />
       <Header />
       <main className="d-flex">
         <AppNav />
-        <Outlet/>
+        <Outlet />
       </main>
     </>
   );
