@@ -1,12 +1,7 @@
 import bootstrapIcons from "../assets/bootstrap-icons.svg";
-import { IProduct } from "./IProduct";
 import Card from "react-bootstrap/Card";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import Dropdown from "react-bootstrap/Dropdown";
-
-interface IProductCardProps {
-  product: IProduct;
-}
 
 function ProductCardSkeleton() {
   return (
@@ -32,19 +27,12 @@ function ProductCardSkeleton() {
           </Dropdown>
         </div>
         <br />
-        <span className="fs-4 lh-l fw-medium skeleton skeleton-text">x</span>
-        <br />
-        <span className="fs-5 fw-light skeleton skeleton-text">x</span>{" "}
-        <span className="text-lowercase fw-light text-secondary fs-6 skeleton skeleton-text">
-          /x
-        </span>
-        <br />
-        {/* <abbr title="Phone">P:</abbr> */}
-        <div className="fw-lighter text-secondary  fs-6 mt-5 skeleton skeleton-text">
-          x
-        </div>
-        <div className="badge text-secondary bg-primary-subtle mt-51 skeleton skeleton-text">
-          x
+        <span className="fs-4 lh-l fw-medium skeleton skeleton-text"></span>
+        <span className="fs-5 fw-light skeleton skeleton-text"></span>{" "}
+        {/* <span className="text-lowercase fw-light text-secondary fs-6 skeleton skeleton-text"></span> */}
+        <div className="fw-lighter text-secondary  fs-6 mt-5 skeleton skeleton-text"></div>
+        <div className="badge text-secondary bg-primary-subtle skeleton skeleton-text">
+          {" "}
         </div>
       </address>
     </Card>

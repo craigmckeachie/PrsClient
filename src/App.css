@@ -90,8 +90,10 @@ table th {
 .skeleton-text {
   width: 18ch;
   height: .8rem;
-  display: inline-block;
+  display: block;
   border-radius: 0.25rem;
+  content: " ";
+  margin: .2rem;
 }
 
 button.skeleton {
