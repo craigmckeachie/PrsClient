@@ -22,13 +22,10 @@ let emptyProduct: IProduct = {
 function ProductForm() {
   const navigate = useNavigate();
   let { id } = useParams<{ id: string }>();
-  const [loadingVendors, setLoadingVendors] = useState(false);
   const [vendors, setVendors] = useState<IVendor[]>([]);
 
   async function loadVendors() {
-    setLoadingVendors(true);
     const data = await vendorAPI.list();
-    setLoadingVendors(false);
     setVendors(data);
   }
 
