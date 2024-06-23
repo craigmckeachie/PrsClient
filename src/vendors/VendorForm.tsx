@@ -5,20 +5,21 @@ import { IVendor } from "./IVendor";
 import { vendorAPI } from "./VendorAPI";
 import toast from "react-hot-toast";
 
+let emptyVendor: IVendor = {
+  id: undefined,
+  code: "",
+  name: "",
+  address: "",
+  city: "",
+  state: "",
+  zip: "",
+  phone: "",
+  email: "",
+};
+
 function VendorForm() {
   const navigate = useNavigate();
   let { id } = useParams<{ id: string }>();
-  let emptyVendor: IVendor = {
-    id: undefined,
-    code: "",
-    name: "",
-    address: "",
-    city: "",
-    state: "",
-    zip: "",
-    phone: "",
-    email: "",
-  };
 
   const {
     register,
@@ -31,7 +32,6 @@ function VendorForm() {
       return await vendorAPI.find(vendorId);
     },
   });
-
 
   const save: SubmitHandler<IVendor> = async (vendor) => {
     if (!vendor.id) {
