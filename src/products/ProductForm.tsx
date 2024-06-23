@@ -14,8 +14,8 @@ let emptyProduct: IProduct = {
   name: "",
   price: undefined,
   unit: "",
-  photoPath: null,
-  vendorId: 0,
+  photoPath: undefined,
+  vendorId: undefined,
   vendor: {} as IVendor,
 };
 
@@ -96,7 +96,7 @@ function ProductForm() {
         </div>
       </div>
       <div className="row-2 d-flex flex-row w-100 gap-4">
-        <div className="mb-3 w-100">
+        <div className="mb-3 w-25">
           <label htmlFor="price" className="form-label">
             Price
           </label>
@@ -111,9 +111,7 @@ function ProductForm() {
           />
           <div className="invalid-feedback">{errors?.price?.message}</div>
         </div>
-      </div>
-      <div className="row-3 d-flex flex-row w-100 gap-4">
-        <div className="mb-3 w-50">
+        <div className="mb-3 w-25">
           <label htmlFor="unit" className="form-label">
             Unit
           </label>
@@ -128,7 +126,7 @@ function ProductForm() {
           />
           <div className="invalid-feedback">{errors?.unit?.message}</div>
         </div>
-        <div className="mb-3 w-25">
+        <div className="mb-3 w-50">
           <label className="form-label" htmlFor="vendorId">
             Vendor
           </label>
@@ -150,6 +148,7 @@ function ProductForm() {
           <div className="invalid-feedback">{errors?.vendorId?.message}</div>
         </div>
       </div>
+      <div className="row-3 d-flex flex-row w-100 gap-4"></div>
       <div className="row-3 d-flex flex-row justify-content-end w-100 gap-4">
         <div className="d-flex justify-content-end mt-4">
           <Link to={"/products"} className="btn btn-outline-primary me-2">

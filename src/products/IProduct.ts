@@ -6,7 +6,7 @@ export interface IProduct {
   name: string;
   price: number | undefined;
   unit: string;
-  photoPath: string | null;
+  photoPath: string | undefined;
   vendorId: number | undefined;
   vendor: IVendor;
 }

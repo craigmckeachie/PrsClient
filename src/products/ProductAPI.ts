@@ -11,7 +11,7 @@ const url = `${BASE_URL}/products`;
 export const productAPI = {
   list(): Promise<IProduct[]> {
     return fetch(`${url}?_expand=vendor`)
-      .then(delay(4000))
+      .then(delay(600))
       .then(checkStatus)
       .then(parseJSON);
   },
