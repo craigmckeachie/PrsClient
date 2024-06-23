@@ -1,16 +1,25 @@
-// import { BASE_URL, checkStatus, parseJSON } from "../utility/FetchUtilities";
-import { BASE_URL, checkStatus, parseJSON } from "../utility/fetchUtilities";
+import {
+  BASE_URL,
+  checkStatus,
+  delay,
+  parseJSON,
+} from "../utility/fetchUtilities";
 import { IProduct } from "./IProduct";
 
 const url = `${BASE_URL}/products`;
 
 export const productAPI = {
   list(): Promise<IProduct[]> {
-    return fetch(url).then(checkStatus).then(parseJSON);
+    return fetch(`${url}?_expand=vendor`)
+      .then(delay(1000))
+      .then(checkStatus)
+      .then(parseJSON);
   },
 
   find(id: number): Promise<IProduct> {
-    return fetch(`${url}/${id}`).then(checkStatus).then(parseJSON);
+    return fetch(`${url}/${id}?_expand=vendor`)
+      .then(checkStatus)
+      .then(parseJSON);
   },
 
   post(product: IProduct) {
@@ -37,8 +46,8 @@ export const productAPI = {
       .then(parseJSON);
   },
 
-  delete(product: IProduct) {
-    return fetch(`${url}/${product.id}`, { method: "DELETE" })
+  delete(id: number) {
+    return fetch(`${url}/${id}`, { method: "DELETE" })
       .then(checkStatus)
       .then(parseJSON);
   },

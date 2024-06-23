@@ -1,12 +1,12 @@
 import { IVendor } from "../vendors/IVendor";
 
 export interface IProduct {
-  id: number;
+  id: number | undefined;
   partNbr: string;
   name: string;
-  price: number;
+  price: number | undefined;
   unit: string;
   photoPath: string | null;
-  vendorId: number;
+  vendorId: number | undefined;
   vendor: IVendor;
 }

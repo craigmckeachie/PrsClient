@@ -3,13 +3,16 @@ import { IProduct } from "./IProduct";
 import Card from "react-bootstrap/Card";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import Dropdown from "react-bootstrap/Dropdown";
-import { formatPhoneNumber } from "../utility/formatUtilities";
+import { Link } from "react-router-dom";
+import { productAPI } from "./ProductAPI";
+import toast from "react-hot-toast";
 
 interface IProductCardProps {
   product: IProduct;
+  onRemove: (product: IProduct) => void;
 }
 
-function ProductCard({ product }: IProductCardProps) {
+function ProductCard({ product, onRemove }: IProductCardProps) {
   return (
     <Card className="" style={{ width: "23rem" }}>
       <ProgressBar now={30} variant="primary-subtle" />
@@ -31,10 +34,23 @@ function ProductCard({ product }: IProductCardProps) {
               </svg>
             </Dropdown.Toggle>
             <Dropdown.Menu>
-              <Dropdown.Item as="a" href="#">
+              <Dropdown.Item as={Link} to={`/products/edit/${product.id}`}>
                 Edit
               </Dropdown.Item>
-              <Dropdown.Item as="a" href="#">
+              <Dropdown.Item
+                as="a"
+                href="#"
+                onClick={async (event) => {
+                  event.preventDefault();
+                  if (confirm("Are you sure you want to delete this product?")) {
+                    if (product.id) {
+                      await productAPI.delete(product.id);
+                      onRemove(product);
+                      toast.success("Successfully deleted.");
+                    }
+                  }
+                }}
+              >
                 Delete
               </Dropdown.Item>
             </Dropdown.Menu>

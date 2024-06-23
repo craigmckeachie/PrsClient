@@ -9,6 +9,8 @@ import ProductsPage from "./products/ProductsPage.tsx";
 import RequestsPage from "./requests/RequestsPage.tsx";
 import VendorCreatePage from "./vendors/VendorCreatePage.tsx";
 import VendorEditPage from "./vendors/VendorEditPage.tsx";
+import ProductCreatePage from "./products/ProductCreatePage.tsx";
+import ProductEditPage from "./products/ProductEditPage.tsx";
 
 const router = createBrowserRouter([
   {
@@ -23,6 +25,14 @@ const router = createBrowserRouter([
       {
         path: "products",
         element: <ProductsPage />,
+      },
+      {
+        path: "products/create",
+        element: <ProductCreatePage />,
+      },
+      {
+        path: "products/edit/:id",
+        element: <ProductEditPage />,
       },
       {
         path: "vendors",
