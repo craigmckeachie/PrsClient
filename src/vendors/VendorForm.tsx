@@ -3,6 +3,7 @@ import bootstrapIcons from "../assets/bootstrap-icons.svg";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { IVendor } from "./IVendor";
 import { vendorAPI } from "./VendorAPI";
+import toast from "react-hot-toast";
 
 function VendorForm() {
   const navigate = useNavigate();
@@ -31,13 +32,14 @@ function VendorForm() {
     },
   });
 
+
   const save: SubmitHandler<IVendor> = async (vendor) => {
     if (!vendor.id) {
       vendor = await vendorAPI.post(vendor);
     } else {
       await vendorAPI.put(vendor);
     }
-
+    toast("Successfully saved.");
     navigate("/vendors");
   };
   // console.log(errors);
