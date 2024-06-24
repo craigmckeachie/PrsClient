@@ -11,6 +11,8 @@ import VendorCreatePage from "./vendors/VendorCreatePage.tsx";
 import VendorEditPage from "./vendors/VendorEditPage.tsx";
 import ProductCreatePage from "./products/ProductCreatePage.tsx";
 import ProductEditPage from "./products/ProductEditPage.tsx";
+import UserCreatePage from "./users/UserCreatePage.tsx";
+import UserEditPage from "./users/UserEditPage.tsx";
 
 const router = createBrowserRouter([
   {
@@ -49,6 +51,14 @@ const router = createBrowserRouter([
       {
         path: "users",
         element: <UsersPage />,
+      },
+      {
+        path: "users/create",
+        element: <UserCreatePage />,
+      },
+      {
+        path: "users/edit/:id",
+        element: <UserEditPage />,
       },
     ],
   },

@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import bootstrapIcons from "../assets/bootstrap-icons.svg";
 import UserList from "./UserList";
 
@@ -32,7 +33,7 @@ function UsersPage() {
             />
           </div>
         </div>
-        <a href="user-create.html" className="btn btn-primary">
+        <Link to={`/users/create`} className="btn btn-primary">
           <svg
             className="bi pe-none me-2"
             width={32}
@@ -42,12 +43,10 @@ function UsersPage() {
             <use xlinkHref={`${bootstrapIcons}#plus`} />
           </svg>
           Create a user
-        </a>
+        </Link>
       </div>
-      
-      <UserList /> 
 
-      
+      <UserList />
     </section>
   );
 }

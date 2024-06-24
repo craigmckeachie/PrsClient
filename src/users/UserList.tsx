@@ -13,10 +13,15 @@ function UserList() {
     }
     loadUsers();
   }, []);
+
+  function removeUser(user: IUser) {
+    setUsers(users.filter((u) => u.id !== user.id));
+  }
+
   return (
     <section className="list d-flex flex-row flex-wrap bg-light gap-5 p-4 rounded-4">
       {users.map((user) => (
-        <UserCard key={user.id} user={user} />
+        <UserCard key={user.id} user={user} onRemove={removeUser} />
       ))}
     </section>
   );

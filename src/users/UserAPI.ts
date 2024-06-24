@@ -37,8 +37,8 @@ export const userAPI = {
       .then(parseJSON);
   },
 
-  delete(user: IUser) {
-    return fetch(`${url}/${user.id}`, { method: "DELETE" })
+  delete(id: number) {
+    return fetch(`${url}/${id}`, { method: "DELETE" })
       .then(checkStatus)
       .then(parseJSON);
   },
