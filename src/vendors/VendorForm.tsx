@@ -116,13 +116,13 @@ function VendorForm() {
           <div className="invalid-feedback">{errors?.city?.message}</div>
         </div>
         <div className="mb-3 w-25">
-          <label htmlFor="state">State</label>
+          <label htmlFor="state" className="form-label">State</label>
           <select
             id="state"
             {...register("state", {
               required: "Name is required",
             })}
-            className={`form-control ${errors?.state && "is-invalid"} `}
+            className={`form-select ${errors?.state && "is-invalid"} `}
           >
             <option value="">Select state...</option>
             <option value="AL">Alabama</option>
