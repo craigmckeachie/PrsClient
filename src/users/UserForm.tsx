@@ -128,6 +128,26 @@ function UserForm() {
           />
           <div className="invalid-feedback">{errors?.username?.message}</div>
         </div>
+        <div className="mb-3 w-50">
+          <label className="form-label">Role</label>
+          <br />
+          <label htmlFor="isReviewer" className="form-label form-check-label">
+            Reviewer
+          </label>
+          <input
+            {...register("isReviewer")}
+            type="checkbox"
+            className="form-check-inline"
+          />
+          <label htmlFor="isAdmin" className="form-label form-check-label">
+            Admin
+          </label>
+          <input
+            {...register("isAdmin")}
+            type="checkbox"
+            className="form-check-inline"
+          />
+        </div>
       </div>
 
       <div className="row-4 d-flex flex-row justify-content-end w-100 gap-4">
