@@ -131,22 +131,27 @@ function UserForm() {
         <div className="mb-3 w-50">
           <label className="form-label">Role</label>
           <br />
-          <label htmlFor="isReviewer" className="form-label form-check-label">
-            Reviewer
-          </label>
-          <input
-            {...register("isReviewer")}
-            type="checkbox"
-            className="form-check-inline"
-          />
-          <label htmlFor="isAdmin" className="form-label form-check-label">
-            Admin
-          </label>
-          <input
-            {...register("isAdmin")}
-            type="checkbox"
-            className="form-check-inline"
-          />
+
+          <div className="form-check form-check-inline">
+            <input
+              {...register("isReviewer")}
+              type="checkbox"
+              className="form-check-input"
+            />
+            <label htmlFor="isReviewer" className="form-check-label">
+              Reviewer
+            </label>
+          </div>
+          <div className="form-check form-check-inline">
+            <input
+              {...register("isAdmin")}
+              type="checkbox"
+              className="form-check-input"
+            />
+            <label htmlFor="isAdmin" className="form-check-label">
+              Admin
+            </label>
+          </div>
         </div>
       </div>
 
