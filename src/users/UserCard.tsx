@@ -70,9 +70,6 @@ function UserCard({ user, onRemove }: IUserCardProps) {
         <br />
         <span className="text-secondary">{formatPhoneNumber(user.phone)}</span>
         <br />
-        {/* <a href={`mailto:${user.email}`} title={user.email}>
-          Email user
-        </a> */}
         <div className="d-flex justify-content-start"></div>
       </address>
     </div>

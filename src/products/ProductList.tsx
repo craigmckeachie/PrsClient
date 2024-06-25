@@ -11,9 +11,6 @@ function ProductList() {
     return <ProductCardSkeleton key={index} />;
   });
 
-  console.log(products);
-  
-
   async function loadProducts() {
     setLoading(true);
     const data = await productAPI.list();
