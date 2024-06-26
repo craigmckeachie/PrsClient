@@ -42,7 +42,7 @@ function RequestRow({ request, onRemove }: IRequestRowProps) {
       </td>
       <td>${request.total}</td>
       <td>
-        {request.user.firstname} {request.user.lastname}
+        {request.user?.firstname} {request.user?.lastname}
         <br />
         <span className="text-body-secondary small text-wrap">
           {request.deliveryMode}
