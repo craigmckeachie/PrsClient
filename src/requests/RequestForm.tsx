@@ -25,6 +25,7 @@ function RequestForm() {
   let { id } = useParams<{ id: string }>();
   const [users, setUsers] = useState<IUser[]>([]);
 
+
   async function loadUsers() {
     const data = await userAPI.list();
     console.log(data);
@@ -54,7 +55,6 @@ function RequestForm() {
     toast.success("Successfully saved.");
     navigate("/requests");
   };
-  // console.log(errors);
 
   return (
     <form className="form" onSubmit={handleSubmit(save)}>
@@ -149,7 +149,6 @@ function RequestForm() {
                 required: "Requested by is required",
               })}
               disabled
-              // defaultValue={417}
               className={`form-select ${errors?.userId && "is-invalid"} `}
             >
               <option value="">Select...</option>
@@ -202,14 +201,16 @@ function RequestForm() {
                 <span className="form-label">$0.00</span>
               </td>
               <td>
-                <svg
-                  className="bi pe-none me-2"
-                  width={16}
-                  height={16}
-                  fill="#007AFF"
-                >
-                  <use xlinkHref="./images/bootstrap-icons.svg#trash" />
-                </svg>
+                <button type="button" className="btn btn-outline">
+                  <svg
+                    className="bi pe-none me-2"
+                    width={16}
+                    height={16}
+                    fill="#007AFF"
+                  >
+                    <use xlinkHref={`${bootstrapIcons}#trash`} />
+                  </svg>
+                </button>
               </td>
             </tr>
           </tbody>
@@ -223,7 +224,7 @@ function RequestForm() {
                     height={16}
                     fill="#007AFF"
                   >
-                    <use xlinkHref="./images/bootstrap-icons.svg#plus-circle" />
+                    <use xlinkHref={`${bootstrapIcons}#plus-circle`} />
                   </svg>
                   Add a line
                 </button>
