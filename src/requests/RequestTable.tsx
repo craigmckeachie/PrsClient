@@ -1,21 +1,27 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, SyntheticEvent } from "react";
 import { IRequest } from "./IRequest";
 import { requestAPI } from "./RequestAPI";
 import RequestRow from "./RequestRow";
+import { useSearchParams } from "react-router-dom";
 
 function RequestTable() {
   const [requests, setRequests] = useState<IRequest[]>([]);
+  const [searchParams, setSearchParams] = useSearchParams();
 
+  async function loadRequests() {
+    const data = await requestAPI.list(searchParams.get("status") ?? undefined);
+    setRequests(data);
+  }
   useEffect(() => {
-    async function loadRequests() {
-      const data = await requestAPI.list();
-      setRequests(data);
-    }
     loadRequests();
-  }, []);
+  }, [searchParams.get("status")]);
 
   function removeRequest(request: IRequest) {
     setRequests(requests.filter((r) => r.id !== request.id));
+  }
+
+  function handleStatusChange(event: SyntheticEvent) {
+    setSearchParams({ status: (event.target as HTMLSelectElement).value });
   }
 
   return (
@@ -24,12 +30,17 @@ function RequestTable() {
         <label htmlFor="status" className="form-label">
           Status
         </label>
-        <select id="status" className="form-select">
-          <option value="all">All</option>
-          <option value="new">New</option>
-          <option value="review">Review</option>
-          <option value="approved">Approved</option>
-          <option value="rejected">Rejected</option>
+        <select
+          id="status"
+          className="form-select"
+          value={searchParams.get("status") ?? undefined}
+          onChange={handleStatusChange}
+        >
+          <option value="">All</option>
+          <option value="New">New</option>
+          <option value="Review">Review</option>
+          <option value="Approved">Approved</option>
+          <option value="Rejected">Rejected</option>
         </select>
       </div>
       <section className="list d-flex flex-row flex-wrap bg-body-tertiary gap-5 p-4 rounded-4">

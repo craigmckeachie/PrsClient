@@ -5,8 +5,10 @@ import { IRequest } from "./IRequest";
 const url = `${BASE_URL}/requests`;
 
 export const requestAPI = {
-  list(): Promise<IRequest[]> {
-    return fetch(`${url}?_expand=user`).then(checkStatus).then(parseJSON);
+  list(status?: string): Promise<IRequest[]> {
+    let requestsUrl = `${url}?_expand=user`;
+    if(status) requestsUrl += `&status=${status}`
+    return fetch(requestsUrl).then(checkStatus).then(parseJSON);
   },
 
   find(id: number): Promise<IRequest> {
