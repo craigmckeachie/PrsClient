@@ -10,6 +10,21 @@ interface IRequestRowProps {
   onRemove: (request: IRequest) => void;
 }
 
+function getTextBackgroundByStatus(status: string) {
+  switch (status) {
+    case "New":
+      return "text-bg-primary";
+    case "Review":
+      return "text-bg-warning";
+    case "Approved":
+      return "text-bg-success";
+    case "Rejected":
+      return "text-bg-danger";
+    default:
+      return "";
+  }
+}
+
 function RequestRow({ request, onRemove }: IRequestRowProps) {
   return (
     <tr>
@@ -21,7 +36,9 @@ function RequestRow({ request, onRemove }: IRequestRowProps) {
         </span>
       </td>
       <td>
-        <span className="badge text-bg-info">{request.status}</span>
+        <span className={`badge ${getTextBackgroundByStatus(request.status)}`}>
+          {request.status}
+        </span>
       </td>
       <td>${request.total}</td>
       <td>
