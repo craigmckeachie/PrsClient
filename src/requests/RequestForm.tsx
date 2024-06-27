@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import { IUser } from "../users/IUser";
 import { useState } from "react";
 import { userAPI } from "../users/UserAPI";
+import RequestLineTable from "../requestLines/RequestLineTable";
 
 let emptyRequest: IRequest = {
   id: undefined,
@@ -162,81 +163,10 @@ function RequestForm() {
           </div>
         </div>
       </div>
-      {/* <div className="card p-4">
+      <div className="card p-4">
         <h5 className="card-title">Items</h5>
-        <table className="table w-75">
-          <thead>
-            <tr>
-              <th>Product</th>
-              <th>Price</th>
-              <th>Quantity</th>
-              <th>Amount</th>
-              <th />
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                <select name id className="form-select">
-                  <option value selected>
-                    Select...
-                  </option>
-                  <option value>
-                    Alpha Soft Touch Gel Stylus Pens (10 pack)
-                  </option>
-                  <option value>College Ruled Notebook</option>
-                </select>
-              </td>
-              <td>
-                <span className="form-label">$0.00</span>
-              </td>
-              <td>
-                <input
-                  type="number"
-                  className="form-control"
-                  defaultValue={100}
-                />
-              </td>
-              <td>
-                <span className="form-label">$0.00</span>
-              </td>
-              <td>
-                <button type="button" className="btn btn-outline">
-                  <svg
-                    className="bi pe-none me-2"
-                    width={16}
-                    height={16}
-                    fill="#007AFF"
-                  >
-                    <use xlinkHref={`${bootstrapIcons}#trash`} />
-                  </svg>
-                </button>
-              </td>
-            </tr>
-          </tbody>
-          <tfoot>
-            <tr>
-              <td>
-                <button className="btn btn-outline-primary">
-                  <svg
-                    className="bi pe-none me-2"
-                    width={16}
-                    height={16}
-                    fill="#007AFF"
-                  >
-                    <use xlinkHref={`${bootstrapIcons}#plus-circle`} />
-                  </svg>
-                  Add a line
-                </button>
-              </td>
-              <td />
-              <td />
-              <td>Total: $0.00</td>
-              <td />
-            </tr>
-          </tfoot>
-        </table>
-      </div> */}
+        <RequestLineTable request={{id: 1}} />      
+      </div>
 
       <div className="row-4 d-flex flex-row justify-content-end w-100 gap-4">
         <div className="d-flex justify-content-end mt-4">

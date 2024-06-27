@@ -51,9 +51,9 @@ function Header() {
                 style={{ width: "3rem", height: "3rem" }}
                 className="d-flex bg-primary-subtle fs-5 text-secondary align-items-center justify-content-center rounded-circle me-2"
               >
-                JR
+                GK
               </div>
-              <strong>James Roday</strong>
+              <strong> Gianni Kertzmann</strong>
             </Dropdown.Toggle>
             <Dropdown.Menu>
               <Dropdown.Item href="#">Settings</Dropdown.Item>
