@@ -1,4 +1,3 @@
-// import { BASE_URL, checkStatus, parseJSON } from "../utility/FetchUtilities";
 import { BASE_URL, checkStatus, parseJSON } from "../utility/fetchUtilities";
 import { IUser } from "./IUser";
 
@@ -11,6 +10,19 @@ export const userAPI = {
 
   find(id: number): Promise<IUser> {
     return fetch(`${url}/${id}`).then(checkStatus).then(parseJSON);
+  },
+
+  findByAccount(username: string, password: string): Promise<IUser> {
+    return (
+      // fetch(`${url}/${username}/${password}`)
+      fetch(`${url}?username=${username}&password=${password}`)
+        .then(checkStatus)
+        .then(parseJSON)
+        .then((users) => {
+          //comment this then when using PRS API
+          return users[0] ?? undefined;
+        })
+    );
   },
 
   post(user: IUser) {

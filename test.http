@@ -1,6 +1,10 @@
 ### GET User
 GET https://localhost:7249/api/users
 
+
+### GET User
+GET http://localhost:7249/api/users?username=chaynes&password=80LY4V_lpPM3AXq
+
 ### POST User
 POST https://localhost:7249/api/users
 Content-Type: application/json
