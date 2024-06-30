@@ -6,7 +6,7 @@ const url = `${BASE_URL}/requests`;
 
 export const requestAPI = {
   list(status?: string): Promise<IRequest[]> {
-    let requestsUrl = `${url}?_expand=user`;
+    let requestsUrl = `${url}?_expand=user&expand=product`;
     if(status) requestsUrl += `&status=${status}`
     return fetch(requestsUrl).then(checkStatus).then(parseJSON);
   },

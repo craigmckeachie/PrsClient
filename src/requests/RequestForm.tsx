@@ -5,6 +5,7 @@ import {
   SubmitHandler,
   useFieldArray,
   useWatch,
+  Control,
 } from "react-hook-form";
 import { IRequest } from "./IRequest";
 import { requestAPI } from "./RequestAPI";
@@ -15,6 +16,58 @@ import { userAPI } from "../users/UserAPI";
 import { IRequestLine } from "../requestLines/IRequestLine";
 import { IProduct } from "../products/IProduct";
 import { productAPI } from "../products/ProductAPI";
+
+let emptyRequestLine: IRequestLine = {
+  id: undefined,
+  quantity: 0,
+  requestId: undefined,
+  request: {} as IRequest,
+  productId: undefined,
+  product: {} as IProduct,
+};
+
+let emptyRequest: IRequest = {
+  id: undefined,
+  description: "",
+  justification: "",
+  rejectionReason: undefined,
+  deliveryMode: "",
+  status: "New",
+  total: 0,
+  userId: 417,
+  user: {} as IUser,
+  lines: [emptyRequestLine],
+};
+
+function Total({ control }: { control: Control<IRequest> }) {
+  const requestLines = useWatch({
+    name: "lines",
+    control,
+  });
+  // console.log(requestLines);
+
+  let total = 0;
+  // for (const requestLine of requestLines) {
+  //   total += requestLine.product?.price ?? 0;
+  // }
+  return <span>${total}</span>;
+}
+
+function Price({
+  control,
+  index,
+}: {
+  control: Control<IRequestLine>;
+  index: number;
+}) {
+  const value = useWatch({
+    control,
+    name: `lines.${index}`,
+  });
+  console.log(value);
+
+  return <span>{value.quantity}</span>;
+}
 
 function RequestForm() {
   const navigate = useNavigate();
@@ -32,32 +85,9 @@ function RequestForm() {
     setProducts(data);
   }
 
-  let emptyRequestLine: IRequestLine = {
-    id: undefined,
-    quantity: 0,
-    requestId: undefined,
-    request: {} as IRequest,
-    productId: undefined,
-    product: {} as IProduct,
-  };
-
-  let emptyRequest: IRequest = {
-    id: undefined,
-    description: "",
-    justification: "",
-    rejectionReason: undefined,
-    deliveryMode: "",
-    status: "New",
-    total: 0,
-    userId: 417,
-    user: {} as IUser,
-    lines: [emptyRequestLine],
-  };
-
   const {
     register,
     handleSubmit,
-    watch,
     control,
     formState: { errors },
   } = useForm<IRequest>({
@@ -72,7 +102,6 @@ function RequestForm() {
     },
     // mode: "onBlur",
   });
-  // const request = getValues();
 
   const { fields, append, remove } = useFieldArray({
     name: "lines",
@@ -89,12 +118,8 @@ function RequestForm() {
     navigate("/requests");
   };
 
-  console.log(watch("lines"));
-
-  // const formValues = useWatch({
-  //   name: "lines",
-  //   control,
-  // });
+  // console.log(watch("lines"));
+  console.log("render");
 
   return (
     <form className="form" onSubmit={handleSubmit(save)}>
@@ -242,7 +267,8 @@ function RequestForm() {
                   </td>
                   <td>
                     <span className="form-label">
-                      ${requestLine?.product?.price}
+                      <Price control={control} index={index} />
+                      {/* {`values.lines.${index}.product.price` as const} */}
                     </span>
                   </td>
                   <td>
@@ -313,7 +339,9 @@ function RequestForm() {
               </td>
               <td />
               <td />
-              <td>Total: $0.00</td>
+              <td>
+                <Total control={control} />
+              </td>
               <td />
             </tr>
           </tfoot>
