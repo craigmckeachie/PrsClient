@@ -1,6 +1,11 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import bootstrapIcons from "../assets/bootstrap-icons.svg";
-import { useForm, SubmitHandler, useFieldArray } from "react-hook-form";
+import {
+  useForm,
+  SubmitHandler,
+  useFieldArray,
+  useWatch,
+} from "react-hook-form";
 import { IRequest } from "./IRequest";
 import { requestAPI } from "./RequestAPI";
 import toast from "react-hot-toast";
@@ -52,7 +57,7 @@ function RequestForm() {
   const {
     register,
     handleSubmit,
-    getValues,
+    watch,
     control,
     formState: { errors },
   } = useForm<IRequest>({
@@ -83,6 +88,13 @@ function RequestForm() {
     toast.success("Successfully saved.");
     navigate("/requests");
   };
+
+  console.log(watch("lines"));
+
+  // const formValues = useWatch({
+  //   name: "lines",
+  //   control,
+  // });
 
   return (
     <form className="form" onSubmit={handleSubmit(save)}>
@@ -238,6 +250,11 @@ function RequestForm() {
                       id="quantity"
                       {...register(`lines.${index}.quantity` as const, {
                         required: "Quantity is required",
+                        min: {
+                          value: 1,
+                          message: "Quantity must be at least 1",
+                        },
+                        valueAsNumber: true,
                       })}
                       type="number"
                       className={`form-control ${
@@ -279,6 +296,7 @@ function RequestForm() {
             <tr>
               <td>
                 <button
+                  type="button"
                   className="btn btn-outline-primary"
                   onClick={() => append(emptyRequestLine)}
                 >
