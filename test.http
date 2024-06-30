@@ -1,5 +1,12 @@
-### GET User
+### GET Users
 GET https://localhost:7249/api/users
+
+
+
+
+
+
+
 
 ### POST User
 POST https://localhost:7249/api/users
@@ -19,7 +26,6 @@ Content-Type: application/json
 ### PUT User
 PUT https://localhost:7249/api/users/451
 Content-Type: application/json
-
 {
     "id": 451,
     "username": "jmacky",
