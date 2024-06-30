@@ -37,6 +37,7 @@ function RequestForm() {
   const {
     register,
     handleSubmit,
+    getValues,
     formState: { errors },
   } = useForm<IRequest>({
     defaultValues: async () => {
@@ -46,6 +47,7 @@ function RequestForm() {
       return await requestAPI.find(requestId);
     },
   });
+  const request = getValues();
 
   const save: SubmitHandler<IRequest> = async (request) => {
     if (!request.id) {
@@ -165,7 +167,7 @@ function RequestForm() {
       </div>
       <div className="card p-4">
         <h5 className="card-title">Items</h5>
-        <RequestLineTable request={{id: 1}} />      
+        <RequestLineTable request={request} />      
       </div>
 
       <div className="row-4 d-flex flex-row justify-content-end w-100 gap-4">
