@@ -1,53 +1,78 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import bootstrapIcons from "../assets/bootstrap-icons.svg";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler, useFieldArray } from "react-hook-form";
 import { IRequest } from "./IRequest";
 import { requestAPI } from "./RequestAPI";
 import toast from "react-hot-toast";
 import { IUser } from "../users/IUser";
 import { useState } from "react";
 import { userAPI } from "../users/UserAPI";
-import RequestLineTable from "../requestLines/RequestLineTable";
-
-let emptyRequest: IRequest = {
-  id: undefined,
-  description: "",
-  justification: "",
-  rejectionReason: undefined,
-  deliveryMode: "",
-  status: "New",
-  total: 0,
-  userId: 417,
-  user: {} as IUser,
-};
+import { IRequestLine } from "../requestLines/IRequestLine";
+import { IProduct } from "../products/IProduct";
+import { productAPI } from "../products/ProductAPI";
 
 function RequestForm() {
   const navigate = useNavigate();
   let { id } = useParams<{ id: string }>();
   const [users, setUsers] = useState<IUser[]>([]);
-
+  const [products, setProducts] = useState<IProduct[]>([]);
 
   async function loadUsers() {
     const data = await userAPI.list();
-    console.log(data);
-
     setUsers(data);
   }
+
+  async function loadProducts() {
+    const data = await productAPI.list();
+    setProducts(data);
+  }
+
+  let emptyRequestLine: IRequestLine = {
+    id: undefined,
+    quantity: 0,
+    requestId: undefined,
+    request: {} as IRequest,
+    productId: undefined,
+    product: {} as IProduct,
+  };
+
+  let emptyRequest: IRequest = {
+    id: undefined,
+    description: "",
+    justification: "",
+    rejectionReason: undefined,
+    deliveryMode: "",
+    status: "New",
+    total: 0,
+    userId: 417,
+    user: {} as IUser,
+    lines: [emptyRequestLine],
+  };
 
   const {
     register,
     handleSubmit,
     getValues,
+    control,
     formState: { errors },
   } = useForm<IRequest>({
     defaultValues: async () => {
+      //these can run in parallel eventually
       await loadUsers();
+      await loadProducts();
       if (!id) return Promise.resolve(emptyRequest);
       const requestId = Number(id);
+      //  let lines = await requestLineAPI.list();
       return await requestAPI.find(requestId);
     },
+    // mode: "onBlur",
   });
-  const request = getValues();
+  // const request = getValues();
+
+  const { fields, append, remove } = useFieldArray({
+    name: "lines",
+    control,
+  });
 
   const save: SubmitHandler<IRequest> = async (request) => {
     if (!request.id) {
@@ -165,9 +190,116 @@ function RequestForm() {
           </div>
         </div>
       </div>
+
       <div className="card p-4">
         <h5 className="card-title">Items</h5>
-        <RequestLineTable request={request} />      
+        <table className="table w-75">
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>Price</th>
+              <th>Quantity</th>
+              <th>Amount</th>
+              <th />
+            </tr>
+          </thead>
+          <tbody>
+            {fields.map((requestLine: IRequestLine, index: number) => {
+              return (
+                <tr key={requestLine.id}>
+                  <td>
+                    <select
+                      {...register(`lines.${index}.productId` as const, {
+                        valueAsNumber: true,
+                        required: "Product is required",
+                      })}
+                      className={`form-select ${
+                        errors?.lines?.[index]?.productId && "is-invalid"
+                      } `}
+                    >
+                      <option value="">Select...</option>
+                      {products.map((p: IProduct) => (
+                        <option key={p.id} value={p.id}>
+                          {p.name}
+                        </option>
+                      ))}
+                    </select>
+                    <div className="invalid-feedback">
+                      {errors?.lines?.[index]?.productId?.message}
+                    </div>
+                  </td>
+                  <td>
+                    <span className="form-label">
+                      ${requestLine?.product?.price}
+                    </span>
+                  </td>
+                  <td>
+                    <input
+                      id="quantity"
+                      {...register(`lines.${index}.quantity` as const, {
+                        required: "Quantity is required",
+                      })}
+                      type="number"
+                      className={`form-control ${
+                        errors?.lines?.[index]?.quantity && "is-invalid"
+                      } `}
+                    />
+                    <div className="invalid-feedback">
+                      {errors?.lines?.[index]?.quantity?.message}
+                    </div>
+                  </td>
+                  <td>
+                    <span className="form-label">
+                      $
+                      {(requestLine?.product?.price ?? 0) *
+                        requestLine?.quantity}
+                    </span>
+                  </td>
+                  <td>
+                    <button
+                      type="button"
+                      className="btn btn-outline"
+                      onClick={() => remove(index)}
+                    >
+                      <svg
+                        className="bi pe-none me-2"
+                        width={16}
+                        height={16}
+                        fill="#007AFF"
+                      >
+                        <use xlinkHref={`${bootstrapIcons}#trash`} />
+                      </svg>
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+          <tfoot>
+            <tr>
+              <td>
+                <button
+                  className="btn btn-outline-primary"
+                  onClick={() => append(emptyRequestLine)}
+                >
+                  <svg
+                    className="bi pe-none me-2"
+                    width={16}
+                    height={16}
+                    fill="#007AFF"
+                  >
+                    <use xlinkHref={`${bootstrapIcons}#plus-circle`} />
+                  </svg>
+                  Add a line
+                </button>
+              </td>
+              <td />
+              <td />
+              <td>Total: $0.00</td>
+              <td />
+            </tr>
+          </tfoot>
+        </table>
       </div>
 
       <div className="row-4 d-flex flex-row justify-content-end w-100 gap-4">
