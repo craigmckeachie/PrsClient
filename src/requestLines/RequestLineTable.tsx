@@ -1,14 +1,11 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
-import bootstrapIcons from "../assets/bootstrap-icons.svg";
-
-import toast from "react-hot-toast";
-import { IUser } from "../users/IUser";
 import { useEffect, useState } from "react";
-import { userAPI } from "../users/UserAPI";
+import bootstrapIcons from "../assets/bootstrap-icons.svg";
 import { IRequestLine } from "../requestLines/IRequestLine";
 import { IProduct } from "../products/IProduct";
 import { productAPI } from "../products/ProductAPI";
 import { requestLineAPI } from "../requestLines/RequestLineAPI";
+import RequestLineForm from "./RequestLineForm";
 
 interface RequestLineTableProps {
   requestId?: number;
@@ -116,6 +113,7 @@ function RequestLineTable({ requestId }: RequestLineTableProps) {
           </tr>
         </tfoot>
       </table>
+      {requestId && <RequestLineForm requestId={requestId} onSave={loadRequestLines} />}
     </div>
   );
 }

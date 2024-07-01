@@ -1,25 +1,36 @@
-import { Link, useNavigate, useParams } from "react-router-dom";
-import bootstrapIcons from "../assets/bootstrap-icons.svg";
+import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import toast from "react-hot-toast";
-import { useState } from "react";
+import { Link } from "react-router-dom";
+import bootstrapIcons from "../assets/bootstrap-icons.svg";
 
 import { IRequestLine } from "../requestLines/IRequestLine";
 import { IProduct } from "../products/IProduct";
 import { productAPI } from "../products/ProductAPI";
 import { requestLineAPI } from "../requestLines/RequestLineAPI";
 
-let emptyRequestLine: IRequestLine = {
-  id: undefined,
-  quantity: 0,
-  requestId: undefined,
-  productId: undefined,
-};
+interface RequestLineFormProps {
+  requestId: number;
+  requestLineId?: number | undefined;
+  onSave: () => void;
+}
 
-function RequestForm() {
-  const navigate = useNavigate();
-  let { id } = useParams<{ id: string }>();
+function RequestLineForm({
+  requestId,
+  requestLineId,
+  onSave,
+}: RequestLineFormProps) {
   const [products, setProducts] = useState<IProduct[]>([]);
+  // const [selectedProduct, setSelectedProduct] = useState<IProduct | undefined>(
+  //   undefined
+  // );
+
+  let emptyRequestLine: IRequestLine = {
+    id: undefined,
+    quantity: 0,
+    requestId: requestId,
+    productId: undefined,
+  };
 
   async function loadProducts() {
     const data = await productAPI.list();
@@ -35,8 +46,7 @@ function RequestForm() {
   } = useForm<IRequestLine>({
     defaultValues: async () => {
       await loadProducts();
-      if (!id) return Promise.resolve(emptyRequestLine);
-      const requestLineId = Number(id);
+      if (!requestLineId) return Promise.resolve(emptyRequestLine);
       return await requestLineAPI.find(requestLineId);
     },
     mode: "onBlur",
@@ -49,13 +59,19 @@ function RequestForm() {
       await requestLineAPI.put(requestLine);
     }
 
+    onSave();
     toast.success("Successfully saved.");
   };
 
+  // let product = products.find(p=> p.id === getValues().productId);
+  // let currentProduct: IProduct | undefined;
+
   return (
-    <form className="form" onSubmit={handleSubmit(save)}>
+    <form className="form w-50" onSubmit={handleSubmit(save)}>
       <div className="card p-4">
-        <h5 className="card-title">Item</h5>
+        <h5 className="card-title">
+          <strong>Item</strong>
+        </h5>
         <div className="mb-3">
           <label htmlFor="productId" className="form-label">
             Product
@@ -66,10 +82,11 @@ function RequestForm() {
               required: "Product is required",
             })}
             onChange={(event) => {
-              let productId = Number(event.target.value);
-              const currentProduct = products.find((p) => p.id === productId);
-              if (currentProduct) {
-              }
+              // let productId = Number(event.target.value);
+              // const product = products.find((p) => p.id === productId);
+              // if (product) {
+              //   setSelectedProduct(product);
+              // }
             }}
             className={`form-select ${errors?.productId && "is-invalid"} `}
           >
@@ -82,7 +99,7 @@ function RequestForm() {
           </select>
           <div className="invalid-feedback">{errors?.productId?.message}</div>
         </div>
-
+        {/* 
         <div className="mb-3">
           <label htmlFor="price" className="form-label">
             Price
@@ -91,9 +108,9 @@ function RequestForm() {
             {new Intl.NumberFormat("en-US", {
               style: "currency",
               currency: "USD",
-            }).format(getValues().productId ?? 0)}
+            }).format(selectedProduct?.price ?? 0)}
           </span>
-        </div>
+        </div> */}
 
         <div className="mb-3">
           <label htmlFor="quantity" className="form-label">
@@ -115,7 +132,7 @@ function RequestForm() {
           <div className="invalid-feedback">{errors?.quantity?.message}</div>
         </div>
 
-        <div className="mb-3">
+        {/* <div className="mb-3">
           <label htmlFor="amount" className="form-label">
             Amount
           </label>
@@ -123,12 +140,10 @@ function RequestForm() {
             {new Intl.NumberFormat("en-US", {
               style: "currency",
               currency: "USD",
-            }).format(getValues().productId ?? 0 * getValues()?.quantity)}
+            }).format(selectedProduct?.price ?? 0 * getValues()?.quantity)}
           </span>
-        </div>
-      </div>
+        </div> */}
 
-      <div className="row-4 d-flex flex-row justify-content-end w-100 gap-4">
         <div className="d-flex justify-content-end mt-4">
           <Link to={"/requests"} className="btn btn-outline-primary me-2">
             Cancel
@@ -150,4 +165,4 @@ function RequestForm() {
   );
 }
 
-export default RequestForm;
+export default RequestLineForm;
