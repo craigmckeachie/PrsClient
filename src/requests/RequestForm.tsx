@@ -39,19 +39,19 @@ let emptyRequest: IRequest = {
   lines: [emptyRequestLine],
 };
 
-function Total({ control }: { control: Control<IRequest> }) {
-  const requestLines = useWatch({
-    name: "lines",
-    control,
-  });
-  // console.log(requestLines);
+// function Total({ control }: { control: Control<IRequest> }) {
+//   const requestLines = useWatch({
+//     name: "lines",
+//     control,
+//   });
+//   // console.log(requestLines);
 
-  let total = 0;
-  // for (const requestLine of requestLines) {
-  //   total += requestLine.product?.price ?? 0;
-  // }
-  return <span>${total}</span>;
-}
+//   let total = 0;
+//   // for (const requestLine of requestLines) {
+//   //   total += requestLine.product?.price ?? 0;
+//   // }
+//   return <span>${total}</span>;
+// }
 
 function Price({
   control,
@@ -64,10 +64,26 @@ function Price({
     control,
     name: `lines.${index}`,
   });
-  console.log(value);
+  // console.log(value);
 
   return <span>{value.quantity}</span>;
 }
+
+// function WatchProductId({
+//   control,
+//   index,
+// }: {
+//   control: Control<IRequest>;
+//   index: number;
+// }) {
+//   const value = useWatch({
+//     control,
+//     name: `lines.${index}.productId`,
+//   });
+//   console.log(value);
+
+//   return <span>{value}</span>;
+// }
 
 function RequestForm() {
   const navigate = useNavigate();
@@ -89,6 +105,9 @@ function RequestForm() {
     register,
     handleSubmit,
     control,
+    setValue,
+    getValues,
+    watch,
     formState: { errors },
   } = useForm<IRequest>({
     defaultValues: async () => {
@@ -100,7 +119,7 @@ function RequestForm() {
       //  let lines = await requestLineAPI.list();
       return await requestAPI.find(requestId);
     },
-    // mode: "onBlur",
+    mode: "onBlur",
   });
 
   const { fields, append, remove } = useFieldArray({
@@ -118,7 +137,7 @@ function RequestForm() {
     navigate("/requests");
   };
 
-  // console.log(watch("lines"));
+  console.log(watch());
   console.log("render");
 
   return (
@@ -250,6 +269,16 @@ function RequestForm() {
                         valueAsNumber: true,
                         required: "Product is required",
                       })}
+                      onChange={(event) => {
+                        let productId = Number(event.target.value);
+                        const currentProduct = products.find(
+                          (p) => p.id === productId
+                        );
+                        console.log(currentProduct);
+                        if (currentProduct) {
+                          setValue(`lines.${index}.product`, currentProduct);
+                        }
+                      }}
                       className={`form-select ${
                         errors?.lines?.[index]?.productId && "is-invalid"
                       } `}
@@ -267,8 +296,12 @@ function RequestForm() {
                   </td>
                   <td>
                     <span className="form-label">
-                      <Price control={control} index={index} />
-                      {/* {`values.lines.${index}.product.price` as const} */}
+                      {new Intl.NumberFormat("en-US", {
+                        style: "currency",
+                        currency: "USD",
+                      }).format(
+                        getValues().lines?.[index]?.product?.price ?? 0
+                      )}
                     </span>
                   </td>
                   <td>
@@ -339,9 +372,7 @@ function RequestForm() {
               </td>
               <td />
               <td />
-              <td>
-                <Total control={control} />
-              </td>
+              <td>{/* <Total control={control} /> */}</td>
               <td />
             </tr>
           </tfoot>
