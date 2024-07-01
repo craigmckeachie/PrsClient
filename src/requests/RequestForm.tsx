@@ -39,19 +39,20 @@ let emptyRequest: IRequest = {
   lines: [emptyRequestLine],
 };
 
-// function Total({ control }: { control: Control<IRequest> }) {
-//   const requestLines = useWatch({
-//     name: "lines",
-//     control,
-//   });
-//   // console.log(requestLines);
+function Total({ control }: { control: Control }) {
+  const requestLines = useWatch({
+    name: `lines`,
+    control,
+    defaultValue: [],
+  });
+  // console.log(requestLines);
 
-//   let total = 0;
-//   // for (const requestLine of requestLines) {
-//   //   total += requestLine.product?.price ?? 0;
-//   // }
-//   return <span>${total}</span>;
-// }
+  let total = 0;
+  for (const requestLine of requestLines) {
+    total = total + (requestLine.product?.price * requestLine.quantity);
+  }
+  return <span>${total}</span>;
+}
 
 function Price({
   control,
@@ -64,7 +65,6 @@ function Price({
     control,
     name: `lines.${index}`,
   });
-  // console.log(value);
 
   return <span>{value.quantity}</span>;
 }
@@ -137,8 +137,8 @@ function RequestForm() {
     navigate("/requests");
   };
 
-  console.log(watch());
-  console.log("render");
+  console.log(watch("lines"));
+  // console.log("render");
 
   return (
     <form className="form" onSubmit={handleSubmit(save)}>
@@ -274,9 +274,10 @@ function RequestForm() {
                         const currentProduct = products.find(
                           (p) => p.id === productId
                         );
-                        console.log(currentProduct);
                         if (currentProduct) {
-                          setValue(`lines.${index}.product`, currentProduct);
+                          setValue(`lines.${index}.product`, currentProduct, {
+                            shouldDirty: true,
+                          });
                         }
                       }}
                       className={`form-select ${
@@ -326,9 +327,13 @@ function RequestForm() {
                   </td>
                   <td>
                     <span className="form-label">
-                      $
-                      {(getValues().lines?.[index]?.product?.price ?? 0) *
-                        getValues().lines?.[index]?.quantity}
+                      {new Intl.NumberFormat("en-US", {
+                        style: "currency",
+                        currency: "USD",
+                      }).format(
+                        (getValues().lines?.[index]?.product?.price ?? 0) *
+                          getValues().lines?.[index]?.quantity
+                      )}
                     </span>
                   </td>
                   <td>
@@ -372,7 +377,9 @@ function RequestForm() {
               </td>
               <td />
               <td />
-              <td>{/* <Total control={control} /> */}</td>
+              <td>
+                <Total control={control} />
+              </td>
               <td />
             </tr>
           </tfoot>
