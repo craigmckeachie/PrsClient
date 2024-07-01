@@ -39,51 +39,29 @@ let emptyRequest: IRequest = {
   lines: [emptyRequestLine],
 };
 
-function Total({ control }: { control: Control }) {
+function Total({ control }: { control: Control<IRequestLine[]> }) {
   const requestLines = useWatch({
     name: `lines`,
     control,
     defaultValue: [],
   });
-  // console.log(requestLines);
 
   let total = 0;
   for (const requestLine of requestLines) {
-    total = total + (requestLine.product?.price * requestLine.quantity);
+    total =
+      total + (requestLine.product?.price ?? 0) * (requestLine.quantity ?? 0);
   }
-  return <span>${total}</span>;
+  console.log(total);
+
+  return (
+    <span>
+      {new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+      }).format(total)}
+    </span>
+  );
 }
-
-function Price({
-  control,
-  index,
-}: {
-  control: Control<IRequestLine>;
-  index: number;
-}) {
-  const value = useWatch({
-    control,
-    name: `lines.${index}`,
-  });
-
-  return <span>{value.quantity}</span>;
-}
-
-// function WatchProductId({
-//   control,
-//   index,
-// }: {
-//   control: Control<IRequest>;
-//   index: number;
-// }) {
-//   const value = useWatch({
-//     control,
-//     name: `lines.${index}.productId`,
-//   });
-//   console.log(value);
-
-//   return <span>{value}</span>;
-// }
 
 function RequestForm() {
   const navigate = useNavigate();
@@ -138,7 +116,6 @@ function RequestForm() {
   };
 
   console.log(watch("lines"));
-  // console.log("render");
 
   return (
     <form className="form" onSubmit={handleSubmit(save)}>
