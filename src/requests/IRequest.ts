@@ -9,5 +9,5 @@ export interface IRequest {
   status: string;
   total: number;
   userId: number | undefined;
-  user: IUser;
+  // user: IUser;
 }

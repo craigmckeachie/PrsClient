@@ -11,12 +11,11 @@ import { productAPI } from "../products/ProductAPI";
 import { requestLineAPI } from "../requestLines/RequestLineAPI";
 
 interface RequestLineTableProps {
-  requestId: number;
+  requestId?: number;
 }
 
 function RequestLineTable({ requestId }: RequestLineTableProps) {
   const navigate = useNavigate();
-  let { id } = useParams<{ id: string }>();
 
   const [products, setProducts] = useState<IProduct[]>([]);
   const [requestLines, setRequestLines] = useState<IRequestLine[]>([]);
@@ -27,7 +26,8 @@ function RequestLineTable({ requestId }: RequestLineTableProps) {
   }
 
   async function loadRequestLines() {
-    const data = await requestLineAPI.list();
+    if (!requestId) return;
+    const data = await requestLineAPI.list(requestId);
     setRequestLines(data);
   }
 
@@ -37,7 +37,7 @@ function RequestLineTable({ requestId }: RequestLineTableProps) {
   }, []);
 
   return (
-    <div className="card p-4">
+    <div className="card p-4 mt-5">
       <h5 className="card-title">Items</h5>
       <table className="table w-75">
         <thead>
@@ -51,21 +51,24 @@ function RequestLineTable({ requestId }: RequestLineTableProps) {
         </thead>
         <tbody>
           {requestLines.map((requestLine: IRequestLine) => {
+            const product = products.find(
+              (p) => p.id === requestLine.productId
+            );
             return (
-              <tr>
-                <td>{requestLine.productId}</td>
+              <tr key={requestLine.id}>
+                <td>{product?.name}</td>
                 <td>
-                  {products.find((p) => p.id === requestLine.productId)?.price}
+                  {new Intl.NumberFormat("en-US", {
+                    style: "currency",
+                    currency: "USD",
+                  }).format(product?.price ?? 0)}
                 </td>
                 <td>{requestLine.quantity}</td>
                 <td>
                   {new Intl.NumberFormat("en-US", {
                     style: "currency",
                     currency: "USD",
-                  }).format(
-                    (products.find((p) => p.id === requestLine.productId)
-                      ?.price ?? 0) * requestLine.quantity
-                  )}
+                  }).format((product?.price ?? 0) * requestLine.quantity)}
                 </td>
                 <td>
                   <button

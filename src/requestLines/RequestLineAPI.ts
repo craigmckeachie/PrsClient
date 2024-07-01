@@ -5,8 +5,8 @@ import { IRequestLine } from "./IRequestLine";
 const url = `${BASE_URL}/requestlines`;
 
 export const requestLineAPI = {
-  list(): Promise<IRequestLine[]> {
-    let requestLinesUrl = `${url}?_expand=product&_expand=request`;
+  list(requestId: number): Promise<IRequestLine[]> {
+    let requestLinesUrl = `${url}?requestId=${requestId}`;
     return fetch(requestLinesUrl).then(checkStatus).then(parseJSON);
   },
 
