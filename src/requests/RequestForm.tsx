@@ -16,6 +16,7 @@ import { userAPI } from "../users/UserAPI";
 import { IRequestLine } from "../requestLines/IRequestLine";
 import { IProduct } from "../products/IProduct";
 import { productAPI } from "../products/ProductAPI";
+import { requestLineAPI } from "../requestLines/RequestLineAPI";
 
 let emptyRequestLine: IRequestLine = {
   id: undefined,
@@ -110,6 +111,14 @@ function RequestForm() {
       request = await requestAPI.post(request);
     } else {
       await requestAPI.put(request);
+    }
+
+    for (const requestLine of request.lines) {
+      if (!requestLine.id) {
+        await requestLineAPI.post(requestLine);
+      } else {
+        await requestLineAPI.put(requestLine);
+      }
     }
     toast.success("Successfully saved.");
     navigate("/requests");
