@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
@@ -11,13 +11,13 @@ import { requestLineAPI } from "../requestLines/RequestLineAPI";
 
 interface RequestLineFormProps {
   requestId: number;
-  requestLineId?: number | undefined;
+  requestLine?: IRequestLine | undefined;
   onSave: () => void;
 }
 
 function RequestLineForm({
   requestId,
-  requestLineId,
+  requestLine,
   onSave,
 }: RequestLineFormProps) {
   const [products, setProducts] = useState<IProduct[]>([]);
@@ -40,17 +40,25 @@ function RequestLineForm({
   const {
     register,
     handleSubmit,
+    reset,
     setValue,
     getValues,
     formState: { errors },
   } = useForm<IRequestLine>({
     defaultValues: async () => {
       await loadProducts();
-      if (!requestLineId) return Promise.resolve(emptyRequestLine);
-      return await requestLineAPI.find(requestLineId);
+      if (!requestLine) return Promise.resolve(emptyRequestLine);
+      return Promise.resolve({ ...requestLine });
+      // return await requestLineAPI.find(requestLine.id);
     },
-    mode: "onBlur",
+    // mode: "onBlur",
   });
+
+  useEffect(() => {
+    reset(requestLine)
+   
+  }, [requestLine])
+  
 
   const save: SubmitHandler<IRequestLine> = async (requestLine) => {
     if (!requestLine.id) {

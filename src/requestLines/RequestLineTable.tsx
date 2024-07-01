@@ -17,6 +17,9 @@ function RequestLineTable({ requestId }: RequestLineTableProps) {
 
   const [products, setProducts] = useState<IProduct[]>([]);
   const [requestLines, setRequestLines] = useState<IRequestLine[]>([]);
+  const [requestLineBeingEdited, setRequestLineBeingEdited] = useState<
+    IRequestLine | undefined
+  >(undefined);
 
   async function loadProducts() {
     const data = await productAPI.list();
@@ -72,6 +75,24 @@ function RequestLineTable({ requestId }: RequestLineTableProps) {
                   <button
                     type="button"
                     className="btn btn-outline"
+                    onClick={() => {
+                      if (requestLine) {
+                        setRequestLineBeingEdited(requestLine);
+                      }
+                    }}
+                  >
+                    <svg
+                      className="bi pe-none me-2"
+                      width={16}
+                      height={16}
+                      fill="#007AFF"
+                    >
+                      <use xlinkHref={`${bootstrapIcons}#pencil`} />
+                    </svg>
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-outline"
                     onClick={async () => {
                       if (requestLine.id) {
                         await requestLineAPI.delete(requestLine.id);
@@ -80,7 +101,6 @@ function RequestLineTable({ requestId }: RequestLineTableProps) {
                             (line) => line.id !== requestLine.id
                           )
                         );
-                        // loadRequestLines();
                         toast.success("Successfully deleted.");
                       }
                     }}
@@ -126,7 +146,11 @@ function RequestLineTable({ requestId }: RequestLineTableProps) {
         </tfoot>
       </table>
       {requestId && (
-        <RequestLineForm requestId={requestId} onSave={loadRequestLines} />
+        <RequestLineForm
+          requestId={requestId}
+          requestLine={requestLineBeingEdited}
+          onSave={loadRequestLines}
+        />
       )}
     </div>
   );
