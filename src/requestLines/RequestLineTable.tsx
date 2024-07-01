@@ -75,7 +75,12 @@ function RequestLineTable({ requestId }: RequestLineTableProps) {
                     onClick={async () => {
                       if (requestLine.id) {
                         await requestLineAPI.delete(requestLine.id);
-                        loadRequestLines();
+                        setRequestLines(
+                          requestLines.filter(
+                            (line) => line.id !== requestLine.id
+                          )
+                        );
+                        // loadRequestLines();
                         toast.success("Successfully deleted.");
                       }
                     }}
