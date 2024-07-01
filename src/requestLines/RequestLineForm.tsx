@@ -55,10 +55,8 @@ function RequestLineForm({
   });
 
   useEffect(() => {
-    reset(requestLine)
-   
-  }, [requestLine])
-  
+    reset(requestLine);
+  }, [requestLine]);
 
   const save: SubmitHandler<IRequestLine> = async (requestLine) => {
     if (!requestLine.id) {

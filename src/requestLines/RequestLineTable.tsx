@@ -20,6 +20,7 @@ function RequestLineTable({ requestId }: RequestLineTableProps) {
   const [requestLineBeingEdited, setRequestLineBeingEdited] = useState<
     IRequestLine | undefined
   >(undefined);
+  const [showForm, setShowForm] = useState(false);
 
   async function loadProducts() {
     const data = await productAPI.list();
@@ -30,6 +31,15 @@ function RequestLineTable({ requestId }: RequestLineTableProps) {
     if (!requestId) return;
     const data = await requestLineAPI.list(requestId);
     setRequestLines(data);
+  }
+
+  function toggleFormVisibility() {
+    setShowForm((toggle) => !toggle);
+  }
+
+  function save() {
+    loadRequestLines();
+    toggleFormVisibility();
   }
 
   useEffect(() => {
@@ -78,6 +88,7 @@ function RequestLineTable({ requestId }: RequestLineTableProps) {
                     onClick={() => {
                       if (requestLine) {
                         setRequestLineBeingEdited(requestLine);
+                        toggleFormVisibility();
                       }
                     }}
                   >
@@ -145,11 +156,11 @@ function RequestLineTable({ requestId }: RequestLineTableProps) {
           </tr>
         </tfoot>
       </table>
-      {requestId && (
+      {showForm && requestId && (
         <RequestLineForm
           requestId={requestId}
           requestLine={requestLineBeingEdited}
-          onSave={loadRequestLines}
+          onSave={save}
         />
       )}
     </div>
