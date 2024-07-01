@@ -38,6 +38,7 @@ function RequestLineTable({ requestId }: RequestLineTableProps) {
   }
 
   function save() {
+    setRequestLineBeingEdited(undefined);
     loadRequestLines();
     toggleFormVisibility();
   }
@@ -136,7 +137,9 @@ function RequestLineTable({ requestId }: RequestLineTableProps) {
               <button
                 type="button"
                 className="btn btn-outline-primary"
-                onClick={() => {}}
+                onClick={() => {
+                  toggleFormVisibility();
+                }}
               >
                 <svg
                   className="bi pe-none me-2"
