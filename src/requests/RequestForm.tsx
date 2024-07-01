@@ -327,8 +327,8 @@ function RequestForm() {
                   <td>
                     <span className="form-label">
                       $
-                      {(requestLine?.product?.price ?? 0) *
-                        requestLine?.quantity}
+                      {(getValues().lines?.[index]?.product?.price ?? 0) *
+                        getValues().lines?.[index]?.quantity}
                     </span>
                   </td>
                   <td>
