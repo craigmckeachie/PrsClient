@@ -6,6 +6,7 @@ import { IProduct } from "../products/IProduct";
 import { productAPI } from "../products/ProductAPI";
 import { requestLineAPI } from "../requestLines/RequestLineAPI";
 import RequestLineForm from "./RequestLineForm";
+import toast from "react-hot-toast";
 
 interface RequestLineTableProps {
   requestId?: number;
@@ -71,7 +72,13 @@ function RequestLineTable({ requestId }: RequestLineTableProps) {
                   <button
                     type="button"
                     className="btn btn-outline"
-                    onClick={() => {}}
+                    onClick={async () => {
+                      if (requestLine.id) {
+                        await requestLineAPI.delete(requestLine.id);
+                        loadRequestLines();
+                        toast.success("Successfully deleted.");
+                      }
+                    }}
                   >
                     <svg
                       className="bi pe-none me-2"
@@ -113,7 +120,9 @@ function RequestLineTable({ requestId }: RequestLineTableProps) {
           </tr>
         </tfoot>
       </table>
-      {requestId && <RequestLineForm requestId={requestId} onSave={loadRequestLines} />}
+      {requestId && (
+        <RequestLineForm requestId={requestId} onSave={loadRequestLines} />
+      )}
     </div>
   );
 }
