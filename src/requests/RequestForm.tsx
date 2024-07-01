@@ -1,31 +1,12 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import bootstrapIcons from "../assets/bootstrap-icons.svg";
-import {
-  useForm,
-  SubmitHandler,
-  useFieldArray,
-  useWatch,
-  Control,
-} from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { IRequest } from "./IRequest";
 import { requestAPI } from "./RequestAPI";
 import toast from "react-hot-toast";
 import { IUser } from "../users/IUser";
 import { useState } from "react";
 import { userAPI } from "../users/UserAPI";
-import { IRequestLine } from "../requestLines/IRequestLine";
-import { IProduct } from "../products/IProduct";
-import { productAPI } from "../products/ProductAPI";
-import { requestLineAPI } from "../requestLines/RequestLineAPI";
-
-let emptyRequestLine: IRequestLine = {
-  id: undefined,
-  quantity: 0,
-  requestId: undefined,
-  request: {} as IRequest,
-  productId: undefined,
-  product: {} as IProduct,
-};
 
 let emptyRequest: IRequest = {
   id: undefined,
@@ -37,73 +18,30 @@ let emptyRequest: IRequest = {
   total: 0,
   userId: 417,
   user: {} as IUser,
-  lines: [emptyRequestLine],
 };
-
-function Total({ control }: { control: Control<IRequestLine[]> }) {
-  const requestLines = useWatch({
-    name: `lines`,
-    control,
-    defaultValue: [],
-  });
-
-  let total = 0;
-  for (const requestLine of requestLines) {
-    total =
-      total + (requestLine.product?.price ?? 0) * (requestLine.quantity ?? 0);
-  }
-  console.log(total);
-
-  return (
-    <span>
-      {new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(total)}
-    </span>
-  );
-}
 
 function RequestForm() {
   const navigate = useNavigate();
   let { id } = useParams<{ id: string }>();
   const [users, setUsers] = useState<IUser[]>([]);
-  const [products, setProducts] = useState<IProduct[]>([]);
 
   async function loadUsers() {
     const data = await userAPI.list();
     setUsers(data);
   }
 
-  async function loadProducts() {
-    const data = await productAPI.list();
-    setProducts(data);
-  }
-
   const {
     register,
     handleSubmit,
-    control,
-    setValue,
-    getValues,
-    watch,
     formState: { errors },
   } = useForm<IRequest>({
     defaultValues: async () => {
-      //these can run in parallel eventually
       await loadUsers();
-      await loadProducts();
       if (!id) return Promise.resolve(emptyRequest);
       const requestId = Number(id);
-      //  let lines = await requestLineAPI.list();
       return await requestAPI.find(requestId);
     },
     mode: "onBlur",
-  });
-
-  const { fields, append, remove } = useFieldArray({
-    name: "lines",
-    control,
   });
 
   const save: SubmitHandler<IRequest> = async (request) => {
@@ -113,18 +51,9 @@ function RequestForm() {
       await requestAPI.put(request);
     }
 
-    for (const requestLine of request.lines) {
-      if (!requestLine.id) {
-        await requestLineAPI.post(requestLine);
-      } else {
-        await requestLineAPI.put(requestLine);
-      }
-    }
     toast.success("Successfully saved.");
     navigate("/requests");
   };
-
-  console.log(watch("lines"));
 
   return (
     <form className="form" onSubmit={handleSubmit(save)}>
@@ -231,145 +160,6 @@ function RequestForm() {
             <div className="invalid-feedback">{errors?.userId?.message}</div>
           </div>
         </div>
-      </div>
-
-      <div className="card p-4">
-        <h5 className="card-title">Items</h5>
-        <table className="table w-75">
-          <thead>
-            <tr>
-              <th>Product</th>
-              <th>Price</th>
-              <th>Quantity</th>
-              <th>Amount</th>
-              <th />
-            </tr>
-          </thead>
-          <tbody>
-            {fields.map((requestLine: IRequestLine, index: number) => {
-              return (
-                <tr key={requestLine.id}>
-                  <td>
-                    <select
-                      {...register(`lines.${index}.productId` as const, {
-                        valueAsNumber: true,
-                        required: "Product is required",
-                      })}
-                      onChange={(event) => {
-                        let productId = Number(event.target.value);
-                        const currentProduct = products.find(
-                          (p) => p.id === productId
-                        );
-                        if (currentProduct) {
-                          setValue(`lines.${index}.product`, currentProduct, {
-                            shouldDirty: true,
-                          });
-                        }
-                      }}
-                      className={`form-select ${
-                        errors?.lines?.[index]?.productId && "is-invalid"
-                      } `}
-                    >
-                      <option value="">Select...</option>
-                      {products.map((p: IProduct) => (
-                        <option key={p.id} value={p.id}>
-                          {p.name}
-                        </option>
-                      ))}
-                    </select>
-                    <div className="invalid-feedback">
-                      {errors?.lines?.[index]?.productId?.message}
-                    </div>
-                  </td>
-                  <td>
-                    <span className="form-label">
-                      {new Intl.NumberFormat("en-US", {
-                        style: "currency",
-                        currency: "USD",
-                      }).format(
-                        getValues().lines?.[index]?.product?.price ?? 0
-                      )}
-                    </span>
-                  </td>
-                  <td>
-                    <input
-                      id="quantity"
-                      {...register(`lines.${index}.quantity` as const, {
-                        required: "Quantity is required",
-                        min: {
-                          value: 1,
-                          message: "Quantity must be at least 1",
-                        },
-                        valueAsNumber: true,
-                      })}
-                      type="number"
-                      className={`form-control ${
-                        errors?.lines?.[index]?.quantity && "is-invalid"
-                      } `}
-                    />
-                    <div className="invalid-feedback">
-                      {errors?.lines?.[index]?.quantity?.message}
-                    </div>
-                  </td>
-                  <td>
-                    <span className="form-label">
-                      {new Intl.NumberFormat("en-US", {
-                        style: "currency",
-                        currency: "USD",
-                      }).format(
-                        (getValues().lines?.[index]?.product?.price ?? 0) *
-                          getValues().lines?.[index]?.quantity
-                      )}
-                    </span>
-                  </td>
-                  <td>
-                    <button
-                      type="button"
-                      className="btn btn-outline"
-                      onClick={() => remove(index)}
-                    >
-                      <svg
-                        className="bi pe-none me-2"
-                        width={16}
-                        height={16}
-                        fill="#007AFF"
-                      >
-                        <use xlinkHref={`${bootstrapIcons}#trash`} />
-                      </svg>
-                    </button>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-          <tfoot>
-            <tr>
-              <td>
-                <button
-                  type="button"
-                  className="btn btn-outline-primary"
-                  onClick={() => append(emptyRequestLine)}
-                >
-                  <svg
-                    className="bi pe-none me-2"
-                    width={16}
-                    height={16}
-                    fill="#007AFF"
-                  >
-                    <use xlinkHref={`${bootstrapIcons}#plus-circle`} />
-                  </svg>
-                  Add a line
-                </button>
-              </td>
-              <td />
-              <td />
-              <td>
-                <Total control={control} />
-              </td>
-              <td />
-            </tr>
-          </tfoot>
-        </table>
       </div>
 
       <div className="row-4 d-flex flex-row justify-content-end w-100 gap-4">
