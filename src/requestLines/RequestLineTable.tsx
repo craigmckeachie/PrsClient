@@ -36,6 +36,12 @@ function RequestLineTable({ requestId }: RequestLineTableProps) {
     setShowForm(false);
   }
 
+  function handleLineCancel(){
+    setShowForm(false);
+  }
+
+
+
   useEffect(() => {
     loadProducts();
     loadRequestLines();
@@ -158,6 +164,7 @@ function RequestLineTable({ requestId }: RequestLineTableProps) {
           requestId={requestId}
           requestLine={requestLineBeingEdited}
           onSave={save}
+          onCancel={handleLineCancel}
         />
       )}
     </div>

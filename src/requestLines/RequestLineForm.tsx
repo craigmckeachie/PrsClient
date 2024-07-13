@@ -13,12 +13,14 @@ interface RequestLineFormProps {
   requestId: number;
   requestLine?: IRequestLine | undefined;
   onSave: () => void;
+  onCancel: () => void;
 }
 
 function RequestLineForm({
   requestId,
   requestLine,
   onSave,
+  onCancel,
 }: RequestLineFormProps) {
   const [products, setProducts] = useState<IProduct[]>([]);
   const [selectedProduct, setSelectedProduct] = useState<IProduct | undefined>(
@@ -77,8 +79,8 @@ function RequestLineForm({
       await requestLineAPI.put(requestLine);
     }
 
+    toast.success("Successfully saved.", { position: "bottom-center" });
     onSave();
-    toast.success("Successfully saved.");
   };
 
   return (
@@ -160,9 +162,13 @@ function RequestLineForm({
         </div> */}
 
         <div className="d-flex justify-content-end mt-4">
-          <Link to={"/requests"} className="btn btn-outline-primary me-2">
+          <button
+            type="button"
+            onClick={onCancel}
+            className="btn btn-outline-primary me-2"
+          >
             Cancel
-          </Link>
+          </button>
           <button type="submit" className="btn btn-primary">
             <svg
               className="bi pe-none me-2"
