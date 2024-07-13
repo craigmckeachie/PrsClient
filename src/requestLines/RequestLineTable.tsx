@@ -132,7 +132,7 @@ function RequestLineTable({ requestId }: RequestLineTableProps) {
                 className="btn btn-outline-primary"
                 onClick={() => {
                   setRequestLineBeingEdited(undefined);
-                  loadRequestLines();
+                  // loadRequestLines();
                   setShowForm(true);
                 }}
               >

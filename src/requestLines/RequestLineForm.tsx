@@ -29,7 +29,7 @@ function RequestLineForm({
     id: undefined,
     quantity: 0,
     requestId: requestId,
-    productId: undefined,
+    productId: 0,
   };
 
   async function loadProducts() {
@@ -41,6 +41,7 @@ function RequestLineForm({
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors },
   } = useForm<IRequestLine>({
     defaultValues: async () => {
@@ -53,7 +54,6 @@ function RequestLineForm({
       );
 
       setSelectedProduct(currentProduct);
-      // return Promise.resolve({ ...requestLine });
       return Promise.resolve(requestLine);
     },
   });
@@ -67,15 +67,15 @@ function RequestLineForm({
 
   useEffect(() => {
     if (requestLine) {
+      let currentProduct = products.find(
+        (p: IProduct) => p?.id === requestLine?.productId
+      );
+      setSelectedProduct(currentProduct);
       reset(requestLine);
     } else {
+      setSelectedProduct(undefined);
       reset(emptyRequestLine);
     }
-
-    let currentProduct = products.find(
-      (p: IProduct) => p?.id === requestLine?.productId
-    );
-    setSelectedProduct(currentProduct);
   }, [requestLine]);
 
   const save: SubmitHandler<IRequestLine> = async (requestLine) => {
@@ -113,7 +113,7 @@ function RequestLineForm({
             }}
             className={`form-select ${errors?.productId && "is-invalid"} `}
           >
-            <option value="">Select...</option>
+            <option value="0">Select...</option>
             {products.map((p: IProduct) => (
               <option key={p.id} value={p.id}>
                 {p.name}
