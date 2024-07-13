@@ -1,4 +1,3 @@
-import { Link, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import bootstrapIcons from "../assets/bootstrap-icons.svg";
 import { IRequestLine } from "../requestLines/IRequestLine";
@@ -13,8 +12,6 @@ interface RequestLineTableProps {
 }
 
 function RequestLineTable({ requestId }: RequestLineTableProps) {
-  const navigate = useNavigate();
-
   const [products, setProducts] = useState<IProduct[]>([]);
   const [requestLines, setRequestLines] = useState<IRequestLine[]>([]);
   const [requestLineBeingEdited, setRequestLineBeingEdited] = useState<
@@ -33,14 +30,10 @@ function RequestLineTable({ requestId }: RequestLineTableProps) {
     setRequestLines(data);
   }
 
-  function toggleFormVisibility() {
-    setShowForm((toggle) => !toggle);
-  }
-
   function save() {
     setRequestLineBeingEdited(undefined);
     loadRequestLines();
-    toggleFormVisibility();
+    setShowForm(false);
   }
 
   useEffect(() => {
@@ -89,7 +82,7 @@ function RequestLineTable({ requestId }: RequestLineTableProps) {
                     onClick={() => {
                       if (requestLine) {
                         setRequestLineBeingEdited(requestLine);
-                        toggleFormVisibility();
+                        setShowForm(true);
                       }
                     }}
                   >
@@ -138,7 +131,9 @@ function RequestLineTable({ requestId }: RequestLineTableProps) {
                 type="button"
                 className="btn btn-outline-primary"
                 onClick={() => {
-                  toggleFormVisibility();
+                  setRequestLineBeingEdited(undefined);
+                  loadRequestLines();
+                  setShowForm(true);
                 }}
               >
                 <svg

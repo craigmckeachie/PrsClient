@@ -21,9 +21,9 @@ function RequestLineForm({
   onSave,
 }: RequestLineFormProps) {
   const [products, setProducts] = useState<IProduct[]>([]);
-  // const [selectedProduct, setSelectedProduct] = useState<IProduct | undefined>(
-  //   undefined
-  // );
+  const [selectedProduct, setSelectedProduct] = useState<IProduct | undefined>(
+    undefined
+  );
 
   let emptyRequestLine: IRequestLine = {
     id: undefined,
@@ -41,21 +41,41 @@ function RequestLineForm({
     register,
     handleSubmit,
     reset,
-    setValue,
-    getValues,
     formState: { errors },
   } = useForm<IRequestLine>({
     defaultValues: async () => {
       await loadProducts();
-      if (!requestLine) return Promise.resolve(emptyRequestLine);
-      return Promise.resolve({ ...requestLine });
-      // return await requestLineAPI.find(requestLine.id);
+      if (!requestLine) {
+        return Promise.resolve(emptyRequestLine);
+      }
+      let currentProduct = await products.find(
+        (p) => p.id === requestLine.productId
+      );
+
+      setSelectedProduct(currentProduct);
+      // return Promise.resolve({ ...requestLine });
+      return Promise.resolve(requestLine);
     },
-    // mode: "onBlur",
   });
 
   useEffect(() => {
-    reset(requestLine);
+    let currentProduct = products.find(
+      (p: IProduct) => p?.id === requestLine?.productId
+    );
+    setSelectedProduct(currentProduct);
+  }, [products]);
+
+  useEffect(() => {
+    if (requestLine) {
+      reset(requestLine);
+    } else {
+      reset(emptyRequestLine);
+    }
+
+    let currentProduct = products.find(
+      (p: IProduct) => p?.id === requestLine?.productId
+    );
+    setSelectedProduct(currentProduct);
   }, [requestLine]);
 
   const save: SubmitHandler<IRequestLine> = async (requestLine) => {
@@ -68,9 +88,6 @@ function RequestLineForm({
     onSave();
     toast.success("Successfully saved.");
   };
-
-  // let product = products.find(p=> p.id === getValues().productId);
-  // let currentProduct: IProduct | undefined;
 
   return (
     <form className="form w-50" onSubmit={handleSubmit(save)}>
@@ -88,11 +105,11 @@ function RequestLineForm({
               required: "Product is required",
             })}
             onChange={(event) => {
-              // let productId = Number(event.target.value);
-              // const product = products.find((p) => p.id === productId);
-              // if (product) {
-              //   setSelectedProduct(product);
-              // }
+              let productId = Number(event.target.value);
+              const product = products.find((p) => p.id === productId);
+              if (product) {
+                setSelectedProduct(product);
+              }
             }}
             className={`form-select ${errors?.productId && "is-invalid"} `}
           >
@@ -105,7 +122,7 @@ function RequestLineForm({
           </select>
           <div className="invalid-feedback">{errors?.productId?.message}</div>
         </div>
-        {/* 
+
         <div className="mb-3">
           <label htmlFor="price" className="form-label">
             Price
@@ -116,7 +133,7 @@ function RequestLineForm({
               currency: "USD",
             }).format(selectedProduct?.price ?? 0)}
           </span>
-        </div> */}
+        </div>
 
         <div className="mb-3">
           <label htmlFor="quantity" className="form-label">
