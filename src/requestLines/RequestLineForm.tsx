@@ -72,6 +72,13 @@ function RequestLineForm({
     }
   }, [requestLine]);
 
+  useEffect(() => {
+    let currentProduct = products.find(
+      (p: IProduct) => p?.id === requestLine?.productId
+    );
+    setSelectedProduct(currentProduct);
+  }, [products]);
+
   const save: SubmitHandler<IRequestLine> = async (requestLine) => {
     if (!requestLine.id) {
       await requestLineAPI.post(requestLine);
