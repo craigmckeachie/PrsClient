@@ -36,11 +36,9 @@ function RequestLineTable({ requestId }: RequestLineTableProps) {
     setShowForm(false);
   }
 
-  function handleLineCancel(){
+  function handleLineCancel() {
     setShowForm(false);
   }
-
-
 
   useEffect(() => {
     loadProducts();
@@ -105,14 +103,20 @@ function RequestLineTable({ requestId }: RequestLineTableProps) {
                     type="button"
                     className="btn btn-outline"
                     onClick={async () => {
-                      if (requestLine.id) {
-                        await requestLineAPI.delete(requestLine.id);
-                        setRequestLines(
-                          requestLines.filter(
-                            (line) => line.id !== requestLine.id
-                          )
-                        );
-                        toast.success("Successfully deleted.");
+                      if (
+                        confirm(
+                          "Are you sure you want to delete this line item?"
+                        )
+                      ) {
+                        if (requestLine.id) {
+                          await requestLineAPI.delete(requestLine.id);
+                          setRequestLines(
+                            requestLines.filter(
+                              (line) => line.id !== requestLine.id
+                            )
+                          );
+                          toast.success("Successfully deleted.");
+                        }
                       }
                     }}
                   >
