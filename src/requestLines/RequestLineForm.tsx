@@ -43,6 +43,8 @@ function RequestLineForm({
     register,
     handleSubmit,
     reset,
+    getValues,
+    watch,
     formState: { errors },
   } = useForm<IRequestLine>({
     defaultValues: async () => {
@@ -89,6 +91,8 @@ function RequestLineForm({
     toast.success("Successfully saved.", { position: "bottom-center" });
     onSave();
   };
+
+  let quantity = watch("quantity");
 
   return (
     <form className="form w-50" onSubmit={handleSubmit(save)}>
@@ -156,7 +160,7 @@ function RequestLineForm({
           <div className="invalid-feedback">{errors?.quantity?.message}</div>
         </div>
 
-        {/* <div className="mb-3">
+        <div className="mb-3">
           <label htmlFor="amount" className="form-label">
             Amount
           </label>
@@ -164,9 +168,9 @@ function RequestLineForm({
             {new Intl.NumberFormat("en-US", {
               style: "currency",
               currency: "USD",
-            }).format(selectedProduct?.price ?? 0 * getValues()?.quantity)}
+            }).format((selectedProduct?.price ?? 0) * quantity)}
           </span>
-        </div> */}
+        </div>
 
         <div className="d-flex justify-content-end mt-4">
           <button
