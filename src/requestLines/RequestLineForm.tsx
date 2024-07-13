@@ -41,7 +41,6 @@ function RequestLineForm({
     register,
     handleSubmit,
     reset,
-    setValue,
     formState: { errors },
   } = useForm<IRequestLine>({
     defaultValues: async () => {
@@ -57,13 +56,6 @@ function RequestLineForm({
       return Promise.resolve(requestLine);
     },
   });
-
-  useEffect(() => {
-    let currentProduct = products.find(
-      (p: IProduct) => p?.id === requestLine?.productId
-    );
-    setSelectedProduct(currentProduct);
-  }, [products]);
 
   useEffect(() => {
     if (requestLine) {
