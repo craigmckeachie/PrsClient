@@ -18,7 +18,7 @@ function RequestLineTable({ requestId }: RequestLineTableProps) {
     IRequestLine | undefined
   >(undefined);
   const [showForm, setShowForm] = useState(false);
-  const [total, setTotal] = useState(0);
+  const total = calculateTotal();
 
   async function loadProducts() {
     const data = await productAPI.list();
@@ -46,13 +46,9 @@ function RequestLineTable({ requestId }: RequestLineTableProps) {
     loadRequestLines();
   }, []);
 
-  useEffect(() => {
-    const total = calculateTotal();
-    setTotal(total);
-  }, [products]);
 
   function calculateTotal() {
-    const totalAmount = requestLines
+    const total = requestLines
       .map((requestLine) => {
         const productId = requestLine.productId;
         const product = products.find((p) => p.id === productId);
@@ -62,7 +58,7 @@ function RequestLineTable({ requestId }: RequestLineTableProps) {
       .reduce((accumulator, amount) => {
         return accumulator + amount;
       }, 0);
-    return totalAmount;
+    return total;
   }
 
   return (
