@@ -8,6 +8,7 @@ import { IUser } from "../users/IUser";
 import { useState } from "react";
 import { userAPI } from "../users/UserAPI";
 import RequestLineTable from "../requestLines/RequestLineTable";
+import { useUserContext } from "../App";
 
 let emptyRequest: IRequest = {
   id: undefined,
@@ -17,13 +18,14 @@ let emptyRequest: IRequest = {
   deliveryMode: "",
   status: "New",
   total: 0,
-  userId: 417,
+  userId: undefined,
 };
 
 function RequestForm() {
   const navigate = useNavigate();
   let { id } = useParams<{ id: string }>();
   const [users, setUsers] = useState<IUser[]>([]);
+  const { user } = useUserContext();
 
   async function loadUsers() {
     const data = await userAPI.list();
@@ -39,6 +41,7 @@ function RequestForm() {
   } = useForm<IRequest>({
     defaultValues: async () => {
       await loadUsers();
+      emptyRequest.userId = user?.id ?? 417;
       if (!id) return Promise.resolve(emptyRequest);
       const requestId = Number(id);
       return await requestAPI.find(requestId);
