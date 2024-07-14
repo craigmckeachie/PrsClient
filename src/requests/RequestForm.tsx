@@ -32,6 +32,10 @@ function RequestForm() {
     setUsers(data);
   }
 
+  function isNew() {
+    return Boolean(id);
+  }
+
   const {
     register,
     handleSubmit,
@@ -139,7 +143,7 @@ function RequestForm() {
                 {...register("status", {
                   required: "Status is required",
                 })}
-                disabled
+                disabled={!isNew()}
                 defaultValue="New"
                 className={`form-select ${errors?.status && "is-invalid"} `}
               >

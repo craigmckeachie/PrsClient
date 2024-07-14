@@ -25,7 +25,7 @@ export const requestAPI = {
       },
     })
       .then(checkStatus)
-      .then(parseJSON);
+      // .then(parseJSON);
   },
 
   put(request: IRequest) {
@@ -37,12 +37,12 @@ export const requestAPI = {
       },
     })
       .then(checkStatus)
-      .then(parseJSON);
+      // .then(parseJSON);
   },
 
   delete(id: number) {
     return fetch(`${url}/${id}`, { method: "DELETE" })
       .then(checkStatus)
-      .then(parseJSON);
+      // .then(parseJSON);
   },
 };
