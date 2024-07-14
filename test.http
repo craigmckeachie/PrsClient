@@ -39,5 +39,11 @@ Content-Type: application/json
 ### DELETE User
 DELETE https://localhost:7249/api/users/451
 
+### GET Vendors
+GET https://localhost:7249/api/vendors
+
+### GET Products
+GET https://localhost:7249/api/products
+
 
 
