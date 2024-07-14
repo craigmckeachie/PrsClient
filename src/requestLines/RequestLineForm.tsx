@@ -132,12 +132,12 @@ function RequestLineForm({
           <label htmlFor="price" className="form-label">
             Price
           </label>
-          <span className="form-label">
+          <div className="form-label">
             {new Intl.NumberFormat("en-US", {
               style: "currency",
               currency: "USD",
             }).format(selectedProduct?.price ?? 0)}
-          </span>
+          </div>
         </div>
 
         <div className="mb-3">
@@ -164,12 +164,12 @@ function RequestLineForm({
           <label htmlFor="amount" className="form-label">
             Amount
           </label>
-          <span className="form-label">
+          <div className="form-label">
             {new Intl.NumberFormat("en-US", {
               style: "currency",
               currency: "USD",
             }).format((selectedProduct?.price ?? 0) * quantity)}
-          </span>
+          </div>
         </div>
 
         <div className="d-flex justify-content-end mt-4">

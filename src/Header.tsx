@@ -1,5 +1,6 @@
 // import userProfileImage from "./assets/users/image-34.png";
 import Dropdown from "react-bootstrap/Dropdown";
+import { Link } from "react-router-dom";
 
 function Header() {
   return (
@@ -40,13 +41,6 @@ function Header() {
               variant="light"
               className="d-flex text-secondary align-items-center link-body-emphasis text-decoration-none"
             >
-              {/* <img
-                src="/images/users/image-34.png"
-                alt="profile image"
-                width={32}
-                height={32}
-                className="rounded-circle me-2"
-              /> */}
               <div
                 style={{ width: "3rem", height: "3rem" }}
                 className="d-flex bg-primary-subtle fs-5 text-secondary align-items-center justify-content-center rounded-circle me-2"
@@ -59,7 +53,9 @@ function Header() {
               <Dropdown.Item href="#">Settings</Dropdown.Item>
               <Dropdown.Item href="#">Profile action</Dropdown.Item>
               <Dropdown.Divider />
-              <Dropdown.Item href="#">Sign out</Dropdown.Item>
+              <Dropdown.Item as={Link} to={"/signin"}>
+                Sign out
+              </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
         </div>

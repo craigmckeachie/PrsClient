@@ -15,6 +15,7 @@ import UserCreatePage from "./users/UserCreatePage.tsx";
 import UserEditPage from "./users/UserEditPage.tsx";
 import RequestCreatePage from "./requests/RequestCreatePage.tsx";
 import RequestEditPage from "./requests/RequestEditPage.tsx";
+import SignInPage from "./account/SignInPage.tsx";
 
 const router = createBrowserRouter([
   {
@@ -72,6 +73,7 @@ const router = createBrowserRouter([
       },
     ],
   },
+  { path: "/signin", element: <SignInPage /> },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
