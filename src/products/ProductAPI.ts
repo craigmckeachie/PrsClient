@@ -29,9 +29,8 @@ export const productAPI = {
       headers: {
         "Content-Type": "application/json",
       },
-    })
-      .then(checkStatus)
-      .then(parseJSON);
+    }).then(checkStatus);
+    // .then(parseJSON);
   },
 
   put(product: IProduct) {
@@ -41,14 +40,12 @@ export const productAPI = {
       headers: {
         "Content-Type": "application/json",
       },
-    })
-      .then(checkStatus)
-      .then(parseJSON);
+    }).then(checkStatus);
+    // .then(parseJSON);
   },
 
   delete(id: number) {
-    return fetch(`${url}/${id}`, { method: "DELETE" })
-      .then(checkStatus)
-      .then(parseJSON);
+    return fetch(`${url}/${id}`, { method: "DELETE" }).then(checkStatus);
+    // .then(parseJSON);
   },
 };

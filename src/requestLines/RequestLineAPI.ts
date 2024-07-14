@@ -21,9 +21,8 @@ export const requestLineAPI = {
       headers: {
         "Content-Type": "application/json",
       },
-    })
-      .then(checkStatus)
-      .then(parseJSON);
+    }).then(checkStatus);
+    // .then(parseJSON);
   },
 
   put(requestLine: IRequestLine) {
@@ -33,14 +32,11 @@ export const requestLineAPI = {
       headers: {
         "Content-Type": "application/json",
       },
-    })
-      .then(checkStatus)
-      .then(parseJSON);
+    }).then(checkStatus);
+    // .then(parseJSON);
   },
 
   delete(id: number) {
-    return fetch(`${url}/${id}`, { method: "DELETE" })
-      .then(checkStatus)
-      .then(parseJSON);
+    return fetch(`${url}/${id}`, { method: "DELETE" }).then(checkStatus);
   },
 };

@@ -14,15 +14,14 @@ export const userAPI = {
 
   findByAccount(username: string, password: string): Promise<IUser> {
     return (
-      // fetch(`${url}/${username}/${password}`)
-      fetch(`${url}?username=${username}&password=${password}`)
+      fetch(`${url}/${username}/${password}`)
+        // fetch(`${url}?username=${username}&password=${password}`)
         .then(checkStatus)
         .then(parseJSON)
-        //comment this then when using PRS API
-        .then((users) => {
-          return users[0] ?? undefined;
-        })
-        
+      //comment this then when using PRS API
+      // .then((users) => {
+      //   return users[0] ?? undefined;
+      // })
     );
   },
 
@@ -33,9 +32,8 @@ export const userAPI = {
       headers: {
         "Content-Type": "application/json",
       },
-    })
-      .then(checkStatus)
-      .then(parseJSON);
+    }).then(checkStatus);
+    // .then(parseJSON);
   },
 
   put(user: IUser) {
@@ -45,14 +43,12 @@ export const userAPI = {
       headers: {
         "Content-Type": "application/json",
       },
-    })
-      .then(checkStatus)
-      .then(parseJSON);
+    }).then(checkStatus);
+    // .then(parseJSON);
   },
 
   delete(id: number) {
-    return fetch(`${url}/${id}`, { method: "DELETE" })
-      .then(checkStatus)
-      .then(parseJSON);
+    return fetch(`${url}/${id}`, { method: "DELETE" }).then(checkStatus);
+    // .then(parseJSON);
   },
 };

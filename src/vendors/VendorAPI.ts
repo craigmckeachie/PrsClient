@@ -24,9 +24,8 @@ export const vendorAPI = {
       headers: {
         "Content-Type": "application/json",
       },
-    })
-      .then(checkStatus)
-      .then(parseJSON);
+    }).then(checkStatus);
+    // .then(parseJSON);
   },
 
   put(vendor: IVendor) {
@@ -36,14 +35,12 @@ export const vendorAPI = {
       headers: {
         "Content-Type": "application/json",
       },
-    })
-      .then(checkStatus)
-      .then(parseJSON);
+    }).then(checkStatus);
+    // .then(parseJSON);
   },
 
   delete(id: number) {
-    return fetch(`${url}/${id}`, { method: "DELETE" })
-      .then(checkStatus)
-      .then(parseJSON);
+    return fetch(`${url}/${id}`, { method: "DELETE" }).then(checkStatus);
+    // .then(parseJSON);
   },
 };

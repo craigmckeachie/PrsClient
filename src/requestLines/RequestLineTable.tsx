@@ -14,9 +14,7 @@ interface RequestLineTableProps {
 function RequestLineTable({ requestId }: RequestLineTableProps) {
   const [products, setProducts] = useState<IProduct[]>([]);
   const [requestLines, setRequestLines] = useState<IRequestLine[]>([]);
-  const [requestLineBeingEdited, setRequestLineBeingEdited] = useState<
-    IRequestLine | undefined
-  >(undefined);
+  const [requestLineBeingEdited, setRequestLineBeingEdited] = useState<IRequestLine | undefined>(undefined);
   const [showForm, setShowForm] = useState(false);
   const total = calculateTotal();
 
@@ -47,8 +45,8 @@ function RequestLineTable({ requestId }: RequestLineTableProps) {
   }, []);
 
   function calculateTotal() {
-    const total = requestLines
-      .map((requestLine) => {
+    if(!requestLines) return 0;
+    const total = requestLines.map((requestLine) => {
         const productId = requestLine.productId;
         const product = products.find((p) => p.id === productId);
         const amount = (product?.price ?? 0) * requestLine?.quantity;
@@ -75,9 +73,7 @@ function RequestLineTable({ requestId }: RequestLineTableProps) {
         </thead>
         <tbody>
           {requestLines.map((requestLine: IRequestLine) => {
-            const product = products.find(
-              (p) => p.id === requestLine.productId
-            );
+            const product = products.find((p) => p.id === requestLine.productId);
             return (
               <tr key={requestLine.id}>
                 <td>{product?.name}</td>
@@ -105,12 +101,7 @@ function RequestLineTable({ requestId }: RequestLineTableProps) {
                       }
                     }}
                   >
-                    <svg
-                      className="bi pe-none me-2"
-                      width={16}
-                      height={16}
-                      fill="#007AFF"
-                    >
+                    <svg className="bi pe-none me-2" width={16} height={16} fill="#007AFF">
                       <use xlinkHref={`${bootstrapIcons}#pencil`} />
                     </svg>
                   </button>
@@ -118,29 +109,16 @@ function RequestLineTable({ requestId }: RequestLineTableProps) {
                     type="button"
                     className="btn btn-outline"
                     onClick={async () => {
-                      if (
-                        confirm(
-                          "Are you sure you want to delete this line item?"
-                        )
-                      ) {
+                      if (confirm("Are you sure you want to delete this line item?")) {
                         if (requestLine.id) {
                           await requestLineAPI.delete(requestLine.id);
-                          setRequestLines(
-                            requestLines.filter(
-                              (line) => line.id !== requestLine.id
-                            )
-                          );
+                          setRequestLines(requestLines.filter((line) => line.id !== requestLine.id));
                           toast.success("Successfully deleted.");
                         }
                       }
                     }}
                   >
-                    <svg
-                      className="bi pe-none me-2"
-                      width={16}
-                      height={16}
-                      fill="#007AFF"
-                    >
+                    <svg className="bi pe-none me-2" width={16} height={16} fill="#007AFF">
                       <use xlinkHref={`${bootstrapIcons}#trash`} />
                     </svg>
                   </button>
@@ -160,12 +138,7 @@ function RequestLineTable({ requestId }: RequestLineTableProps) {
                   setShowForm(true);
                 }}
               >
-                <svg
-                  className="bi pe-none me-2"
-                  width={16}
-                  height={16}
-                  fill="#007AFF"
-                >
+                <svg className="bi pe-none me-2" width={16} height={16} fill="#007AFF">
                   <use xlinkHref={`${bootstrapIcons}#plus-circle`} />
                 </svg>
                 Add a line

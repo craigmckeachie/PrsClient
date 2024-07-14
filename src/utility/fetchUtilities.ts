@@ -1,4 +1,5 @@
-export const BASE_URL = "http://localhost:7249";
+// export const BASE_URL = "http://localhost:7249";
+export const BASE_URL = "https://localhost:7249/api";
 
 export function translateStatusToErrorMessage(status: number) {
   switch (status) {
