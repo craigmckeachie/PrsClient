@@ -18,10 +18,11 @@ export const userAPI = {
       fetch(`${url}?username=${username}&password=${password}`)
         .then(checkStatus)
         .then(parseJSON)
+        //comment this then when using PRS API
         .then((users) => {
-          //comment this then when using PRS API
           return users[0] ?? undefined;
         })
+        
     );
   },
 
