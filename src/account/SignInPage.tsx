@@ -1,6 +1,8 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { userAPI } from "../users/UserAPI";
+import { useUserContext } from "../App";
+
 
 interface IAccount {
   username: string;
@@ -23,13 +25,15 @@ function SignInPage() {
       return emptyAccount;
     },
   });
+  const { setUser } = useUserContext();
 
   const signin: SubmitHandler<IAccount> = async (account) => {
     const user = await userAPI.findByAccount(
       account.username,
       account.password
     );
-    console.log(user);
+
+    setUser(user);
 
     navigate("/requests");
   };

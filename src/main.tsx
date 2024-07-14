@@ -16,6 +16,7 @@ import UserEditPage from "./users/UserEditPage.tsx";
 import RequestCreatePage from "./requests/RequestCreatePage.tsx";
 import RequestEditPage from "./requests/RequestEditPage.tsx";
 import SignInPage from "./account/SignInPage.tsx";
+import Layout from "./Layout.tsx";
 
 const router = createBrowserRouter([
   {
@@ -23,57 +24,62 @@ const router = createBrowserRouter([
     element: <App />,
     errorElement: <ErrorPage />,
     children: [
+      { path: "signin", element: <SignInPage /> },
       {
-        path: "requests",
-        element: <RequestsPage />,
-      },
-      {
-        path: "requests/create",
-        element: <RequestCreatePage />,
-      },
-      {
-        path: "requests/edit/:id",
-        element: <RequestEditPage />,
-      },
-      {
-        path: "products",
-        element: <ProductsPage />,
-      },
-      {
-        path: "products/create",
-        element: <ProductCreatePage />,
-      },
-      {
-        path: "products/edit/:id",
-        element: <ProductEditPage />,
-      },
-      {
-        path: "vendors",
-        element: <VendorsPage />,
-      },
-      {
-        path: "vendors/create",
-        element: <VendorCreatePage />,
-      },
-      {
-        path: "vendors/edit/:id",
-        element: <VendorEditPage />,
-      },
-      {
-        path: "users",
-        element: <UsersPage />,
-      },
-      {
-        path: "users/create",
-        element: <UserCreatePage />,
-      },
-      {
-        path: "users/edit/:id",
-        element: <UserEditPage />,
+        element: <Layout />,
+        children: [
+          {
+            path: "requests",
+            element: <RequestsPage />,
+          },
+          {
+            path: "requests/create",
+            element: <RequestCreatePage />,
+          },
+          {
+            path: "requests/edit/:id",
+            element: <RequestEditPage />,
+          },
+          {
+            path: "products",
+            element: <ProductsPage />,
+          },
+          {
+            path: "products/create",
+            element: <ProductCreatePage />,
+          },
+          {
+            path: "products/edit/:id",
+            element: <ProductEditPage />,
+          },
+          {
+            path: "vendors",
+            element: <VendorsPage />,
+          },
+          {
+            path: "vendors/create",
+            element: <VendorCreatePage />,
+          },
+          {
+            path: "vendors/edit/:id",
+            element: <VendorEditPage />,
+          },
+          {
+            path: "users",
+            element: <UsersPage />,
+          },
+          {
+            path: "users/create",
+            element: <UserCreatePage />,
+          },
+          {
+            path: "users/edit/:id",
+            element: <UserEditPage />,
+          },
+        ],
       },
     ],
   },
-  { path: "/signin", element: <SignInPage /> },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(

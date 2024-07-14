@@ -1,8 +1,11 @@
 // import userProfileImage from "./assets/users/image-34.png";
 import Dropdown from "react-bootstrap/Dropdown";
 import { Link } from "react-router-dom";
+import { useUserContext } from "./App";
 
 function Header() {
+  const { user } = useUserContext();
+
   return (
     <header>
       <div className="navbar bg-body-tertiary py-4 border-bottom">
@@ -45,9 +48,13 @@ function Header() {
                 style={{ width: "3rem", height: "3rem" }}
                 className="d-flex bg-primary-subtle fs-5 text-secondary align-items-center justify-content-center rounded-circle me-2"
               >
-                GK
+                {user?.firstname.substring(0, 1)}
+                {user?.lastname.substring(0, 1)}
               </div>
-              <strong> Gianni Kertzmann</strong>
+              <strong>
+                {" "}
+                {user?.firstname} {user?.lastname}
+              </strong>
             </Dropdown.Toggle>
             <Dropdown.Menu>
               <Dropdown.Item href="#">Settings</Dropdown.Item>

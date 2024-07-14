@@ -5,7 +5,7 @@ import { IUser } from "./IUser";
 import { userAPI } from "./UserAPI";
 import toast from "react-hot-toast";
 
-let emptyUser: IUser = {
+export let emptyUser: IUser = {
   id: undefined,
   username: "",
   password: "",

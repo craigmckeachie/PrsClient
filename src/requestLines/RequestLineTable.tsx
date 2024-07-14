@@ -46,13 +46,12 @@ function RequestLineTable({ requestId }: RequestLineTableProps) {
     loadRequestLines();
   }, []);
 
-
   function calculateTotal() {
     const total = requestLines
       .map((requestLine) => {
         const productId = requestLine.productId;
         const product = products.find((p) => p.id === productId);
-        const amount = (product?.price ?? 0) * requestLine?.quantity ?? 0;
+        const amount = (product?.price ?? 0) * requestLine?.quantity;
         return amount;
       })
       .reduce((accumulator, amount) => {
