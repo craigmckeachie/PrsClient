@@ -18,6 +18,7 @@ function RequestLineTable({ requestId }: RequestLineTableProps) {
     IRequestLine | undefined
   >(undefined);
   const [showForm, setShowForm] = useState(false);
+  const [total, setTotal] = useState(0);
 
   async function loadProducts() {
     const data = await productAPI.list();
@@ -44,6 +45,25 @@ function RequestLineTable({ requestId }: RequestLineTableProps) {
     loadProducts();
     loadRequestLines();
   }, []);
+
+  useEffect(() => {
+    const total = calculateTotal();
+    setTotal(total);
+  }, [products]);
+
+  function calculateTotal() {
+    const totalAmount = requestLines
+      .map((requestLine) => {
+        const productId = requestLine.productId;
+        const product = products.find((p) => p.id === productId);
+        const amount = (product?.price ?? 0) * requestLine?.quantity ?? 0;
+        return amount;
+      })
+      .reduce((accumulator, amount) => {
+        return accumulator + amount;
+      }, 0);
+    return totalAmount;
+  }
 
   return (
     <div className="card p-4 mt-5">
@@ -158,7 +178,13 @@ function RequestLineTable({ requestId }: RequestLineTableProps) {
             </td>
             <td />
             <td />
-            <td>$0.00</td>
+            <td>
+              {" "}
+              {new Intl.NumberFormat("en-US", {
+                style: "currency",
+                currency: "USD",
+              }).format(total)}
+            </td>
             <td />
           </tr>
         </tfoot>
