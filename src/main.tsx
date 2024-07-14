@@ -17,6 +17,7 @@ import RequestCreatePage from "./requests/RequestCreatePage.tsx";
 import RequestEditPage from "./requests/RequestEditPage.tsx";
 import SignInPage from "./account/SignInPage.tsx";
 import Layout from "./Layout.tsx";
+import IndexPage from "./IndexPage.tsx";
 
 const router = createBrowserRouter([
   {
@@ -28,6 +29,7 @@ const router = createBrowserRouter([
       {
         element: <Layout />,
         children: [
+          {index: true, element: <IndexPage/> },
           {
             path: "requests",
             element: <RequestsPage />,
