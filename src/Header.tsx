@@ -1,10 +1,16 @@
-// import userProfileImage from "./assets/users/image-34.png";
+import bootstrapIcons from "./assets/bootstrap-icons.svg";
 import Dropdown from "react-bootstrap/Dropdown";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useUserContext } from "./App";
 
 function Header() {
-  const { user } = useUserContext();
+  const { user, setUser } = useUserContext();
+  const navigate = useNavigate();
+
+  function signout() {
+    setUser(undefined);
+    navigate("/signin");
+  }
 
   return (
     <header>
@@ -37,34 +43,47 @@ function Header() {
               Purchase Request System
             </span>
           </Link>
-
-          <Dropdown className="me-4">
-            <Dropdown.Toggle
-              as="a"
-              variant="light"
-              className="d-flex text-secondary align-items-center link-body-emphasis text-decoration-none"
-            >
-              <div
-                style={{ width: "3rem", height: "3rem" }}
-                className="d-flex bg-primary-subtle fs-5 text-secondary align-items-center justify-content-center rounded-circle me-2"
+          {user ? (
+            <Dropdown className="me-4">
+              <Dropdown.Toggle
+                as="a"
+                variant="light"
+                className="d-flex text-secondary align-items-center link-body-emphasis text-decoration-none"
               >
-                {user?.firstname.substring(0, 1)}
-                {user?.lastname.substring(0, 1)}
-              </div>
-              <strong>
-                {" "}
-                {user?.firstname} {user?.lastname}
-              </strong>
-            </Dropdown.Toggle>
-            <Dropdown.Menu>
-              <Dropdown.Item href="#">Settings</Dropdown.Item>
-              <Dropdown.Item href="#">Profile action</Dropdown.Item>
-              <Dropdown.Divider />
-              <Dropdown.Item as={Link} to={"/signin"}>
-                Sign out
-              </Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
+                <div
+                  style={{ width: "3rem", height: "3rem" }}
+                  className="d-flex bg-primary-subtle fs-5 text-secondary align-items-center justify-content-center rounded-circle me-2"
+                >
+                  {user?.firstname.substring(0, 1)}
+                  {user?.lastname.substring(0, 1)}
+                </div>
+                <strong>
+                  {" "}
+                  {user?.firstname} {user?.lastname}
+                </strong>
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item href="#">Settings</Dropdown.Item>
+                <Dropdown.Item href="#">Profile action</Dropdown.Item>
+                <Dropdown.Divider />
+                <Dropdown.Item as="button" onClick={signout}>
+                  Sign out
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          ) : (
+            <Link to={`/signin`} className="btn btn-primary">
+              <svg
+                className="bi pe-none me-2"
+                width={32}
+                height={32}
+                fill="#FFFFFF"
+              >
+                <use xlinkHref={`${bootstrapIcons}#person`} />
+              </svg>
+              Sign in
+            </Link>
+          )}
         </div>
       </div>
     </header>
