@@ -41,7 +41,7 @@ function RequestForm() {
   } = useForm<IRequest>({
     defaultValues: async () => {
       await loadUsers();
-      emptyRequest.userId = user?.id ?? 417;
+      emptyRequest.userId = user?.id ?? 0;
       if (!id) return Promise.resolve(emptyRequest);
       const requestId = Number(id);
       return await requestAPI.find(requestId);
