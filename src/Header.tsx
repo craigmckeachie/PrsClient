@@ -10,8 +10,8 @@ function Header() {
     <header>
       <div className="navbar bg-body-tertiary py-4 border-bottom">
         <div className="container-fluid">
-          <a
-            href="/"
+          <Link
+            to={`/`}
             className="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none"
           >
             <svg
@@ -36,7 +36,7 @@ function Header() {
             <span className="small mx-2 fw-semibold">
               Purchase Request System
             </span>
-          </a>
+          </Link>
 
           <Dropdown className="me-4">
             <Dropdown.Toggle
