@@ -1,13 +1,14 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Nav from "react-bootstrap/Nav";
 import bootstrapIcons from "./assets/bootstrap-icons.svg";
 
 function AppNav() {
+  const location = useLocation();
+  
   return (
     <Nav
       variant="pills"
-      // defaultActiveKey="/vendors"
-      // activeKey="/vendors"
+      defaultActiveKey={location.pathname}
       as="ul"
       className="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary border-end min-vh-100 position-sticky"
       style={{ width: 280 }}
