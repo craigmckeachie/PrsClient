@@ -10,13 +10,13 @@ import toast from "react-hot-toast";
 interface RequestLineTableProps {
   requestId?: number;
   requestLines: IRequestLine[];
-  onChange: () => void;
+  onLoad: () => void;
 }
 
 function RequestLineTable({
   requestId,
   requestLines,
-  onChange,
+  onLoad,
 }: RequestLineTableProps) {
   const [products, setProducts] = useState<IProduct[]>([]);
   const [requestLineBeingEdited, setRequestLineBeingEdited] = useState<
@@ -32,7 +32,7 @@ function RequestLineTable({
 
   async function save() {
     setRequestLineBeingEdited(undefined);
-    await onChange();
+    onLoad();
     setShowForm(false);
   }
 
@@ -124,7 +124,7 @@ function RequestLineTable({
                       ) {
                         if (requestLine.id) {
                           await requestLineAPI.delete(requestLine.id);
-                          await onChange();
+                          await onLoad();
                           toast.success("Successfully deleted.");
                         }
                       }

@@ -1,4 +1,4 @@
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import bootstrapIcons from "../assets/bootstrap-icons.svg";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { IRequest } from "./IRequest";
@@ -23,7 +23,6 @@ let emptyRequest: IRequest = {
 };
 
 function RequestForm() {
-  const navigate = useNavigate();
   let { id } = useParams<{ id: string }>();
   const [users, setUsers] = useState<IUser[]>([]);
   const { user } = useUserContext();
@@ -38,7 +37,11 @@ function RequestForm() {
   }
 
   async function loadRequest() {
-    const requestId = Number(id);
+    let requestId = Number(id);
+    if (!requestId) {
+      const id = getValues("id");
+      if (id) requestId = id;
+    }
     const request = await requestAPI.find(requestId);
     reset(request);
   }
@@ -212,7 +215,7 @@ function RequestForm() {
         <RequestLineTable
           requestId={request.id}
           requestLines={request.requestlines}
-          onChange={loadRequest}
+          onLoad={loadRequest}
         />
       )}
     </>

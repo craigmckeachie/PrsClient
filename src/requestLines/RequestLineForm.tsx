@@ -43,7 +43,6 @@ function RequestLineForm({
     register,
     handleSubmit,
     reset,
-    getValues,
     watch,
     formState: { errors },
   } = useForm<IRequestLine>({
