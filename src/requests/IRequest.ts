@@ -1,3 +1,4 @@
+import { IRequestLine } from "../requestLines/IRequestLine";
 import { IUser } from "../users/IUser";
 
 export interface IRequest {
@@ -9,5 +10,6 @@ export interface IRequest {
   status: string;
   total: number;
   userId: number | undefined;
+  requestlines: IRequestLine[];
   // user: IUser;
 }

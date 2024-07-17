@@ -19,6 +19,7 @@ let emptyRequest: IRequest = {
   status: "New",
   total: 0,
   userId: undefined,
+  requestlines: []
 };
 
 function RequestForm() {
@@ -36,19 +37,24 @@ function RequestForm() {
     return Boolean(id);
   }
 
+  async function loadRequest(){
+    const requestId = Number(id);
+    return await requestAPI.find(requestId);
+  }
+
   const {
     register,
     handleSubmit,
     getValues,
     setValue,
+    watch,
     formState: { errors },
   } = useForm<IRequest>({
     defaultValues: async () => {
       await loadUsers();
       emptyRequest.userId = user?.id ?? 0;
       if (!id) return Promise.resolve(emptyRequest);
-      const requestId = Number(id);
-      return await requestAPI.find(requestId);
+      return await loadRequest();
     },
     mode: "onBlur",
   });
@@ -65,7 +71,9 @@ function RequestForm() {
     toast.success("Successfully saved.");
   };
 
-  const request = getValues();
+  const request = watch();
+
+  // const request = getValues();
 
   return (
     <>
@@ -199,7 +207,7 @@ function RequestForm() {
         </div>
       </form>
       {console.log(request)}
-      {request.id && <RequestLineTable requestId={request.id} />}
+      {request.id && <RequestLineTable requestId={request.id} requestLines={request.requestlines} request={request} onChange={loadRequest}  />}
     </>
   );
 }
