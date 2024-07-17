@@ -3,6 +3,7 @@ import "./App.css";
 import { Outlet } from "react-router-dom";
 import { createContext, useContext, useState } from "react";
 import { IUser } from "./users/IUser";
+import { Toaster } from "react-hot-toast";
 
 export interface UserContextType {
   user: IUser | undefined;
@@ -23,6 +24,19 @@ function App() {
   const [user, setUser] = useState<IUser | undefined>(undefined);
   return (
     <UserContext.Provider value={{ user, setUser }}>
+      <Toaster
+        toastOptions={{
+          success: {
+            iconTheme: {
+              primary: "#0d6efd",
+              secondary: "white",
+            },
+          },
+          style: {
+            maxWidth: 500,
+          },
+        }}
+      />
       <Outlet />
     </UserContext.Provider>
   );

@@ -35,9 +35,19 @@ function UserForm() {
 
   const save: SubmitHandler<IUser> = async (user) => {
     if (!user.id) {
-      user = await userAPI.post(user);
+      try {
+        user = await userAPI.post(user);
+      } catch (error: any) {
+        toast.error(error.message, { duration: 6000 });
+        return;
+      }
     } else {
-      await userAPI.put(user);
+      try {
+        await userAPI.put(user);
+      } catch (error: any) {
+        toast.error(error.message, { duration: 6000 });
+        return;
+      }
     }
     toast.success("Successfully saved.");
     navigate("/users");
@@ -77,8 +87,6 @@ function UserForm() {
           <div className="invalid-feedback">{errors?.lastname?.message}</div>
         </div>
       </div>
-      {/* <div className="row-2 d-flex flex-row w-100 gap-4"></div> */}
-
       <div className="row-2 d-flex flex-row w-100 gap-4">
         <div className="mb-3 w-50">
           <label htmlFor="email" className="form-label">

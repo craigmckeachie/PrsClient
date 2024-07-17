@@ -1,26 +1,27 @@
-// export const BASE_URL = "http://localhost:7249";
+// export const BASE_URL = "http://localhost:7249/api";
 export const BASE_URL = "https://localhost:7249/api";
 
 export function translateStatusToErrorMessage(status: number) {
   switch (status) {
     case 401:
-      return "Please login again.";
+      return "Please sigin again.";
     case 403:
       return "You do not have permission to view the data requested.";
     default:
-      return "There was an error retrieving the data. Please try again.";
+      return "There was an error saving or retrieving data.";
   }
 }
 
-export function checkStatus(response: Response) {
+export async function checkStatus(response: Response) {
   if (response.ok) return response;
 
   const httpError = {
     status: response.status,
     statusText: response.statusText,
     url: response.url,
+    body: await response.text(),
   };
-  console.log(`http error status: ${JSON.stringify(httpError)}`);
+  console.log(`http error status: ${JSON.stringify(httpError, null, 1)}`);
 
   let errorMessage = translateStatusToErrorMessage(httpError.status);
   throw new Error(errorMessage);
