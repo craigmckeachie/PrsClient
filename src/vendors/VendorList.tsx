@@ -19,13 +19,12 @@ function VendorList() {
   }
 
   function removeVendor(vendor: IVendor) {
-    setVendors(vendors.filter(v=> v.id !== vendor.id))
+    setVendors(vendors.filter((v) => v.id !== vendor.id));
   }
 
   useEffect(() => {
     loadVendors();
   }, []);
-  console.log(vendors);
 
   return (
     <section className="list d-flex flex-row flex-wrap bg-light gap-5 p-4 rounded-4">

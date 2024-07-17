@@ -210,7 +210,6 @@ function RequestForm() {
           </div>
         </div>
       </form>
-      {console.log(request)}
       {request.id && (
         <RequestLineTable
           requestId={request.id}

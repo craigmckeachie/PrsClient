@@ -42,7 +42,6 @@ function VendorForm() {
     toast.success("Successfully saved.");
     navigate("/vendors");
   };
-  // console.log(errors);
 
   return (
     <form className="d-flex flex-wrap w-75 gap-2" onSubmit={handleSubmit(save)}>
@@ -116,7 +115,9 @@ function VendorForm() {
           <div className="invalid-feedback">{errors?.city?.message}</div>
         </div>
         <div className="mb-3 w-25">
-          <label htmlFor="state" className="form-label">State</label>
+          <label htmlFor="state" className="form-label">
+            State
+          </label>
           <select
             id="state"
             {...register("state", {

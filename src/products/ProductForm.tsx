@@ -52,7 +52,6 @@ function ProductForm() {
     toast.success("Successfully saved.");
     navigate("/products");
   };
-  // console.log(errors);
 
   return (
     <form className="d-flex flex-wrap w-75 gap-2" onSubmit={handleSubmit(save)}>
