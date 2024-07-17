@@ -48,7 +48,6 @@ function RequestForm() {
     handleSubmit,
     getValues,
     setValue,
-    watch,
     reset,
     formState: { errors },
   } = useForm<IRequest>({
@@ -74,8 +73,6 @@ function RequestForm() {
 
     toast.success("Successfully saved.");
   };
-
-  // const request = watch();
 
   const request = getValues();
 

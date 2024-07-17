@@ -134,6 +134,7 @@ function RequestLineTable({
                         if (requestLine.id) {
                           await requestLineAPI.delete(requestLine.id);
                           // setRequestLines(requestLines.filter((line) => line.id !== requestLine.id));
+                          await onChange();
                           toast.success("Successfully deleted.");
                         }
                       }
