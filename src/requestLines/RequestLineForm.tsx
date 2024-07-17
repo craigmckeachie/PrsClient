@@ -81,14 +81,17 @@ function RequestLineForm({
   }, [products]);
 
   const save: SubmitHandler<IRequestLine> = async (requestLine) => {
-    if (!requestLine.id) {
-      await requestLineAPI.post(requestLine);
-    } else {
-      await requestLineAPI.put(requestLine);
+    try {
+      if (!requestLine.id) {
+        await requestLineAPI.post(requestLine);
+      } else {
+        await requestLineAPI.put(requestLine);
+      }
+      toast.success("Successfully saved.", { position: "bottom-center" });
+      onSave();
+    } catch (error: any) {
+      toast.error(error.message, { position: "bottom-center" });
     }
-
-    toast.success("Successfully saved.", { position: "bottom-center" });
-    onSave();
   };
 
   let quantity = watch("quantity");

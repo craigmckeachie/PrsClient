@@ -29,7 +29,12 @@ function UserForm() {
     defaultValues: async () => {
       if (!id) return Promise.resolve(emptyUser);
       const userId = Number(id);
-      return await userAPI.find(userId);
+      try {
+        return await userAPI.find(userId);
+      } catch (error: any) {
+        toast.error(error.message);
+        throw new Error("There was an error loading the user");
+      }
     },
   });
 
