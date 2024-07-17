@@ -29,18 +29,27 @@ function VendorForm() {
     defaultValues: async () => {
       if (!id) return Promise.resolve(emptyVendor);
       const vendorId = Number(id);
-      return await vendorAPI.find(vendorId);
+      try {
+        return await vendorAPI.find(vendorId);
+      } catch (error: any) {
+        toast.error(error.message);
+        throw new Error("There was an error loading the vendor");
+      }
     },
   });
 
   const save: SubmitHandler<IVendor> = async (vendor) => {
-    if (!vendor.id) {
-      vendor = await vendorAPI.post(vendor);
-    } else {
-      await vendorAPI.put(vendor);
+    try {
+      if (!vendor.id) {
+        vendor = await vendorAPI.post(vendor);
+      } else {
+        await vendorAPI.put(vendor);
+      }
+      toast.success("Successfully saved.");
+      navigate("/vendors");
+    } catch (error: any) {
+      toast.error(error.message);
     }
-    toast.success("Successfully saved.");
-    navigate("/vendors");
   };
 
   return (

@@ -44,11 +44,18 @@ function ProductForm() {
   });
 
   const save: SubmitHandler<IProduct> = async (product) => {
-    if (!product.id) {
-      product = await productAPI.post(product);
-    } else {
-      await productAPI.put(product);
+    try {
+      delete product.vendor; //property deleted because the embedded object does not need persisted
+      if (!product.id) {
+        product = await productAPI.post(product);
+      } else {
+        await productAPI.put(product);
+      }
+    } catch (error: any) {
+      toast.error(error.message, { duration: 6000 });
+      return;
     }
+
     toast.success("Successfully saved.");
     navigate("/products");
   };

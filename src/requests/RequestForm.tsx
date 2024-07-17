@@ -59,19 +59,28 @@ function RequestForm() {
       emptyRequest.userId = user?.id ?? 0;
       if (!id) return Promise.resolve(emptyRequest);
       const requestId = Number(id);
-      const request = await requestAPI.find(requestId);
-      return request;
+      try {
+        const request = await requestAPI.find(requestId);
+        return request;
+      } catch (error: any) {
+        toast.error(error.message);
+        throw new Error("There was an error loading the request");
+      }
     },
     mode: "onBlur",
   });
 
   const save: SubmitHandler<IRequest> = async (request) => {
-    if (!request.id) {
-      const newRequest = await requestAPI.post(request);
-      setValue("id", newRequest.id);
-      // navigate(`/requests/edit/${request.id}`);
-    } else {
-      await requestAPI.put(request);
+    try {
+      if (!request.id) {
+        const newRequest = await requestAPI.post(request);
+        setValue("id", newRequest.id);
+      } else {
+        await requestAPI.put(request);
+      }
+    } catch (error: any) {
+      toast.error(error.message, { duration: 6000 });
+      return;
     }
 
     toast.success("Successfully saved.");

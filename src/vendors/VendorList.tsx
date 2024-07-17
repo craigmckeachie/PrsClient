@@ -3,6 +3,7 @@ import VendorCard from "./VendorCard";
 import { IVendor } from "./IVendor";
 import { vendorAPI } from "./VendorAPI";
 import VendorCardSkeleton from "./VendorCardSkeleton";
+import toast from "react-hot-toast";
 
 function VendorList() {
   const [loading, setLoading] = useState(false);
@@ -12,10 +13,16 @@ function VendorList() {
   });
 
   async function loadVendors() {
-    setLoading(true);
-    const data = await vendorAPI.list();
     setLoading(false);
-    setVendors(data);
+    try {
+      setLoading(true);
+      const data = await vendorAPI.list();
+      setVendors(data);
+    } catch (error: any) {
+      toast.error(error.message, { duration: 6000 });
+    } finally {
+      setLoading(false);
+    }
   }
 
   function removeVendor(vendor: IVendor) {

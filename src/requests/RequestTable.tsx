@@ -3,14 +3,21 @@ import { IRequest } from "./IRequest";
 import { requestAPI } from "./RequestAPI";
 import RequestRow from "./RequestRow";
 import { useSearchParams } from "react-router-dom";
+import toast from "react-hot-toast";
 
 function RequestTable() {
   const [requests, setRequests] = useState<IRequest[]>([]);
   const [searchParams, setSearchParams] = useSearchParams();
 
   async function loadRequests() {
-    const data = await requestAPI.list(searchParams.get("status") ?? undefined);
-    setRequests(data);
+    try {
+      const data = await requestAPI.list(
+        searchParams.get("status") ?? undefined
+      );
+      setRequests(data);
+    } catch (error: any) {
+      toast.error(error.message, { duration: 6000 });
+    }
   }
   useEffect(() => {
     loadRequests();

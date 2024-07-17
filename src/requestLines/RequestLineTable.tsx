@@ -26,8 +26,12 @@ function RequestLineTable({
   const total = calculateTotal();
 
   async function loadProducts() {
-    const data = await productAPI.list();
-    setProducts(data);
+    try {
+      const data = await productAPI.list();
+      setProducts(data);
+    } catch (error: any) {
+      toast.error(error.message, { duration: 6000 });
+    }
   }
 
   async function save() {

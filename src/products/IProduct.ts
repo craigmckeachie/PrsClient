@@ -8,5 +8,5 @@ export interface IProduct {
   unit: string;
   photoPath: string | undefined;
   vendorId: number | undefined;
-  vendor: IVendor;
+  vendor?: IVendor;
 }

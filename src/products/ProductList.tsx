@@ -3,6 +3,7 @@ import ProductCard from "./ProductCard";
 import { IProduct } from "./IProduct";
 import { productAPI } from "./ProductAPI";
 import ProductCardSkeleton from "./ProductCardSkeleton";
+import toast from "react-hot-toast";
 
 function ProductList() {
   const [loading, setLoading] = useState(false);
@@ -13,9 +14,14 @@ function ProductList() {
 
   async function loadProducts() {
     setLoading(true);
-    const data = await productAPI.list();
-    setLoading(false);
-    setProducts(data);
+    try {
+      const data = await productAPI.list();
+      setProducts(data);
+    } catch (error: any) {
+      toast.error(error.message, { duration: 6000 });
+    } finally {
+      setLoading(false);
+    }
   }
 
   useEffect(() => {

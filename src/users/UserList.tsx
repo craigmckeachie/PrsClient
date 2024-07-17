@@ -2,14 +2,19 @@ import { useState, useEffect } from "react";
 import { IUser } from "./IUser";
 import { userAPI } from "./UserAPI";
 import UserCard from "./UserCard";
+import toast from "react-hot-toast";
 
 function UserList() {
   const [users, setUsers] = useState<IUser[]>([]);
 
   useEffect(() => {
     async function loadUsers() {
-      const data = await userAPI.list();
-      setUsers(data);
+      try {
+        const data = await userAPI.list();
+        setUsers(data);
+      } catch (error: any) {
+        toast.error(error.message, { duration: 6000 });
+      }
     }
     loadUsers();
   }, []);
