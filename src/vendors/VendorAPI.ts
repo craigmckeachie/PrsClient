@@ -24,8 +24,9 @@ export const vendorAPI = {
       headers: {
         "Content-Type": "application/json",
       },
-    }).then(checkStatus);
-    // .then(parseJSON);
+    })
+      .then(checkStatus)
+      .then(parseJSON);
   },
 
   put(vendor: IVendor) {

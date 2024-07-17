@@ -11,15 +11,13 @@ import { IRequest } from "../requests/IRequest";
 interface RequestLineTableProps {
   requestId?: number;
   requestLines: IRequestLine[];
-  onChange: () => Promise<IRequest>;
-  request: IRequest;
+  onChange: () => void;
 }
 
 function RequestLineTable({
   requestId,
   requestLines,
   onChange,
-  request,
 }: RequestLineTableProps) {
   const [products, setProducts] = useState<IProduct[]>([]);
   // const [requestLines, setRequestLines] = useState<IRequestLine[]>([]);
@@ -34,11 +32,11 @@ function RequestLineTable({
     setProducts(data);
   }
 
-  async function loadRequestLines() {
-    // if (!requestId) return;
-    // const data = await requestLineAPI.list(requestId);
-    // setRequestLines(data);
-  }
+  // async function loadRequestLines() {
+  //   if (!requestId) return;
+  //   const data = await requestLineAPI.list(requestId);
+  //   setRequestLines(data);
+  // }
 
   async function save() {
     setRequestLineBeingEdited(undefined);
@@ -84,7 +82,7 @@ function RequestLineTable({
           </tr>
         </thead>
         <tbody>
-          {request.requestlines.map((requestLine: IRequestLine) => {
+          {requestLines.map((requestLine: IRequestLine) => {
             const product = products.find(
               (p) => p.id === requestLine.productId
             );

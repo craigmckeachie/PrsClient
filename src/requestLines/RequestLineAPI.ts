@@ -21,8 +21,9 @@ export const requestLineAPI = {
       headers: {
         "Content-Type": "application/json",
       },
-    }).then(checkStatus);
-    // .then(parseJSON);
+    })
+      .then(checkStatus)
+      .then(parseJSON);
   },
 
   put(requestLine: IRequestLine) {

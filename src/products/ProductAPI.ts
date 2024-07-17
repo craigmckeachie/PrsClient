@@ -29,8 +29,9 @@ export const productAPI = {
       headers: {
         "Content-Type": "application/json",
       },
-    }).then(checkStatus);
-    // .then(parseJSON);
+    })
+      .then(checkStatus)
+      .then(parseJSON);
   },
 
   put(product: IProduct) {

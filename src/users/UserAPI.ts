@@ -32,8 +32,9 @@ export const userAPI = {
       headers: {
         "Content-Type": "application/json",
       },
-    }).then(checkStatus);
-    // .then(parseJSON);
+    })
+      .then(checkStatus)
+      .then(parseJSON);
   },
 
   put(user: IUser) {

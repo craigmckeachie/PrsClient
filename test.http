@@ -10,22 +10,22 @@ POST https://localhost:7249/api/users
 Content-Type: application/json
 
 {
-    "username": "chaynes",
+    "username": "jwackle",
     "password": "80LY4V_lpPM3AXq",
-    "firstname": "Chad",
-    "lastname": "Haynes",
+    "firstname": "James",
+    "lastname": "Wackle",
     "phone": "6808053960",
-    "email": "chaynes@example.com",
+    "email": "jwackle@example.com",
     "isReviewer": true,
     "isAdmin": false
 }
 
 ### PUT User
-PUT https://localhost:7249/api/users/451
+PUT https://localhost:7249/api/users/453
 Content-Type: application/json
 
 {
-    "id": 451,
+    "id": 453,
     "username": "jmacky",
     "password": "80LY4V_lpPM3AXq",
     "firstname": "James",
@@ -37,7 +37,7 @@ Content-Type: application/json
 }
 
 ### DELETE User
-DELETE https://localhost:7249/api/users/451
+DELETE https://localhost:7249/api/users/455
 
 ### GET Vendors
 GET https://localhost:7249/api/vendors
@@ -46,4 +46,15 @@ GET https://localhost:7249/api/vendors
 GET https://localhost:7249/api/products
 
 
+### POST Product
+POST https://localhost:7249/api/products
+Content-Type: application/json
 
+{
+    "partNbr": "978-0-07-249483-8",
+    "name": "Modern Rubber Ballz",
+    "price": 30.00,
+    "unit": "Pair",
+    "photoPath": null,
+    "vendorId": 15
+  }

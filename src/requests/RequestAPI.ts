@@ -25,7 +25,7 @@ export const requestAPI = {
       },
     })
       .then(checkStatus)
-      // .then(parseJSON);
+      .then(parseJSON);
   },
 
   put(request: IRequest) {
@@ -35,14 +35,12 @@ export const requestAPI = {
       headers: {
         "Content-Type": "application/json",
       },
-    })
-      .then(checkStatus)
-      // .then(parseJSON);
+    }).then(checkStatus);
+    // .then(parseJSON);
   },
 
   delete(id: number) {
-    return fetch(`${url}/${id}`, { method: "DELETE" })
-      .then(checkStatus)
-      // .then(parseJSON);
+    return fetch(`${url}/${id}`, { method: "DELETE" }).then(checkStatus);
+    // .then(parseJSON);
   },
 };
