@@ -6,7 +6,6 @@ import { productAPI } from "../products/ProductAPI";
 import { requestLineAPI } from "../requestLines/RequestLineAPI";
 import RequestLineForm from "./RequestLineForm";
 import toast from "react-hot-toast";
-import { IRequest } from "../requests/IRequest";
 
 interface RequestLineTableProps {
   requestId?: number;
@@ -20,7 +19,6 @@ function RequestLineTable({
   onChange,
 }: RequestLineTableProps) {
   const [products, setProducts] = useState<IProduct[]>([]);
-  // const [requestLines, setRequestLines] = useState<IRequestLine[]>([]);
   const [requestLineBeingEdited, setRequestLineBeingEdited] = useState<
     IRequestLine | undefined
   >(undefined);
@@ -32,15 +30,8 @@ function RequestLineTable({
     setProducts(data);
   }
 
-  // async function loadRequestLines() {
-  //   if (!requestId) return;
-  //   const data = await requestLineAPI.list(requestId);
-  //   setRequestLines(data);
-  // }
-
   async function save() {
     setRequestLineBeingEdited(undefined);
-    // loadRequestLines();
     await onChange();
     setShowForm(false);
   }
@@ -133,7 +124,6 @@ function RequestLineTable({
                       ) {
                         if (requestLine.id) {
                           await requestLineAPI.delete(requestLine.id);
-                          // setRequestLines(requestLines.filter((line) => line.id !== requestLine.id));
                           await onChange();
                           toast.success("Successfully deleted.");
                         }
