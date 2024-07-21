@@ -141,6 +141,27 @@ function UserForm() {
           <div className="invalid-feedback">{errors?.username?.message}</div>
         </div>
         <div className="mb-3 w-50">
+          <label htmlFor="password" className="form-label">
+            Password
+          </label>
+          <input
+            id="password"
+            {...register("password", {
+              required: "Password is required",
+              maxLength: {
+                value: 50,
+                message: "Exceeded maximum length",
+              },
+            })}
+            type="password"
+            className={`form-control ${errors?.password && "is-invalid"} `}
+            placeholder="Enter password"
+          />
+          <div className="invalid-feedback">{errors?.password?.message}</div>
+        </div>
+      </div>
+      <div className="row-3 d-flex flex-row w-100 gap-4">
+        <div className="mb-3 w-50">
           <label className="form-label">Role</label>
           <br />
 

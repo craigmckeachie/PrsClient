@@ -8,6 +8,7 @@ function Header() {
   const navigate = useNavigate();
 
   function signout() {
+    localStorage.removeItem("user");
     setUser(undefined);
     navigate("/signin");
   }
