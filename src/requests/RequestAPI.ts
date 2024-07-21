@@ -8,7 +8,8 @@ export const requestAPI = {
   list(status?: string): Promise<IRequest[]> {
     // let requestsUrl = `${url}?_expand=user&expand=product`;
     let requestsUrl = `${url}`;
-    if (status) requestsUrl += `&status=${status}`;
+    // if (status) requestsUrl += `&status=${status}`;
+    if (status) requestsUrl += `/status/${status.toUpperCase()}`;
     return fetch(requestsUrl).then(checkStatus).then(parseJSON);
   },
 
