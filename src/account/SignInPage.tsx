@@ -2,7 +2,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { userAPI } from "../users/UserAPI";
 import { useUserContext } from "../App";
-
+import { IUser } from "../users/IUser";
 
 interface IAccount {
   username: string;
@@ -13,6 +13,10 @@ let emptyAccount = {
   username: "",
   password: "",
 };
+
+function persistUser(user: IUser) {
+  localStorage.setItem("user", JSON.stringify(user));
+}
 
 function SignInPage() {
   const navigate = useNavigate();
@@ -33,6 +37,7 @@ function SignInPage() {
       account.password
     );
 
+    persistUser(user);
     setUser(user);
 
     navigate("/requests");
