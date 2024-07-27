@@ -18,6 +18,7 @@ import RequestEditPage from "./requests/RequestEditPage.tsx";
 import SignInPage from "./account/SignInPage.tsx";
 import Layout from "./Layout.tsx";
 import IndexPage from "./IndexPage.tsx";
+import RequestDetailPage from "./requests/RequestDetailPage.tsx";
 
 const router = createBrowserRouter([
   {
@@ -29,7 +30,7 @@ const router = createBrowserRouter([
       {
         element: <Layout />,
         children: [
-          {index: true, element: <IndexPage/> },
+          { index: true, element: <IndexPage /> },
           {
             path: "requests",
             element: <RequestsPage />,
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
           {
             path: "requests/edit/:id",
             element: <RequestEditPage />,
+          },
+          {
+            path: "requests/detail/:id",
+            element: <RequestDetailPage />,
           },
           {
             path: "products",

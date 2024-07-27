@@ -10,6 +10,7 @@ import toast from "react-hot-toast";
 interface RequestLineTableProps {
   requestId?: number;
   requestLines: IRequestLine[];
+  enableActions: boolean;
   onLoad: () => void;
 }
 
@@ -17,6 +18,7 @@ function RequestLineTable({
   requestId,
   requestLines,
   onLoad,
+  enableActions = false,
 }: RequestLineTableProps) {
   const [products, setProducts] = useState<IProduct[]>([]);
   const [requestLineBeingEdited, setRequestLineBeingEdited] = useState<
@@ -97,79 +99,88 @@ function RequestLineTable({
                     currency: "USD",
                   }).format((product?.price ?? 0) * requestLine.quantity)}
                 </td>
-                <td>
-                  <button
-                    type="button"
-                    className="btn btn-outline"
-                    onClick={() => {
-                      if (requestLine) {
-                        setRequestLineBeingEdited(requestLine);
-                        setShowForm(true);
-                      }
-                    }}
-                  >
-                    <svg
-                      className="bi pe-none me-2"
-                      width={16}
-                      height={16}
-                      fill="#007AFF"
-                    >
-                      <use xlinkHref={`${bootstrapIcons}#pencil`} />
-                    </svg>
-                  </button>
-                  <button
-                    type="button"
-                    className="btn btn-outline"
-                    onClick={async () => {
-                      if (
-                        confirm(
-                          "Are you sure you want to delete this line item?"
-                        )
-                      ) {
-                        if (requestLine.id) {
-                          await requestLineAPI.delete(requestLine.id);
-                          await onLoad();
-                          toast.success("Successfully deleted.");
+                {enableActions ? (
+                  <td>
+                    <button
+                      type="button"
+                      className="btn btn-outline"
+                      onClick={() => {
+                        if (requestLine) {
+                          setRequestLineBeingEdited(requestLine);
+                          setShowForm(true);
                         }
-                      }
-                    }}
-                  >
-                    <svg
-                      className="bi pe-none me-2"
-                      width={16}
-                      height={16}
-                      fill="#007AFF"
+                      }}
                     >
-                      <use xlinkHref={`${bootstrapIcons}#trash`} />
-                    </svg>
-                  </button>
-                </td>
+                      <svg
+                        className="bi pe-none me-2"
+                        width={16}
+                        height={16}
+                        fill="#007AFF"
+                      >
+                        <use xlinkHref={`${bootstrapIcons}#pencil`} />
+                      </svg>
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-outline"
+                      onClick={async () => {
+                        if (
+                          confirm(
+                            "Are you sure you want to delete this line item?"
+                          )
+                        ) {
+                          if (requestLine.id) {
+                            await requestLineAPI.delete(requestLine.id);
+                            await onLoad();
+                            toast.success("Successfully deleted.");
+                          }
+                        }
+                      }}
+                    >
+                      <svg
+                        className="bi pe-none me-2"
+                        width={16}
+                        height={16}
+                        fill="#007AFF"
+                      >
+                        <use xlinkHref={`${bootstrapIcons}#trash`} />
+                      </svg>
+                    </button>
+                  </td>
+                ) : (
+                  <td></td>
+                )}
               </tr>
             );
           })}
         </tbody>
         <tfoot>
           <tr>
-            <td>
-              <button
-                type="button"
-                className="btn btn-outline-primary"
-                onClick={() => {
-                  setRequestLineBeingEdited(undefined);
-                  setShowForm(true);
-                }}
-              >
-                <svg
-                  className="bi pe-none me-2"
-                  width={16}
-                  height={16}
-                  fill="#007AFF"
+            {enableActions ? (
+              <td>
+                <button
+                  type="button"
+                  className="btn btn-outline-primary"
+                  onClick={() => {
+                    setRequestLineBeingEdited(undefined);
+                    setShowForm(true);
+                  }}
                 >
-                  <use xlinkHref={`${bootstrapIcons}#plus-circle`} />
-                </svg>
-                Add a line
-              </button>
-            </td>
+                  <svg
+                    className="bi pe-none me-2"
+                    width={16}
+                    height={16}
+                    fill="#007AFF"
+                  >
+                    <use xlinkHref={`${bootstrapIcons}#plus-circle`} />
+                  </svg>
+                  Add a line
+                </button>
+              </td>
+            ) : (
+              <td></td>
+            )}
+
             <td />
             <td />
             <td>

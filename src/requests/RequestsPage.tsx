@@ -21,10 +21,6 @@ function RequestsPage() {
       </div>
       <RequestTable />
     </section>
-    // <div
-    //   className="slanted bg-gradient bg-secondary-subtle z-n1 position-absolute"
-    //   style={{height: 6rem; width: 100%; top: 65%}}
-    // ></div>
   );
 }
 

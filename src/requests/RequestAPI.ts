@@ -14,7 +14,9 @@ export const requestAPI = {
   },
 
   find(id: number): Promise<IRequest> {
-    return fetch(`${url}/${id}?embed=requestlines`).then(checkStatus).then(parseJSON);
+    return fetch(`${url}/${id}?embed=requestlines`)
+      .then(checkStatus)
+      .then(parseJSON);
   },
 
   post(request: IRequest) {
@@ -42,6 +44,17 @@ export const requestAPI = {
 
   delete(id: number) {
     return fetch(`${url}/${id}`, { method: "DELETE" }).then(checkStatus);
+    // .then(parseJSON);
+  },
+
+  approve(request: IRequest) {
+    return fetch(`${url}/approve/${request.id}`, {
+      method: "PUT",
+      body: JSON.stringify(request),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then(checkStatus);
     // .then(parseJSON);
   },
 };

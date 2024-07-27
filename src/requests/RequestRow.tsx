@@ -64,7 +64,7 @@ function RequestRow({ request, onRemove }: IRequestRowProps) {
             </svg>
           </Dropdown.Toggle>
           <Dropdown.Menu>
-            <Dropdown.Item as={Link} to={`/requests/view/${request.id}`}>
+            <Dropdown.Item as={Link} to={`/requests/detail/${request.id}`}>
               Review
             </Dropdown.Item>
             <Dropdown.Item as={Link} to={`/requests/edit/${request.id}`}>
