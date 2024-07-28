@@ -6,9 +6,23 @@ interface IRequestHeaderProps {
 
 function RequestHeader({ request }: IRequestHeaderProps) {
   return (
-    <section>
-      <p>{request.description}</p>
-      <p>{request.justification}</p>
+    <section className="d-flex justify-content-between pe-5">
+      <dl className="param param-feature">
+        <dt>Description</dt>
+        <dd>{request.description}</dd>
+        <dt>Justification</dt>
+        <dd>{request.justification}</dd>
+      </dl>
+      <dl>
+        <dt>Delivery Method</dt>
+        <dd>{request.deliveryMode}</dd>
+        <dt>Status</dt>
+        <dd>{request.status}</dd>
+      </dl>
+      <dl>
+        <dt>Requested By</dt>
+        <dd>{request.userId}</dd>
+      </dl>
     </section>
   );
 }
