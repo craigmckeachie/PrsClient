@@ -19,6 +19,8 @@ import SignInPage from "./account/SignInPage.tsx";
 import Layout from "./Layout.tsx";
 import IndexPage from "./IndexPage.tsx";
 import RequestDetailPage from "./requests/RequestDetailPage.tsx";
+import RequestLineCreatePage from "./requestLines/RequestLineCreatePage.tsx";
+import RequestLineEditPage from "./requestLines/RequestLineEditPage.tsx";
 
 const router = createBrowserRouter([
   {
@@ -46,6 +48,14 @@ const router = createBrowserRouter([
           {
             path: "requests/detail/:id",
             element: <RequestDetailPage />,
+          },
+          {
+            path: "requests/detail/:id/requestline/create",
+            element: <RequestLineCreatePage />,
+          },
+          {
+            path: "requestline/edit/:lineId",
+            element: <RequestLineEditPage />,
           },
           {
             path: "products",

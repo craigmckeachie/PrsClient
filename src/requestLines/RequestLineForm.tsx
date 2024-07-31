@@ -7,20 +7,13 @@ import { IRequestLine } from "../requestLines/IRequestLine";
 import { IProduct } from "../products/IProduct";
 import { productAPI } from "../products/ProductAPI";
 import { requestLineAPI } from "../requestLines/RequestLineAPI";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
-interface RequestLineFormProps {
-  requestId: number;
-  requestLine?: IRequestLine | undefined;
-  onSave: () => void;
-  onCancel: () => void;
-}
-
-function RequestLineForm({
-  requestId,
-  requestLine,
-  onSave,
-  onCancel,
-}: RequestLineFormProps) {
+function RequestLineForm() {
+  let { lineId, id } = useParams<{ lineId: string, id:string }>();
+  const requestLineId = Number(lineId);
+  const requestId = Number(id);
+  const navigate = useNavigate();
   const [products, setProducts] = useState<IProduct[]>([]);
   const [selectedProduct, setSelectedProduct] = useState<IProduct | undefined>(
     undefined
@@ -33,61 +26,63 @@ function RequestLineForm({
     productId: 0,
   };
 
-  async function loadProducts() {
-    const data = await productAPI.list();
-    setProducts(data);
-  }
-
   const {
     register,
     handleSubmit,
-    reset,
     watch,
     formState: { errors },
   } = useForm<IRequestLine>({
     defaultValues: async () => {
       await loadProducts();
-      if (!requestLine) {
-        return Promise.resolve(emptyRequestLine);
-      }
-      let currentProduct = await products.find(
-        (p) => p.id === requestLine.productId
-      );
 
-      setSelectedProduct(currentProduct);
-      return Promise.resolve(requestLine);
+      if (!lineId) {
+        return Promise.resolve(emptyRequestLine);
+      } else {
+        try {
+          const requestLine = await requestLineAPI.find(requestLineId);
+          return Promise.resolve(requestLine);
+        } catch (error: any) {
+          toast.error(error.message);
+          throw new Error("There was an error loading the request line");
+        }
+      }
     },
   });
 
-  useEffect(() => {
-    if (requestLine) {
-      let currentProduct = products.find(
-        (p: IProduct) => p?.id === requestLine?.productId
-      );
-      setSelectedProduct(currentProduct);
-      reset(requestLine);
-    } else {
-      setSelectedProduct(undefined);
-      reset(emptyRequestLine);
-    }
-  }, [requestLine]);
+  async function loadProducts() {
+    const data = await productAPI.list();
+    setProducts(data);
+  }
 
-  useEffect(() => {
-    let currentProduct = products.find(
-      (p: IProduct) => p?.id === requestLine?.productId
-    );
-    setSelectedProduct(currentProduct);
-  }, [products]);
+  // useEffect(() => {
+  //   if (requestLine) {
+  //     let currentProduct = products.find(
+  //       (p: IProduct) => p?.id === requestLine?.productId
+  //     );
+  //     setSelectedProduct(currentProduct);
+  //     reset(requestLine);
+  //   } else {
+  //     setSelectedProduct(undefined);
+  //     reset(emptyRequestLine);
+  //   }
+  // }, [requestLine]);
+
+  // useEffect(() => {
+  //   let currentProduct = products.find(
+  //     (p: IProduct) => p?.id === requestLine?.productId
+  //   );
+  //   setSelectedProduct(currentProduct);
+  // }, [products]);
 
   const save: SubmitHandler<IRequestLine> = async (requestLine) => {
     try {
       if (!requestLine.id) {
-        await requestLineAPI.post(requestLine);
+        requestLine = await requestLineAPI.post(requestLine);
       } else {
         await requestLineAPI.put(requestLine);
       }
       toast.success("Successfully saved.", { position: "bottom-center" });
-      onSave();
+      navigate(`/requests/detail/${requestLine.requestId}`);
     } catch (error: any) {
       toast.error(error.message, { position: "bottom-center" });
     }
@@ -174,13 +169,12 @@ function RequestLineForm({
         </div>
 
         <div className="d-flex justify-content-end mt-4">
-          <button
-            type="button"
-            onClick={onCancel}
+          <Link
+            to={ `/requests/detail/${requestId}`}
             className="btn btn-outline-primary me-2"
           >
             Cancel
-          </button>
+          </Link>
           <button type="submit" className="btn btn-primary">
             <svg
               className="bi pe-none me-2"

@@ -6,6 +6,7 @@ import { productAPI } from "../products/ProductAPI";
 import { requestLineAPI } from "../requestLines/RequestLineAPI";
 import RequestLineForm from "./RequestLineForm";
 import toast from "react-hot-toast";
+import { Link } from "react-router-dom";
 
 interface RequestLineTableProps {
   requestId?: number;
@@ -101,15 +102,9 @@ function RequestLineTable({
                 </td>
                 {enableActions ? (
                   <td>
-                    <button
-                      type="button"
+                    <Link
+                      to={`/requestline/edit/${requestLine.id}`}
                       className="btn btn-outline"
-                      onClick={() => {
-                        if (requestLine) {
-                          setRequestLineBeingEdited(requestLine);
-                          setShowForm(true);
-                        }
-                      }}
                     >
                       <svg
                         className="bi pe-none me-2"
@@ -119,7 +114,7 @@ function RequestLineTable({
                       >
                         <use xlinkHref={`${bootstrapIcons}#pencil`} />
                       </svg>
-                    </button>
+                    </Link>
                     <button
                       type="button"
                       className="btn btn-outline"
@@ -158,13 +153,9 @@ function RequestLineTable({
           <tr>
             {enableActions ? (
               <td>
-                <button
-                  type="button"
+                <Link
+                  to={`/requests/detail/${requestId}/requestline/create`}
                   className="btn btn-outline-primary"
-                  onClick={() => {
-                    setRequestLineBeingEdited(undefined);
-                    setShowForm(true);
-                  }}
                 >
                   <svg
                     className="bi pe-none me-2"
@@ -175,7 +166,7 @@ function RequestLineTable({
                     <use xlinkHref={`${bootstrapIcons}#plus-circle`} />
                   </svg>
                   Add a line
-                </button>
+                </Link>
               </td>
             ) : (
               <td></td>

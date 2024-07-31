@@ -240,6 +240,7 @@ function RequestDetailPage() {
       {request && <RequestHeader request={request} user={user} />}
       {request && (
         <RequestLineTable
+          requestId={request.id}
           requestLines={request.requestlines}
           onLoad={loadRequest}
           enableActions={true}
