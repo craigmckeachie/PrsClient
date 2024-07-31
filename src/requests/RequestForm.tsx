@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import bootstrapIcons from "../assets/bootstrap-icons.svg";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { IRequest } from "./IRequest";
@@ -16,7 +16,7 @@ let emptyRequest: IRequest = {
   justification: "",
   rejectionReason: undefined,
   deliveryMode: "",
-  status: "New",
+  status: "NEW",
   total: 0,
   userId: undefined,
   requestlines: [],
@@ -24,6 +24,7 @@ let emptyRequest: IRequest = {
 
 function RequestForm() {
   let { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const [users, setUsers] = useState<IUser[]>([]);
   const { user } = useUserContext();
 
@@ -75,8 +76,10 @@ function RequestForm() {
       if (!request.id) {
         const newRequest = await requestAPI.post(request);
         setValue("id", newRequest.id);
+        navigate(`/requests/detail/${newRequest.id}`);
       } else {
         await requestAPI.put(request);
+        navigate(`/requests/detail/${request.id}`);
       }
     } catch (error: any) {
       toast.error(error.message, { duration: 6000 });
@@ -165,7 +168,7 @@ function RequestForm() {
                   required: "Status is required",
                 })}
                 disabled={!isNew()}
-                defaultValue="New"
+                defaultValue="NEW"
                 className={`form-select ${errors?.status && "is-invalid"} `}
               >
                 <option value="">Select...</option>

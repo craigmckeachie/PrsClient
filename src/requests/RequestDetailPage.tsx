@@ -231,7 +231,7 @@ function RequestDetailPage() {
         <RequestLineTable
           requestLines={request.requestlines}
           onLoad={loadRequest}
-          enableActions={false}
+          enableActions={true}
         />
       )}
     </section>
