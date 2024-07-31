@@ -22,6 +22,12 @@ function RequestHeader({ request }: IRequestHeaderProps) {
       <dl>
         <dt>Requested By</dt>
         <dd>{request.userId}</dd>
+        {request.rejectionReason && (
+          <>
+            <dt>Rejection Reason</dt>
+            <dd>{request.rejectionReason}</dd>
+          </>
+        )}
       </dl>
     </section>
   );
