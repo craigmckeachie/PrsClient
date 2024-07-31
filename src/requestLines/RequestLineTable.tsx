@@ -103,7 +103,7 @@ function RequestLineTable({
                 {enableActions ? (
                   <td>
                     <Link
-                      to={`/requestline/edit/${requestLine.id}`}
+                      to={`/requests/detail/${requestId}/requestline/edit/${requestLine.id}`}
                       className="btn btn-outline"
                     >
                       <svg

@@ -54,7 +54,7 @@ const router = createBrowserRouter([
             element: <RequestLineCreatePage />,
           },
           {
-            path: "requestline/edit/:lineId",
+            path: "requests/detail/:id/requestline/edit/:lineId",
             element: <RequestLineEditPage />,
           },
           {
