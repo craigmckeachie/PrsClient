@@ -1,12 +1,12 @@
 ### GET User
-GET https://localhost:7249/api/users
+GET http://localhost:5000/api/users
 
 
 ### GET User
-GET http://localhost:7249/api/users?username=chaynes&password=80LY4V_lpPM3AXq
+GET http://localhost:5000/api/users?username=chaynes&password=80LY4V_lpPM3AXq
 
 ### POST User
-POST https://localhost:7249/api/users
+POST http://localhost:5000/api/users
 Content-Type: application/json
 
 {
@@ -21,7 +21,7 @@ Content-Type: application/json
 }
 
 ### PUT User
-PUT https://localhost:7249/api/users/453
+PUT http://localhost:5000/api/users/453
 Content-Type: application/json
 
 {
@@ -37,17 +37,16 @@ Content-Type: application/json
 }
 
 ### DELETE User
-DELETE https://localhost:7249/api/users/455
+DELETE http://localhost:5000/api/users/455
 
 ### GET Vendors
-GET https://localhost:7249/api/vendors
+GET http://localhost:5000/api/vendors
 
 ### GET Products
-GET https://localhost:7249/api/products
-
+GET http://localhost:5000/api/products
 
 ### POST Product
-POST https://localhost:7249/api/products
+POST http://localhost:5000/api/products
 Content-Type: application/json
 
 {
@@ -58,3 +57,10 @@ Content-Type: application/json
     "photoPath": null,
     "vendorId": 15
   }
+
+
+### GET Requests
+GET http://localhost:5000/api/requests
+
+### GET Requests By Status
+GET http://localhost:5000/api/requests/status/APPROVED

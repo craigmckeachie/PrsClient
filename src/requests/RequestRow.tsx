@@ -12,13 +12,13 @@ interface IRequestRowProps {
 
 function getTextBackgroundByStatus(status: string) {
   switch (status) {
-    case "New":
+    case "NEW":
       return "text-bg-primary";
-    case "Review":
+    case "REVIEW":
       return "text-bg-warning";
-    case "Approved":
+    case "APPROVED":
       return "text-bg-success";
-    case "Rejected":
+    case "REJECTED":
       return "text-bg-danger";
     default:
       return "";

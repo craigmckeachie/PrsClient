@@ -44,10 +44,10 @@ function RequestTable() {
           onChange={handleStatusChange}
         >
           <option value="">All</option>
-          <option value="New">New</option>
-          <option value="Review">Review</option>
-          <option value="Approved">Approved</option>
-          <option value="Rejected">Rejected</option>
+          <option value="NEW">New</option>
+          <option value="REVIEW">Review</option>
+          <option value="APPROVED">Approved</option>
+          <option value="REJECTED">Rejected</option>
         </select>
       </div>
       <section className="list d-flex flex-row flex-wrap bg-body-tertiary gap-5 p-4 rounded-4">

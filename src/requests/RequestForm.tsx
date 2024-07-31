@@ -169,10 +169,10 @@ function RequestForm() {
                 className={`form-select ${errors?.status && "is-invalid"} `}
               >
                 <option value="">Select...</option>
-                <option value="New">New</option>
-                <option value="Review">Review</option>
-                <option value="Approved">Approved</option>
-                <option value="Rejected">Rejected</option>
+                <option value="NEW">New</option>
+                <option value="REVIEW">Review</option>
+                <option value="APPROVED">Approved</option>
+                <option value="REJECTED">Rejected</option>
               </select>
               <div className="invalid-feedback">{errors?.status?.message}</div>
             </div>
