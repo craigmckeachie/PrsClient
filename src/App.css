@@ -104,3 +104,11 @@ button.skeleton {
 .dropdown-toggle::after{
   content: none;
 }
+
+span.badge {
+  text-transform: lowercase;
+}
+
+span.badge::first-letter {
+  text-transform: uppercase!important;
+}
