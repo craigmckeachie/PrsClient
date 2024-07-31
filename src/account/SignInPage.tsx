@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { userAPI } from "../users/UserAPI";
 import { useUserContext } from "../App";
 import { IUser } from "../users/IUser";
+import toast from "react-hot-toast";
 
 interface IAccount {
   username: string;
@@ -32,15 +33,18 @@ function SignInPage() {
   const { setUser } = useUserContext();
 
   const signin: SubmitHandler<IAccount> = async (account) => {
-    const user = await userAPI.findByAccount(
-      account.username,
-      account.password
-    );
+    try {
+      const user = await userAPI.findByAccount(
+        account.username,
+        account.password
+      );
+      persistUser(user);
+      setUser(user);
 
-    persistUser(user);
-    setUser(user);
-
-    navigate("/requests");
+      navigate("/requests");
+    } catch (error: any) {
+      toast.error("Unsuccessful sign in. Please try again.");
+    }
   };
 
   return (
