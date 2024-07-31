@@ -4,26 +4,14 @@ import Dropdown from "react-bootstrap/Dropdown";
 import { Link } from "react-router-dom";
 import { requestAPI } from "./RequestAPI";
 import toast from "react-hot-toast";
+import { getTextBackgroundByStatus } from "../utility/formatUtilities";
 
 interface IRequestRowProps {
   request: IRequest;
   onRemove: (request: IRequest) => void;
 }
 
-function getTextBackgroundByStatus(status: string) {
-  switch (status) {
-    case "NEW":
-      return "text-bg-primary";
-    case "REVIEW":
-      return "text-bg-warning";
-    case "APPROVED":
-      return "text-bg-success";
-    case "REJECTED":
-      return "text-bg-danger";
-    default:
-      return "";
-  }
-}
+
 
 function RequestRow({ request, onRemove }: IRequestRowProps) {
   return (

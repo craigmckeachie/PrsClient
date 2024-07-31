@@ -86,6 +86,10 @@ function RequestDetailPage() {
     navigate("/requests");
   }
 
+  function userCanReview() {
+    return request?.userId != authenticatedUser?.id;
+  }
+
   const save: SubmitHandler<IRejectionForm> = async (form: IRejectionForm) => {
     if (!request) return;
     let rejectedRequest = { ...request, rejectionReason: form.rejectionReason };
@@ -161,8 +165,14 @@ function RequestDetailPage() {
           </form>
         </Modal.Body>
       </Modal>
+      {request?.status === "REVIEW" && !userCanReview() && (
+        <div className="alert alert-warning">
+          You are not allowed to review your own requests.
+        </div>
+      )}
       <div className="d-flex justify-content-between pb-4 mb-4 border-bottom border-2">
         <h2>Request</h2>
+
         <div className="d-flex gap-2">
           {request?.status === "NEW" && (
             <button type="button" className="btn btn-primary" onClick={review}>
@@ -177,12 +187,13 @@ function RequestDetailPage() {
               Send for Review
             </button>
           )}
-          {request?.userId != authenticatedUser?.id && request?.status === "REVIEW" && (
+          {request?.status === "REVIEW" && (
             <>
               <button
                 type="button"
                 className="btn btn-primary"
                 onClick={approve}
+                disabled={!userCanReview()}
               >
                 <svg
                   className="bi pe-none me-2"
@@ -198,6 +209,7 @@ function RequestDetailPage() {
                 type="button"
                 className="btn btn-outline-danger"
                 onClick={handleShowModal}
+                disabled={!userCanReview()}
               >
                 <svg
                   className="bi pe-none me-2"

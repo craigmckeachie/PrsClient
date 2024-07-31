@@ -1,4 +1,5 @@
 import { IUser } from "../users/IUser";
+import { getTextBackgroundByStatus } from "../utility/formatUtilities";
 import { IRequest } from "./IRequest";
 
 interface IRequestHeaderProps {
@@ -19,7 +20,13 @@ function RequestHeader({ request, user }: IRequestHeaderProps) {
         <dt>Delivery Method</dt>
         <dd>{request.deliveryMode}</dd>
         <dt>Status</dt>
-        <dd>{request.status}</dd>
+        <dd>
+          <span
+            className={`badge ${getTextBackgroundByStatus(request.status)}`}
+          >
+            {request.status}
+          </span>
+        </dd>
       </dl>
       <dl>
         <dt>Requested By</dt>
