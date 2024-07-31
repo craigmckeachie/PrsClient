@@ -10,6 +10,7 @@ import { Modal } from "react-bootstrap";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { IUser } from "../users/IUser";
 import { userAPI } from "../users/UserAPI";
+import { useUserContext } from "../App";
 
 interface IRejectionForm {
   rejectionReason: string | undefined;
@@ -22,6 +23,7 @@ function RequestDetailPage() {
   const [request, setRequest] = useState<IRequest | undefined>(undefined);
   const [user, setUser] = useState<IUser | undefined>(undefined);
   const [showModal, setShowModal] = useState(false);
+  const { user: authenticatedUser } = useUserContext();
 
   const {
     register,
@@ -162,43 +164,53 @@ function RequestDetailPage() {
       <div className="d-flex justify-content-between pb-4 mb-4 border-bottom border-2">
         <h2>Request</h2>
         <div className="d-flex gap-2">
-          <button type="button" className="btn btn-primary" onClick={review}>
-            <svg
-              className="bi pe-none me-2"
-              width={16}
-              height={16}
-              fill="#FFFFFF"
-            >
-              <use xlinkHref={`${bootstrapIcons}#person-check`} />
-            </svg>
-            Send for Review
-          </button>
-          <button type="button" className="btn btn-primary" onClick={approve}>
-            <svg
-              className="bi pe-none me-2"
-              width={16}
-              height={16}
-              fill="#FFFFFF"
-            >
-              <use xlinkHref={`${bootstrapIcons}#hand-thumbs-up`} />
-            </svg>
-            Approve
-          </button>
-          <button
-            type="button"
-            className="btn btn-outline-danger"
-            onClick={handleShowModal}
-          >
-            <svg
-              className="bi pe-none me-2"
-              width={16}
-              height={16}
-              fill="currentColor"
-            >
-              <use xlinkHref={`${bootstrapIcons}#hand-thumbs-down`} />
-            </svg>
-            Reject
-          </button>
+          {request?.status === "NEW" && (
+            <button type="button" className="btn btn-primary" onClick={review}>
+              <svg
+                className="bi pe-none me-2"
+                width={16}
+                height={16}
+                fill="#FFFFFF"
+              >
+                <use xlinkHref={`${bootstrapIcons}#person-check`} />
+              </svg>
+              Send for Review
+            </button>
+          )}
+          {request?.userId != authenticatedUser?.id && request?.status === "REVIEW" && (
+            <>
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={approve}
+              >
+                <svg
+                  className="bi pe-none me-2"
+                  width={16}
+                  height={16}
+                  fill="#FFFFFF"
+                >
+                  <use xlinkHref={`${bootstrapIcons}#hand-thumbs-up`} />
+                </svg>
+                Approve
+              </button>
+              <button
+                type="button"
+                className="btn btn-outline-danger"
+                onClick={handleShowModal}
+              >
+                <svg
+                  className="bi pe-none me-2"
+                  width={16}
+                  height={16}
+                  fill="currentColor"
+                >
+                  <use xlinkHref={`${bootstrapIcons}#hand-thumbs-down`} />
+                </svg>
+                Reject
+              </button>
+            </>
+          )}
         </div>
       </div>
       {loading && <p>Loading...</p>}
