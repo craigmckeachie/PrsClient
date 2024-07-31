@@ -224,6 +224,7 @@ function RequestForm() {
           requestId={request.id}
           requestLines={request.requestlines}
           onLoad={loadRequest}
+          enableActions={true}
         />
       )}
     </>
