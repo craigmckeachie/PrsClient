@@ -4,11 +4,12 @@ import RequestHeader from "./RequestHeader";
 import { IRequest } from "./IRequest";
 import toast from "react-hot-toast";
 import { requestAPI } from "./RequestAPI";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import RequestLineTable from "../requestLines/RequestLineTable";
 
 function RequestDetailPage() {
   let { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [request, setRequest] = useState<IRequest | undefined>(undefined);
 
@@ -37,6 +38,21 @@ function RequestDetailPage() {
     } finally {
       setLoading(false);
     }
+    navigate("/requests");
+  }
+
+  async function reject() {
+    if (!request) return;
+    setLoading(true);
+    try {
+      await requestAPI.reject(request);
+    } catch (error: any) {
+      toast.error(error.message);
+      throw new Error("An error occured rejecting the request");
+    } finally {
+      setLoading(false);
+    }
+    navigate("/requests");
   }
 
   useEffect(() => {
@@ -59,7 +75,11 @@ function RequestDetailPage() {
             </svg>
             Approve
           </button>
-          <button type="button" className="btn btn-outline-danger">
+          <button
+            type="button"
+            className="btn btn-outline-danger"
+            onClick={reject}
+          >
             <svg
               className="bi pe-none me-2"
               width={16}

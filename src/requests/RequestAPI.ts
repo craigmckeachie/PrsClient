@@ -39,12 +39,10 @@ export const requestAPI = {
         "Content-Type": "application/json",
       },
     }).then(checkStatus);
-    // .then(parseJSON);
   },
 
   delete(id: number) {
     return fetch(`${url}/${id}`, { method: "DELETE" }).then(checkStatus);
-    // .then(parseJSON);
   },
 
   approve(request: IRequest) {
@@ -55,6 +53,15 @@ export const requestAPI = {
         "Content-Type": "application/json",
       },
     }).then(checkStatus);
-    // .then(parseJSON);
+  },
+
+  reject(request: IRequest) {
+    return fetch(`${url}/reject/${request.id}`, {
+      method: "PUT",
+      body: JSON.stringify(request),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then(checkStatus);
   },
 };
