@@ -30,7 +30,6 @@ function RequestLineForm() {
     register,
     handleSubmit,
     watch,
-    getValues,
     formState: { errors },
   } = useForm<IRequestLine>({
     defaultValues: async () => {
@@ -55,27 +54,15 @@ function RequestLineForm() {
     setProducts(data);
   }
 
-  // useEffect(() => {
-  //   if (requestLine) {
-  //     let currentProduct = products.find(
-  //       (p: IProduct) => p?.id === requestLine?.productId
-  //     );
-  //     setSelectedProduct(currentProduct);
-  //     reset(requestLine);
-  //   } else {
-  //     setSelectedProduct(undefined);
-  //     reset(emptyRequestLine);
-  //   }
-  // }, [requestLine]);
-
-  let productIdForRequest = watch("productId");
+  let productId = watch("productId");
+  let quantity = watch("quantity");
 
   useEffect(() => {
     let currentProduct = products.find(
-      (p: IProduct) => p?.id === productIdForRequest
+      (p: IProduct) => p?.id === productId
     );
     setSelectedProduct(currentProduct);
-  }, [productIdForRequest]);
+  }, [productId]);
 
   const save: SubmitHandler<IRequestLine> = async (requestLine) => {
     try {
@@ -90,8 +77,6 @@ function RequestLineForm() {
       toast.error(error.message, { position: "bottom-center" });
     }
   };
-
-  let quantity = watch("quantity");
 
   return (
     <form className="form w-50" onSubmit={handleSubmit(save)}>
