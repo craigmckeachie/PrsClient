@@ -54,6 +54,21 @@ function RequestDetailPage() {
     }
   }
 
+  async function review() {
+    if (!request) return;
+    setLoading(true);
+    try {
+      await requestAPI.review(request);
+      toast.success("Successfully sent.");
+    } catch (error: any) {
+      toast.error(error.message);
+      throw new Error("An error occured sending the request to be reviewed.");
+    } finally {
+      setLoading(false);
+    }
+    navigate("/requests");
+  }
+
   async function approve() {
     if (!request) return;
     setLoading(true);
@@ -147,6 +162,17 @@ function RequestDetailPage() {
       <div className="d-flex justify-content-between pb-4 mb-4 border-bottom border-2">
         <h2>Request</h2>
         <div className="d-flex gap-2">
+          <button type="button" className="btn btn-primary" onClick={review}>
+            <svg
+              className="bi pe-none me-2"
+              width={16}
+              height={16}
+              fill="#FFFFFF"
+            >
+              <use xlinkHref={`${bootstrapIcons}#person-check`} />
+            </svg>
+            Send for Review
+          </button>
           <button type="button" className="btn btn-primary" onClick={approve}>
             <svg
               className="bi pe-none me-2"

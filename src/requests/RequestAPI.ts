@@ -45,6 +45,16 @@ export const requestAPI = {
     return fetch(`${url}/${id}`, { method: "DELETE" }).then(checkStatus);
   },
 
+  review(request: IRequest) {
+    return fetch(`${url}/review/${request.id}`, {
+      method: "PUT",
+      body: JSON.stringify(request),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then(checkStatus);
+  },
+
   approve(request: IRequest) {
     return fetch(`${url}/approve/${request.id}`, {
       method: "PUT",
