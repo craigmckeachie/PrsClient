@@ -10,7 +10,7 @@ interface IRequestHeaderProps {
 function RequestHeader({ request, user }: IRequestHeaderProps) {
   return (
     <section className="d-flex justify-content-between pe-5">
-      <dl className="param param-feature">
+      <dl className="">
         <dt>Description</dt>
         <dd>{request.description}</dd>
         <dt>Justification</dt>

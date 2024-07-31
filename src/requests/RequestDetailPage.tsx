@@ -4,7 +4,7 @@ import RequestHeader from "./RequestHeader";
 import { IRequest } from "./IRequest";
 import toast from "react-hot-toast";
 import { requestAPI } from "./RequestAPI";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import RequestLineTable from "../requestLines/RequestLineTable";
 import { Modal } from "react-bootstrap";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -172,8 +172,7 @@ function RequestDetailPage() {
       )}
       <div className="d-flex justify-content-between pb-4 mb-4 border-bottom border-2">
         <h2>Request</h2>
-
-        <div className="d-flex gap-2">
+        <div className="d-flex justify-content-end gap-2">
           {request?.status === "NEW" && (
             <button type="button" className="btn btn-primary" onClick={review}>
               <svg
@@ -223,6 +222,18 @@ function RequestDetailPage() {
               </button>
             </>
           )}
+          <div className="d-flex gap-2">
+            <Link to={`/requests/edit/${request?.id}`} className="btn btn-outline">
+              <svg
+                className="bi pe-none me-2"
+                width={16}
+                height={16}
+                fill="#007AFF"
+              >
+                <use xlinkHref={`${bootstrapIcons}#pencil`} />
+              </svg>
+            </Link>
+          </div>
         </div>
       </div>
       {loading && <p>Loading...</p>}
