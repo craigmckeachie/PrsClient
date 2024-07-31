@@ -10,7 +10,7 @@ import { requestLineAPI } from "../requestLines/RequestLineAPI";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
 function RequestLineForm() {
-  let { lineId, id } = useParams<{ lineId: string, id:string }>();
+  let { lineId, id } = useParams<{ lineId: string; id: string }>();
   const requestLineId = Number(lineId);
   const requestId = Number(id);
   const navigate = useNavigate();
@@ -30,6 +30,7 @@ function RequestLineForm() {
     register,
     handleSubmit,
     watch,
+    getValues,
     formState: { errors },
   } = useForm<IRequestLine>({
     defaultValues: async () => {
@@ -67,12 +68,14 @@ function RequestLineForm() {
   //   }
   // }, [requestLine]);
 
-  // useEffect(() => {
-  //   let currentProduct = products.find(
-  //     (p: IProduct) => p?.id === requestLine?.productId
-  //   );
-  //   setSelectedProduct(currentProduct);
-  // }, [products]);
+  let productIdForRequest = watch("productId");
+
+  useEffect(() => {
+    let currentProduct = products.find(
+      (p: IProduct) => p?.id === productIdForRequest
+    );
+    setSelectedProduct(currentProduct);
+  }, [productIdForRequest]);
 
   const save: SubmitHandler<IRequestLine> = async (requestLine) => {
     try {
@@ -170,7 +173,7 @@ function RequestLineForm() {
 
         <div className="d-flex justify-content-end mt-4">
           <Link
-            to={ `/requests/detail/${requestId}`}
+            to={`/requests/detail/${requestId}`}
             className="btn btn-outline-primary me-2"
           >
             Cancel
