@@ -9,6 +9,8 @@ import { useState } from "react";
 import { userAPI } from "../users/UserAPI";
 import RequestLineTable from "../requestLines/RequestLineTable";
 import { useUserContext } from "../App";
+import { requestLineAPI } from "../requestLines/RequestLineAPI";
+import { IRequestLine } from "../requestLines/IRequestLine";
 
 let emptyRequest: IRequest = {
   id: undefined,
@@ -35,16 +37,6 @@ function RequestForm() {
 
   function isNew() {
     return Boolean(id);
-  }
-
-  async function loadRequest() {
-    let requestId = Number(id);
-    if (!requestId) {
-      const id = getValues("id");
-      if (id) requestId = id;
-    }
-    const request = await requestAPI.find(requestId);
-    reset(request);
   }
 
   const {
@@ -90,6 +82,21 @@ function RequestForm() {
   };
 
   const request = getValues();
+
+  async function removeLine(requestLine: IRequestLine) {
+    if (!requestLine.id) return;
+    await requestLineAPI.delete(requestLine.id);
+
+    let requestWithLineRemoved = {
+      ...request,
+      requestlines: request?.requestlines.filter(
+        (l) => l.id !== requestLine.id
+      ),
+    } as IRequest;
+
+    reset(requestWithLineRemoved)
+    toast.success("Successfully deleted.");
+  }
 
   return (
     <>
@@ -226,8 +233,7 @@ function RequestForm() {
         <RequestLineTable
           requestId={request.id}
           requestLines={request.requestlines}
-          onLoad={loadRequest}
-          enableActions={true}
+          onRemove={removeLine}
         />
       )}
     </>

@@ -1,63 +1,25 @@
-import { useEffect, useState } from "react";
 import bootstrapIcons from "../assets/bootstrap-icons.svg";
 import { IRequestLine } from "../requestLines/IRequestLine";
-import { IProduct } from "../products/IProduct";
-import { productAPI } from "../products/ProductAPI";
 import { requestLineAPI } from "../requestLines/RequestLineAPI";
-import RequestLineForm from "./RequestLineForm";
 import toast from "react-hot-toast";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 interface RequestLineTableProps {
   requestId?: number;
   requestLines: IRequestLine[];
-  enableActions: boolean;
-  onLoad: () => void;
+  onRemove: (requestLine:IRequestLine)=> void;
 }
 
-function RequestLineTable({
-  requestId,
-  requestLines,
-  onLoad,
-  enableActions = false,
-}: RequestLineTableProps) {
-  const [products, setProducts] = useState<IProduct[]>([]);
-  const [requestLineBeingEdited, setRequestLineBeingEdited] = useState<
-    IRequestLine | undefined
-  >(undefined);
-  const [showForm, setShowForm] = useState(false);
+function RequestLineTable({ requestId, requestLines, onRemove }: RequestLineTableProps) {
+  const navigate = useNavigate()
   const total = calculateTotal();
-
-  async function loadProducts() {
-    try {
-      const data = await productAPI.list();
-      setProducts(data);
-    } catch (error: any) {
-      toast.error(error.message, { duration: 6000 });
-    }
-  }
-
-  async function save() {
-    setRequestLineBeingEdited(undefined);
-    onLoad();
-    setShowForm(false);
-  }
-
-  function handleLineCancel() {
-    setShowForm(false);
-  }
-
-  useEffect(() => {
-    loadProducts();
-  }, []);
 
   function calculateTotal() {
     if (!requestLines) return 0;
     const total = requestLines
       .map((requestLine) => {
-        const productId = requestLine.productId;
-        const product = products.find((p) => p.id === productId);
-        const amount = (product?.price ?? 0) * requestLine?.quantity;
+        const amount =
+          (requestLine.product?.price ?? 0) * requestLine?.quantity;
         return amount;
       })
       .reduce((accumulator, amount) => {
@@ -81,101 +43,84 @@ function RequestLineTable({
         </thead>
         <tbody>
           {requestLines.map((requestLine: IRequestLine) => {
-            const product = products.find(
-              (p) => p.id === requestLine.productId
-            );
             return (
               <tr key={requestLine.id}>
-                <td>{product?.name}</td>
+                <td>{requestLine.product?.name}</td>
                 <td>
                   {new Intl.NumberFormat("en-US", {
                     style: "currency",
                     currency: "USD",
-                  }).format(product?.price ?? 0)}
+                  }).format(requestLine.product?.price ?? 0)}
                 </td>
                 <td>{requestLine.quantity}</td>
                 <td>
                   {new Intl.NumberFormat("en-US", {
                     style: "currency",
                     currency: "USD",
-                  }).format((product?.price ?? 0) * requestLine.quantity)}
+                  }).format(
+                    (requestLine.product?.price ?? 0) * requestLine.quantity
+                  )}
                 </td>
-                {enableActions ? (
-                  <td>
-                    <Link
-                      to={`/requests/detail/${requestId}/requestline/edit/${requestLine.id}`}
-                      className="btn btn-outline"
+                <td>
+                  <Link
+                    to={`/requests/detail/${requestId}/requestline/edit/${requestLine.id}`}
+                    className="btn btn-outline"
+                  >
+                    <svg
+                      className="bi pe-none me-2"
+                      width={16}
+                      height={16}
+                      fill="#007AFF"
                     >
-                      <svg
-                        className="bi pe-none me-2"
-                        width={16}
-                        height={16}
-                        fill="#007AFF"
-                      >
-                        <use xlinkHref={`${bootstrapIcons}#pencil`} />
-                      </svg>
-                    </Link>
-                    <button
-                      type="button"
-                      className="btn btn-outline"
-                      onClick={async () => {
-                        if (
-                          confirm(
-                            "Are you sure you want to delete this line item?"
-                          )
-                        ) {
-                          if (requestLine.id) {
-                            await requestLineAPI.delete(requestLine.id);
-                            await onLoad();
-                            toast.success("Successfully deleted.");
-                          }
-                        }
-                      }}
+                      <use xlinkHref={`${bootstrapIcons}#pencil`} />
+                    </svg>
+                  </Link>
+                  <button
+                    type="button"
+                    className="btn btn-outline"
+                    onClick={async () => {
+                      if (
+                        confirm(
+                          "Are you sure you want to delete this line item?"
+                        )
+                      ) {
+                        onRemove(requestLine);
+                      }
+                    }}
+                  >
+                    <svg
+                      className="bi pe-none me-2"
+                      width={16}
+                      height={16}
+                      fill="#007AFF"
                     >
-                      <svg
-                        className="bi pe-none me-2"
-                        width={16}
-                        height={16}
-                        fill="#007AFF"
-                      >
-                        <use xlinkHref={`${bootstrapIcons}#trash`} />
-                      </svg>
-                    </button>
-                  </td>
-                ) : (
-                  <td></td>
-                )}
+                      <use xlinkHref={`${bootstrapIcons}#trash`} />
+                    </svg>
+                  </button>
+                </td>
               </tr>
             );
           })}
         </tbody>
         <tfoot>
           <tr>
-            {enableActions ? (
-              <td>
-                <Link
-                  to={`/requests/detail/${requestId}/requestline/create`}
-                  className="btn btn-outline-primary"
-                >
-                  <svg
-                    className="bi pe-none me-2"
-                    width={16}
-                    height={16}
-                    fill="#007AFF"
-                  >
-                    <use xlinkHref={`${bootstrapIcons}#plus-circle`} />
-                  </svg>
-                  Add a line
-                </Link>
-              </td>
-            ) : (
-              <td></td>
-            )}
-
-            <td />
-            <td />
             <td>
-              {" "}
+              <Link
+                to={`/requests/detail/${requestId}/requestline/create`}
+                className="btn btn-outline-primary"
+              >
+                <svg
+                  className="bi pe-none me-2"
+                  width={16}
+                  height={16}
+                  fill="#007AFF"
+                >
+                  <use xlinkHref={`${bootstrapIcons}#plus-circle`} />
+                </svg>
+                Add a line
+              </Link>
+            </td>
+            <td>
               {new Intl.NumberFormat("en-US", {
                 style: "currency",
                 currency: "USD",
@@ -185,14 +130,6 @@ function RequestLineTable({
           </tr>
         </tfoot>
       </table>
-      {showForm && requestId && (
-        <RequestLineForm
-          requestId={requestId}
-          requestLine={requestLineBeingEdited}
-          onSave={save}
-          onCancel={handleLineCancel}
-        />
-      )}
     </div>
   );
 }

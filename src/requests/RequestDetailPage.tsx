@@ -11,6 +11,8 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { IUser } from "../users/IUser";
 import { userAPI } from "../users/UserAPI";
 import { useUserContext } from "../App";
+import { IRequestLine } from "../requestLines/IRequestLine";
+import { requestLineAPI } from "../requestLines/RequestLineAPI";
 
 interface IRejectionForm {
   rejectionReason: string | undefined;
@@ -111,6 +113,20 @@ function RequestDetailPage() {
     } finally {
       setLoading(false);
     }
+  }
+
+  async function removeLine(requestLine: IRequestLine) {
+    if (!requestLine.id) return;
+    await requestLineAPI.delete(requestLine.id);
+
+    let requestWithLineRemoved = {
+      ...request,
+      requestlines: request?.requestlines.filter(
+        (l) => l.id !== requestLine.id
+      ),
+    } as IRequest;
+    setRequest(requestWithLineRemoved);
+    toast.success("Successfully deleted.");
   }
 
   useEffect(() => {
@@ -223,7 +239,10 @@ function RequestDetailPage() {
             </>
           )}
           <div className="d-flex gap-2">
-            <Link to={`/requests/edit/${request?.id}`} className="btn btn-outline">
+            <Link
+              to={`/requests/edit/${request?.id}`}
+              className="btn btn-outline"
+            >
               <svg
                 className="bi pe-none me-2"
                 width={16}
@@ -242,8 +261,7 @@ function RequestDetailPage() {
         <RequestLineTable
           requestId={request.id}
           requestLines={request.requestlines}
-          onLoad={loadRequest}
-          enableActions={true}
+          onRemove={removeLine}
         />
       )}
     </section>
