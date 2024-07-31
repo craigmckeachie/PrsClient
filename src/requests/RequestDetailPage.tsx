@@ -8,6 +8,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import RequestLineTable from "../requestLines/RequestLineTable";
 import { Modal } from "react-bootstrap";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { IUser } from "../users/IUser";
+import { userAPI } from "../users/UserAPI";
 
 interface IRejectionForm {
   rejectionReason: string | undefined;
@@ -18,6 +20,7 @@ function RequestDetailPage() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [request, setRequest] = useState<IRequest | undefined>(undefined);
+  const [user, setUser] = useState<IUser | undefined>(undefined);
   const [showModal, setShowModal] = useState(false);
 
   const {
@@ -29,6 +32,42 @@ function RequestDetailPage() {
       return Promise.resolve({ rejectionReason: undefined });
     },
   });
+
+  const handleCloseModal = () => setShowModal(false);
+  const handleShowModal = () => setShowModal(true);
+
+  async function loadRequest() {
+    let requestId = Number(id);
+    setLoading(true);
+    try {
+      const request = await requestAPI.find(requestId);
+      setRequest(request);
+      if (request.userId) {
+        const user = await userAPI.find(request.userId);
+        setUser(user);
+      }
+    } catch (error: any) {
+      toast.error(error.message);
+      throw new Error("There was an error loading the request");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function approve() {
+    if (!request) return;
+    setLoading(true);
+    try {
+      await requestAPI.approve(request);
+      toast.success("Successfully saved.");
+    } catch (error: any) {
+      toast.error(error.message);
+      throw new Error("An error occured approving the request");
+    } finally {
+      setLoading(false);
+    }
+    navigate("/requests");
+  }
 
   const save: SubmitHandler<IRejectionForm> = async (form: IRejectionForm) => {
     if (!request) return;
@@ -51,38 +90,6 @@ function RequestDetailPage() {
     } finally {
       setLoading(false);
     }
-  }
-
-  const handleCloseModal = () => setShowModal(false);
-  const handleShowModal = () => setShowModal(true);
-
-  async function loadRequest() {
-    let requestId = Number(id);
-    setLoading(true);
-    try {
-      const request = await requestAPI.find(requestId);
-      setRequest(request);
-    } catch (error: any) {
-      toast.error(error.message);
-      throw new Error("There was an error loading the request");
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  async function approve() {
-    if (!request) return;
-    setLoading(true);
-    try {
-      await requestAPI.approve(request);
-      toast.success("Successfully saved.");
-    } catch (error: any) {
-      toast.error(error.message);
-      throw new Error("An error occured approving the request");
-    } finally {
-      setLoading(false);
-    }
-    navigate("/requests");
   }
 
   useEffect(() => {
@@ -169,7 +176,7 @@ function RequestDetailPage() {
         </div>
       </div>
       {loading && <p>Loading...</p>}
-      {request && <RequestHeader request={request} />}
+      {request && <RequestHeader request={request} user={user} />}
       {request && (
         <RequestLineTable
           requestLines={request.requestlines}

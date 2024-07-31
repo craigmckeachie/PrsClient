@@ -1,10 +1,12 @@
+import { IUser } from "../users/IUser";
 import { IRequest } from "./IRequest";
 
 interface IRequestHeaderProps {
   request: IRequest;
+  user: IUser;
 }
 
-function RequestHeader({ request }: IRequestHeaderProps) {
+function RequestHeader({ request, user }: IRequestHeaderProps) {
   return (
     <section className="d-flex justify-content-between pe-5">
       <dl className="param param-feature">
@@ -21,7 +23,9 @@ function RequestHeader({ request }: IRequestHeaderProps) {
       </dl>
       <dl>
         <dt>Requested By</dt>
-        <dd>{request.userId}</dd>
+        <dd>
+          {user?.firstname} {user?.lastname}
+        </dd>
         {request.rejectionReason && (
           <>
             <dt>Rejection Reason</dt>
