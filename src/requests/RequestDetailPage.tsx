@@ -75,6 +75,7 @@ function RequestDetailPage() {
     setLoading(true);
     try {
       await requestAPI.approve(request);
+      toast.success("Successfully saved.");
     } catch (error: any) {
       toast.error(error.message);
       throw new Error("An error occured approving the request");
@@ -108,31 +109,33 @@ function RequestDetailPage() {
                   errors?.rejectionReason && "is-invalid"
                 } `}
                 id="rejectionReason"
+                rows={6}
               ></textarea>
               <div className="invalid-feedback">
                 {errors?.rejectionReason?.message}
               </div>
             </div>
-            <button
-              className="btn btn-outline-primary"
-              onClick={handleCloseModal}
-            >
-              Cancel
-            </button>
-            <button type="submit" className="btn btn-primary">
-              <svg
-                className="bi pe-none me-2"
-                width={16}
-                height={16}
-                fill="#FFFFFF"
+            <div className="d-flex justify-content-end gap-2">
+              <button
+                className="btn btn-outline-primary"
+                onClick={handleCloseModal}
               >
-                <use xlinkHref={`${bootstrapIcons}#save`} />
-              </svg>
-              Save
-            </button>
+                Cancel
+              </button>
+              <button type="submit" className="btn btn-primary">
+                <svg
+                  className="bi pe-none me-2"
+                  width={16}
+                  height={16}
+                  fill="#FFFFFF"
+                >
+                  <use xlinkHref={`${bootstrapIcons}#save`} />
+                </svg>
+                Save
+              </button>
+            </div>
           </form>
         </Modal.Body>
-        <Modal.Footer></Modal.Footer>
       </Modal>
       <div className="d-flex justify-content-between pb-4 mb-4 border-bottom border-2">
         <h2>Request</h2>
