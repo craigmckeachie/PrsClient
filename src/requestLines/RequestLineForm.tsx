@@ -24,6 +24,8 @@ function RequestLineForm() {
     quantity: 0,
     requestId: requestId,
     productId: 0,
+    product: undefined,
+    request: undefined
   };
 
   const {

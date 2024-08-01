@@ -7,11 +7,15 @@ import { Link, useNavigate } from "react-router-dom";
 interface RequestLineTableProps {
   requestId?: number;
   requestLines: IRequestLine[];
-  onRemove: (requestLine:IRequestLine)=> void;
+  onRemove: (requestLine: IRequestLine) => void;
 }
 
-function RequestLineTable({ requestId, requestLines, onRemove }: RequestLineTableProps) {
-  const navigate = useNavigate()
+function RequestLineTable({
+  requestId,
+  requestLines,
+  onRemove,
+}: RequestLineTableProps) {
+  const navigate = useNavigate();
   const total = calculateTotal();
 
   function calculateTotal() {

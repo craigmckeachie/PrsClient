@@ -7,15 +7,16 @@ import toast from "react-hot-toast";
 function UserList() {
   const [users, setUsers] = useState<IUser[]>([]);
 
-  useEffect(() => {
-    async function loadUsers() {
-      try {
-        const data = await userAPI.list();
-        setUsers(data);
-      } catch (error: any) {
-        toast.error(error.message, { duration: 6000 });
-      }
+  async function loadUsers() {
+    try {
+      const data = await userAPI.list();
+      setUsers(data);
+    } catch (error: any) {
+      toast.error(error.message, { duration: 6000 });
     }
+  }
+
+  useEffect(() => {
     loadUsers();
   }, []);
 

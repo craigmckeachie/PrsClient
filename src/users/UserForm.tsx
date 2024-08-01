@@ -27,13 +27,16 @@ function UserForm() {
     formState: { errors },
   } = useForm<IUser>({
     defaultValues: async () => {
-      if (!id) return Promise.resolve(emptyUser);
-      const userId = Number(id);
-      try {
-        return await userAPI.find(userId);
-      } catch (error: any) {
-        toast.error(error.message);
-        throw new Error("There was an error loading the user");
+      if (!id) {
+        return Promise.resolve(emptyUser);
+      } else {
+        const userId = Number(id);
+        try {
+          return await userAPI.find(userId);
+        } catch (error: any) {
+          toast.error(error.message);
+          throw new Error("There was an error loading the user");
+        }
       }
     },
   });
@@ -44,14 +47,12 @@ function UserForm() {
         user = await userAPI.post(user);
       } catch (error: any) {
         toast.error(error.message, { duration: 6000 });
-        return;
       }
     } else {
       try {
         await userAPI.put(user);
       } catch (error: any) {
         toast.error(error.message, { duration: 6000 });
-        return;
       }
     }
     toast.success("Successfully saved.");
