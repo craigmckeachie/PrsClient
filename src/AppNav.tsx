@@ -13,7 +13,7 @@ function AppNav() {
       className="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary border-end min-vh-100 position-sticky"
       style={{ width: 280 }}
     >
-      <a href="" className="mb-4 text-decoration-none fw-bolder">
+      {/* <a href="" className="mb-4 text-decoration-none fw-bolder">
         <svg
           className="bi pe-none me-2"
           width={16}
@@ -23,7 +23,7 @@ function AppNav() {
           <use xlinkHref={`${bootstrapIcons}#plus-circle-fill`} />
         </svg>
         Create new
-      </a>
+      </a> */}
       <Nav.Item as="li" className="text-secondary fw-bold mb-2">
         Purchase
       </Nav.Item>

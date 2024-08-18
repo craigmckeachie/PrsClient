@@ -76,8 +76,8 @@ function Header() {
             <Link to={`/signin`} className="btn btn-primary">
               <svg
                 className="bi pe-none me-2"
-                width={32}
-                height={32}
+                width={24}
+                height={24}
                 fill="#FFFFFF"
               >
                 <use xlinkHref={`${bootstrapIcons}#person`} />

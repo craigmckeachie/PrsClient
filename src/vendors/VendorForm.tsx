@@ -130,7 +130,7 @@ function VendorForm() {
           <select
             id="state"
             {...register("state", {
-              required: "Name is required",
+              required: "State is required",
             })}
             className={`form-select ${errors?.state && "is-invalid"} `}
           >
