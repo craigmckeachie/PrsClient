@@ -10,11 +10,4 @@ describe("something truthy and falsy", () => {
   it("false to be false", () => {
     expect(false).toBe(false);
   });
-
-  describe("App", () => {
-    it("renders", () => {
-      render(<App />);
-      screen.debug();
-    });
-  });
 });

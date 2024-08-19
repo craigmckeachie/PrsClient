@@ -15,7 +15,7 @@ interface IVendorCardProps {
 
 function VendorCard({ vendor, onRemove }: IVendorCardProps) {
   return (
-    <Card className="w-25">
+    <Card as="article" aria-label="card" className="w-25">
       <ProgressBar now={60} />
       <address className="py-4 px-4">
         <div className="d-flex justify-content-between align-items-center">
