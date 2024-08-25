@@ -102,7 +102,7 @@ button.skeleton {
 }
 
 .dropdown-toggle::after{
-  content: none;
+  content: none!important;
 }
 
 span.badge {

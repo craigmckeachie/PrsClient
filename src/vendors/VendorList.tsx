@@ -34,7 +34,10 @@ function VendorList() {
   }, []);
 
   return (
-    <section className="list d-flex flex-row flex-wrap bg-light gap-5 p-4 rounded-4">
+    <section
+      role="list"
+      className="list d-flex flex-row flex-wrap bg-light gap-5 p-4 rounded-4"
+    >
       {loading && vendorCardSkeletons}
       {vendors.map((vendor) => (
         <VendorCard key={vendor.id} vendor={vendor} onRemove={removeVendor} />
